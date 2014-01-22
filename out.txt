@@ -1,0 +1,59 @@
+javac \
+		-sourcepath . \
+		-classpath .:../lib/org.eclipse.core.contenttype_3.4.200.v20130326-1255.jar:../lib/org.eclipse.core.jobs_3.5.300.v20130429-1813.jar:../lib/org.eclipse.core.resources_3.8.101.v20130717-0806.jar:../lib/org.eclipse.core.runtime_3.9.0.v20130326-1255.jar:../lib/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar:../lib/org.eclipse.equinox.preferences_3.5.100.v20130422-1538.jar:../lib/org.eclipse.jdt.core_3.9.1.v20130905-0837.jar:../lib/org.eclipse.osgi_3.9.1.v20130814-1242.jar:../lib/commons-io-2.4.jar:../classes \
+		*.java \
+		-d ../classes	\
+
+java \
+			-cp .:../lib/org.eclipse.core.contenttype_3.4.200.v20130326-1255.jar:../lib/org.eclipse.core.jobs_3.5.300.v20130429-1813.jar:../lib/org.eclipse.core.resources_3.8.101.v20130717-0806.jar:../lib/org.eclipse.core.runtime_3.9.0.v20130326-1255.jar:../lib/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar:../lib/org.eclipse.equinox.preferences_3.5.100.v20130422-1538.jar:../lib/org.eclipse.jdt.core_3.9.1.v20130905-0837.jar:../lib/org.eclipse.osgi_3.9.1.v20130814-1242.jar:../lib/commons-io-2.4.jar:../classes \
+			astparser.Main
+--------------------
+HelloBuilder.java
+Pb(531) Type safety: The method add(Object) belongs to the raw type List. References to generic type List<E> should be parameterized
+Pb(531) Type safety: The method add(Object) belongs to the raw type List. References to generic type List<E> should be parameterized
+Pb(572) List is a raw type. References to generic type List<E> should be parameterized
+Pb(531) Type safety: The method add(Object) belongs to the raw type List. References to generic type List<E> should be parameterized
+Pb(531) Type safety: The method add(Object) belongs to the raw type List. References to generic type List<E> should be parameterized
+Pb(531) Type safety: The method add(Object) belongs to the raw type List. References to generic type List<E> should be parameterized
+Pb(531) Type safety: The method add(Object) belongs to the raw type List. References to generic type List<E> should be parameterized
+Pb(531) Type safety: The method add(Object) belongs to the raw type List. References to generic type List<E> should be parameterized
+Pb(531) Type safety: The method add(Object) belongs to the raw type List. References to generic type List<E> should be parameterized
+Pb(531) Type safety: The method add(Object) belongs to the raw type List. References to generic type List<E> should be parameterized
+--------------------
+invoke method setExpression of class org.eclipse.jdt.core.dom.MethodInvocation
+invoke method setName of class org.eclipse.jdt.core.dom.MethodInvocation
+invoke method arguments of class org.eclipse.jdt.core.dom.MethodInvocation
+--------------------
+--------------------
+Parser.java
+Pb(572) Map is a raw type. References to generic type Map<K,V> should be parameterized
+--------------------
+--------------------
+--------------------
+Main.java
+Pb(390) The import org.apache cannot be resolved
+Pb(623) The method accept(File, String) of type new FilenameFilter(){} must override a superclass method
+Pb(50) FileUtils cannot be resolved
+--------------------
+--------------------
+--------------------
+ASTParserTest.java
+Pb(572) Set is a raw type. References to generic type Set<E> should be parameterized
+Pb(572) HashSet is a raw type. References to generic type HashSet<E> should be parameterized
+Pb(531) Type safety: The method add(Object) belongs to the raw type Set. References to generic type Set<E> should be parameterized
+Pb(572) Map is a raw type. References to generic type Map<K,V> should be parameterized
+--------------------
+--------------------
+--------------------
+Visitor.java
+--------------------
+invoke method getExpression of class org.eclipse.jdt.core.dom.MethodInvocation
+invoke method getName of class org.eclipse.jdt.core.dom.MethodInvocation
+invoke method resolveMethodBinding of class org.eclipse.jdt.core.dom.MethodInvocation
+invoke method resolveMethodBinding of class org.eclipse.jdt.core.dom.MethodInvocation
+invoke method getName of class org.eclipse.jdt.core.dom.MethodInvocation
+--------------------
+--------------------
+TypeASTVisitor.java
+--------------------
+--------------------
