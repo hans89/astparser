@@ -39,9 +39,6 @@ package astparser;
 		includeRunningVMBootclasspath - true if the bootclasspath of
 			the running VM must be prepended to the given classpath and
 			false if the bootclasspath of the running VM should be ignored.
-	
-
-	As optional, we can also choose to set ASTParser#setCompilerOptions
  */
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -52,48 +49,24 @@ import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.JavaCore;
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * Parser is a quick wrap of Eclipse JDT's ASTParser. It parses a collection
+ * of source code files, provided together with any dependent libraries.
+ * It uses the batch parsing operation ASTParser#createASTs:
+ *
+ *	public void createASTs(String[] sourceFilePaths,
+ *                     String[] encodings,
+ *                     String[] bindingKeys,
+ *                     FileASTRequestor requestor,
+ *                     IProgressMonitor monitor)
+ *
+ * Environment configurations must be set while running outside Eclipse
+ * Java project model.
+ * Bindings are fetched by defaults.
+ * Optionally, we can also choose to set ASTParser#setCompilerOptions.
+ */
 public class Parser {
-
-	// public static CompilationUnit[] parse(String[] sourceFilePaths,
-	// 										String[] classpathEntries,
-	// 										String[] sourcepathEntries) {
-
-	// 	ASTParser astParser = ASTParser.newParser(AST.JLS4);
-		
-	// 	final HashMap<String,CompilationUnit> compilationUnits
-	// 				 = new HashMap<String,CompilationUnit>();	
-
-	// 	// set up libraries (.jar, .class or .java)
-	// 	astParser.setEnvironment(classpathEntries,
-	// 							 sourcepathEntries,
-	// 							 null, /*  use default encoding */
-	// 							 true /* use VM class path */
-	// 							);
-
-	// 	astParser.setResolveBindings(true);
-
-	// 	FileASTRequestor requestor = new FileASTRequestor() {
-	// 		@Override
-	// 		public void acceptAST(String sourceFilePath, CompilationUnit ast) {
-	// 			compilationUnits.put(sourceFilePath, ast);
-	// 		}
-
-	// 		@Override
-	// 		public void acceptBinding(String bindingKey, IBinding binding) {
-	// 			// do nothing
-	// 		}
-	// 	};
-
-	// 	astParser.createASTs(sourceFilePaths,
-	// 						 null, 			/*  use default encoding */
-	// 						 new String[0], /* no binding key */
-	// 						 requestor,		
-	// 						 null			/* no IProgressMonitor */
-	// 						);
-
-	// 	return compilationUnits.values().toArray(new CompilationUnit[0]);
-	// }
-
 
 	public static HashMap<String,CompilationUnit> parse(String[] sourceFilePaths,
 											String[] classpathEntries,
@@ -132,8 +105,8 @@ public class Parser {
 			@Override
 			public void acceptBinding(String bindingKey, IBinding binding) {
 				// do nothing
-				System.out.println("Accept Binding:... " + bindingKey);
-				System.out.println(binding);
+				// System.out.println("Accept Binding:... " + bindingKey);
+				// System.out.println(binding);
 			}
 		};
 

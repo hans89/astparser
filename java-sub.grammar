@@ -1,0 +1,146 @@
+JSL3
+
+-- declarations
+
+TypeDeclaration:
+            ClassDeclaration
+            InterfaceDeclaration
+ClassDeclaration:
+  [ Javadoc ] { ExtendedModifier } class Identifier
+                    [ < TypeParameter { , TypeParameter } > ]
+                    [ extends Type ]
+                    [ implements Type { , Type } ]
+                    { { ClassBodyDeclaration | ; } }
+InterfaceDeclaration:
+  [ Javadoc ] { ExtendedModifier } interface Identifier
+                    [ < TypeParameter { , TypeParameter } > ]
+                    [ extends Type { , Type } ]
+                    { { InterfaceBodyDeclaration | ; } }
+
+
+FieldDeclaration:
+    [Javadoc] { ExtendedModifier } Type VariableDeclarationFragment
+         { , VariableDeclarationFragment } ;
+
+MethodDeclaration:
+    [ Javadoc ] { ExtendedModifier }
+                  [ < TypeParameter { , TypeParameter } > ]
+        ( Type | void ) Identifier (
+        [ FormalParameter
+                     { , FormalParameter } ] ) {[ ] }
+        [ throws TypeName { , TypeName } ] ( Block | ; )
+ConstructorDeclaration:
+    [ Javadoc ] { ExtendedModifier }
+                  [ < TypeParameter { , TypeParameter } > ]
+        Identifier (
+                  [ FormalParameter
+                         { , FormalParameter } ] )
+        [throws TypeName { , TypeName } ] Block
+
+-- expressions
+
+ArrayAccess:
+    Expression [ Expression ]
+
+ArrayCreation:
+    new PrimitiveType [ Expression ] { [ Expression ] } { [ ] }
+    new TypeName [ < Type { , Type } > ]
+        [ Expression ] { [ Expression ] } { [ ] }
+    new PrimitiveType [ ] { [ ] } ArrayInitializer
+    new TypeName [ < Type { , Type } > ]
+        [ ] { [ ] } ArrayInitializer
+
+ArrayInitializer:
+                { [ Expression { , Expression} [ , ]] }
+
+Assignment:
+    Expression AssignmentOperator Expression
+
+CastExpression:
+    ( Type ) Expression
+
+ClassInstanceCreation:
+        [ Expression . ]
+            new [ < Type { , Type } > ]
+            Type ( [ Expression { , Expression } ] )
+            [ AnonymousClassDeclaration ]
+
+FieldAccess:
+    Expression . Identifier
+
+InstanceofExpression:
+    Expression instanceof Type
+
+MethodInvocation:
+    [ Expression . ]
+        [ < Type { , Type } > ]
+        Identifier ( [ Expression { , Expression } ] )
+
+SuperFieldAccess:
+    [ ClassName . ] super . Identifier
+
+SuperMethodInvocation:
+     [ ClassName . ] super .
+         [ < Type { , Type } > ]
+         Identifier ( [ Expression { , Expression } ] )
+
+ThisExpression:
+     [ ClassName . ] this
+
+TypeLiteral:
+     ( Type | void ) . class
+
+-- Statements
+
+ConstructorInvocation:
+      [ < Type { , Type } > ]
+                      this ( [ Expression { , Expression } ] ) ;
+
+ReturnStatement:
+    return [ Expression ] ;
+
+SuperConstructorInvocation:
+     [ Expression . ]
+         [ < Type { , Type } > ]
+         super ( [ Expression { , Expression } ] ) ;
+
+-- Types
+
+ArrayType:
+    Type [ ]
+
+ParameterizedType:
+    Type < Type { , Type } >
+
+PrimitiveType:
+    byte
+    short
+    char
+    int
+    long
+    float
+    double
+    boolean
+    void
+
+QualifiedType:
+    Type . SimpleName
+
+UnionType:
+    Type | Type { | Type }
+
+-- Type params
+
+TypeParameter:
+    TypeVariable [ extends Type { & Type } ]
+
+-- Var declarations:
+VariableDeclaration:
+    SingleVariableDeclaration
+    VariableDeclarationFragment
+
+SingleVariableDeclaration:
+    { ExtendedModifier } Type [ ... ] Identifier { [] } [ = Expression ]
+
+VariableDeclarationFragment:
+    Identifier { [] } [ = Expression ]
