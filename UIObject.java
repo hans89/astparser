@@ -12,7 +12,7 @@ public class UIObject {
 	 *	by the method (with all possible paths from the action
 	 *	to the method)
 	 */
-	public HashMap<IMethodBinding, List<Set<ActionInvocation>>>
+	public HashMap<IMethodBinding, List<Set<UIActionInvocation>>>
 		initPaths;
 
 	/**
@@ -20,7 +20,7 @@ public class UIObject {
 	 *	by the method (with all possible paths from the action
 	 *	to the method)
 	 */
-	public HashMap<IMethodBinding, List<Set<ActionInvocation>>>
+	public HashMap<IMethodBinding, List<Set<UIActionInvocation>>>
 		topEventPaths;
 
 	/**
@@ -38,9 +38,9 @@ public class UIObject {
 		 *	by the method (with all possible paths from the action
 		 *	to the method)
 		 */
-		public HashMap<IMethodBinding, List<Set<ActionInvocation>>>
+		public HashMap<IMethodBinding, List<Set<UIActionInvocation>>>
 			eventPaths;		
-		public Set<ActionInvocation> setters;
+		public Set<UIActionInvocation> setters;
 	}
 }
 
