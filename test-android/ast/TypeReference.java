@@ -1,7 +1,9 @@
-package astparser.tests
+package astparser.tests;
 
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.*;
+import java.util.HashMap;
 
 public class TypeReference {
 	/* field decls */
@@ -13,13 +15,14 @@ public class TypeReference {
 		/* assignment */
 		aView = v; 
 		/* assignment, constructor, casting */
-		aButton = new Button();
+		// aButton = new Button();
 
 		if (strButtons.get("key") != null) {
 			strButtons.get("key").setOnClickListener(
 				new OnClickListener() {
 					public void onClick(View view) {
 						((Button)view).setText("abc");
+						view.setVisibility(View.VISIBLE);
 					}
 				}
 			);
@@ -28,20 +31,32 @@ public class TypeReference {
 
 	public Button getButton(View[] views /* array type ref */) {
 		/* super class method invoke */
-		view[0].setEnabled(true);
-		view[0].setVisibility(View.VISIBLE);
+		views[0].setEnabled(true);
+		views[0].setVisibility(View.VISIBLE);
 
 		/* instanceof is what? */
-		if (view[0] instanceof Button) {
+		if (views[0] instanceof Button) {
 			/* casting, subclass method invoke */
-			((Button)view[0]).setVisibility(View.VISIBLE);
+			((Button)views[0]).setVisibility(View.VISIBLE);
 			/* casting, assignment */
-			aButton = ((Button)view[0]);
+			aButton = ((Button)views[0]);
 		}
 
-		/* local var, casting */
+		/* local var decl, casting */
 		Button a = (Button) aButton;
 		/* return statement */
 		return a;
+	}
+
+	public void testIndirectCall() {
+		testDirectCall();
+	}
+
+	public void testDirectCall() {
+		View[] views = new Views[5];
+
+		int x = x + 2 * x;
+
+		Button k = getButton(views);
 	}
 }

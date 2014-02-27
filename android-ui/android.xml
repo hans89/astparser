@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui platform="android">
+
+	<actions>
+		<action method="onCreateContextMenu"
+			class="android.view.View.OnCreateContextMenuListener"
+			category="INSOURCE"
+			type="top-event"/>
+		<action method="onContextItemSelected" class="android.app.Activity"
+			category="INSOURCE"
+			type="top-event"/>
+
+		<action method="onCreateOptionsMenu"  class="android.app.Activity"
+			category="INSOURCE"
+			type="top-event"/>
+		<action method="onPrepareOptionsMenu"  class="android.app.Activity"
+			category="INSOURCE"
+			type="top-event"/>
+		<action method="onOptionsItemSelected"  class="android.app.Activity"
+			category="INSOURCE"
+			type="top-event"/>
+
+		<action method="onBackPresses"  class="android.app.Activity"
+			category="INSOURCE"
+			type="top-event"/>	
+
+		<action method="onListItemClick" class="android.app.ListActivity"
+			category="INSOURCE"
+			type="top-event"/>	
+
+		<action method="onTimeChanged" 
+			class="android.widget.TimePicker.OnTimeChangedListener"
+			category="INSOURCE"
+			type="top-event"/>
+		<action method="onDateChanged" 
+			class="android.widget.DatePicker.OnDateChangedListener"
+			category="INSOURCE"
+			type="top-event"/>
+		<action method="onDateSet"
+			class="android.app.DatePickerDialog.OnDateSetListener"
+			category="INSOURCE"
+			type="top-event"/>
+		<action method="onTimeSet"
+			class="android.app.TimePickerDialog.OnTimeSetListener"
+			category="INSOURCE"
+			type="top-event"/>
+
+		<action method="onClick" class="android.content.DialogInterface.OnClickListener"
+			setter="android.app.AlertDialog#setButton"
+			category="INSOURCE"
+			type="linked-event"/>
+
+		<action method="onClick" class="android.view.View.OnClickListener"
+			setter="android.view.View#setOnClickListener"
+			category="INSOURCE"
+			type="linked-event"/>
+
+		<action method="onCheckedChanged" class="android.widget.CompoundButton"
+			setter="android.widget.CompoundButton#setOnCheckedChangeListener"
+			category="INSOURCE"/>
+
+		<action method="onCheckedChanged" 
+			class="android.widget.RadioGroup.OnCheckedChangeListener"
+			setter="android.widget.RadioGroup#setOnCheckedChangeListener"
+			category="INSOURCE"
+			type="linked-event"/>
+
+		<action method="afterTextChanged" class="android.text.TextWatcher"
+			setter="android.widget.TextView#addTextChangedListener"
+			category="INSOURCE"
+			type="linked-event"/>
+		<action method="onTextChanged" class="android.text.TextWatcher"
+			setter="android.widget.TextView#addTextChangedListener"
+			category="INSOURCE"
+			type="linked-event"/>
+		<action method="beforeTextChanged" class="android.text.TextWatcher"
+			setter="android.widget.TextView#addTextChangedListener"
+			category="INSOURCE"
+			type="linked-event"/>
+
+		<action method="onItemClick" 
+			class="android.widget.AdapterView.OnItemClickListener"
+			setter="android.widget.AdapterView#setOnItemClickListener"
+			category="INSOURCE"
+			type="linked-event"/>
+
+		<action method="onItemSelected" 
+			class="android.widget.AdapterView.OnItemSelectedListener"
+			setter="android.widget.AdapterView#setOnItemSelectedListener"
+			category="INSOURCE"
+			type="linked-event"/>
+		<action method="onNothingSelected" 
+			class="android.widget.AdapterView.OnItemSelectedListener"
+			setter="android.widget.AdapterView#setOnItemSelectedListener"	
+			category="INSOURCE"
+			type="linked-event"/>
+
+		<action method="setButton" 
+			class="android.app.AlertDialog"
+			category="OUTSOURCE"
+			type="event-binder"/>
+
+		<action method="setOnClickListener" 
+			class="android.view.View"
+			category="OUTSOURCE"
+			type="event-binder"/>
+
+		<action method="setOnCheckedChangeListener" 
+			class="android.widget.CompoundButton"
+			category="OUTSOURCE"
+			type="event-binder"/>
+
+		<action method="setOnCheckedChangeListener" 
+			class="android.widget.RadioGroup"
+			category="OUTSOURCE"
+			type="event-binder"/>
+
+		<action method="addTextChangedListener" 
+			class="android.widget.TextView"
+			category="OUTSOURCE"
+			type="event-binder"/>
+
+		<action method="setOnItemClickListener" 
+			class="android.widget.AdapterView"
+			category="OUTSOURCE"
+			type="event-binder"/>
+
+		<action method="setOnItemSelectedListener"
+			class="android.widget.AdapterView"
+			category="OUTSOURCE"
+			type="event-binder"/>
+
+
+		<action method="onCreate" 
+			class="android.app.Activity"
+			type="init"
+			category="INSOURCE"
+			/>
+
+		<action method="onStart"
+			class="android.app.Activity"
+			type="init"
+			category="INSOURCE"/>
+
+		<action method="onResume"
+			class="android.app.Activity"
+			type="init"
+			category="INSOURCE"/>
+
+		<action method="getView"
+			class="android.widget.BaseAdapter"
+			type="init"
+			category="INSOURCE" />
+		
+		<action method="getListView" class="android.app.ListActivity"
+			category="OUTSOURCE"
+			type="variable-ref"/>	
+
+		<action method="startActivity" class="android.app.Activity"
+			category="OUTSOURCE"
+			type="start-modal"/>
+
+		<action method="startActivityForResult" class="android.app.Activity" 
+			category="OUTSOURCE"
+			type="start-modal"/>
+
+		<action method="finish" class="android.app.Activity" 
+			category="OUTSOURCE"
+			type="end-modal"/>
+
+		<action method="findViewById" class="android.app.Activity" 
+			category="OUTSOURCE"
+			type="variable-ref"/>
+
+		<action method="setContentView" class="android.app.Activity" 
+			category="OUTSOURCE"
+			type="enable"/>
+
+		<action method="setVisible" class="android.app.Activity" 
+			category="OUTSOURCE"
+			type="enable"/>
+
+		<action method="setVisibility" class="android.view.View"
+			category="OUTSOURCE"
+			type="enable"/>
+
+		<action method="setEnabled" class="android.view.View"
+			category="OUTSOURCE"
+			type="enable"/>
+
+		<action method="show" class="android.app.Dialog" 
+			category="OUTSOURCE"
+			type="start-modal"/>
+
+		<action method="show" class="android.app.DialogFragment"
+			category="OUTSOURCE"
+			type="start-modal" />
+
+	</actions>
+
+
+	<window class="android.app.Activity" type="modal">
+		<action-ref id="android.app.Activity#onCreate"/>
+		<action-ref id="android.app.Activity#onStart"/>
+		<action-ref id="android.app.Activity#onResume"/>
+		
+		<action-ref id="android.view.View.OnCreateContextMenuListener#onCreateContextMenu"/>
+		<action-ref id="android.app.Activity#onContextItemSelected"/>
+		<action-ref id="android.app.Activity#onCreateOptionsMenu"/>
+		<action-ref id="android.app.Activity#onPrepareOptionsMenu"/>
+		<action-ref id="android.app.Activity#onOptionsItemSelected"/>
+		<action-ref id="android.app.Activity#onBackPresses"/>	
+	</window>
+
+	<window class="android.app.ListActivity" type="modal">
+		<action-ref id="android.app.Activity#onCreate"/>
+		<action-ref id="android.app.Activity#onStart"/>
+		<action-ref id="android.app.Activity#onResume"/>
+
+		<action-ref id="android.view.View.OnCreateContextMenuListener#onCreateContextMenu"/>
+		<action-ref id="android.app.Activity#onContextItemSelected"/>
+		<action-ref id="android.app.Activity#onCreateOptionsMenu"/>
+		<action-ref id="android.app.Activity#onPrepareOptionsMenu"/>
+		<action-ref id="android.app.Activity#onOptionsItemSelected"/>
+		<action-ref id="android.app.Activity#onBackPresses"/>	
+
+		<action-ref id="android.app.ListActivity#getListView"/>	
+		<action-ref id="android.app.ListActivity#onListItemClick"/>	
+
+	</window>
+
+	<dialog class="android.app.DialogFragment" type="dialog">
+		<action-ref id="android.app.DialogFragment#show"/>
+	</dialog>
+
+	<dialog class="android.support.v4.app.DialogFragment" type="dialog">
+		<action-ref id="android.app.DialogFragment#show"/>
+	</dialog>
+
+	<dialog class="android.app.TimePickerDialog" type="dialog">
+		<action-ref id="android.app.Dialog#show"/>
+		<action-ref id="android.widget.TimePicker.OnTimeChangedListener#onTimeChanged"/>
+		<action-ref id="android.content.DialogInterface.OnClickListener#onClick"/>
+
+	</dialog>
+
+	<dialog class="android.app.DatePickerDialog" type="dialog">
+		<action-ref id="android.app.Dialog#show"/>
+		<action-ref id="android.widget.DatePicker.OnDateChangedListener#onDateChanged"/>
+		<action-ref id="android.content.DialogInterface.OnClickListener#onClick"/>
+	</dialog>
+
+	<widget class="android.view.View">
+		<action-ref id="android.view.View#setVisibility"/>
+		<action-ref id="android.view.View#setEnabled"/>
+
+	</widget>
+
+	<widget class="android.widget.Button">
+		<action-ref id="android.view.View.OnClickListener#onClick" />
+	</widget>
+
+	<widget class="android.widget.Checkbox">
+		
+		<action-ref id="android.view.View.OnClickListener#onClick"/>
+		<action-ref id="android.widget.CompoundButton#onCheckedChanged"/>
+	</widget>
+
+	<widget class="android.widget.RadioButton">
+		<action-ref id="android.view.View.OnClickListener#onClick"/>
+		<action-ref id="android.widget.CompoundButton#onCheckedChanged"/>
+	</widget>
+
+	<widget class="android.widget.RadioGroup">
+		
+		<action-ref id="android.widget.RadioGroup.OnCheckedChangeListener#onCheckedChanged"/>
+	</widget>
+
+	<widget class="android.widget.ToggleButton">
+
+		<action-ref id="android.view.View.OnClickListener#onClick"/>
+		<action-ref id="android.widget.CompoundButton#onCheckedChanged"/>
+	</widget>
+
+	<widget class="android.widget.Switch">
+
+		<action-ref id="android.view.View.OnClickListener#onClick"/>
+		<action-ref id="android.widget.CompoundButton#onCheckedChanged"/>
+	</widget>
+
+	<widget class="android.widget.EditText">
+		<action-ref id="android.text.TextWatcher#afterTextChanged"/>
+		<action-ref id="android.text.TextWatcher#onTextChanged"/>
+		<action-ref id="android.text.TextWatcher#beforeTextChanged"/>
+	</widget>
+
+	<widget class="android.widget.ListView">
+		<action-ref id="android.widget.AdapterView.OnItemClickListener#onItemClick"/>
+		<action-ref id="android.widget.AdapterView.OnItemSelectedListener#onItemSelected"/>
+		<action-ref id="android.widget.AdapterView.OnItemSelectedListener#onNothingSelected"/>
+	</widget>
+
+
+	<widget class="android.widget.GridView">
+		
+		<action-ref id="android.widget.AdapterView.OnItemClickListener#onItemClick"/>
+		<action-ref id="android.widget.AdapterView.OnItemSelectedListener#onItemSelected"/>
+		<action-ref id="android.widget.AdapterView.OnItemSelectedListener#onNothingSelected"/>
+	</widget>
+
+	<widget class="android.widget.Spinner">
+		<action-ref id="android.widget.AdapterView.OnItemSelectedListener#onItemSelected"/>
+		<action-ref id="android.widget.AdapterView.OnItemSelectedListener#onNothingSelected"/>
+	</widget>
+
+	<!-- menu is not used YET! -->
+	<menu class="android.view.Menu">
+		<action method="addIntentOptions" category="OUTSOURCE"/>
+		<action method="add" category="OUTSOURCE"/>
+		<action method="addSubmenu" category="OUTSOURCE"/>
+		<action method="clear" category="OUTSOURCE"/>
+		<action method="close" category="OUTSOURCE"/>
+		<action method="removeGroup" category="OUTSOURCE"/>
+		<action method="removeItem" category="OUTSOURCE"/>
+		<action method="setGroupEnabled" category="OUTSOURCE"/>
+		<action method="setGroupVisible" category="OUTSOURCE"/>
+	</menu>
+
+	<menu class="android.view.MenuItem">
+		<action method="setVisible" category="OUTSOURCE"/>
+		<action method="setEnabled" category="OUTSOURCE"/>
+		<action method="setOnMenuItemClickListener" category="OUTSOURCE"/>
+	</menu>
+
+	<menu class="android.view.MenuInflater">
+		<action method="inflate" category="OUTSOURCE"/>
+	</menu>
+
+</gui>

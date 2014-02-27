@@ -1,0 +1,46 @@
+
+The core concepts of Android Application layer are:
+- Activity
+	-> Activity life cycle: initialization
+		onCreate
+		onRestart
+		onStart
+		onResume
+
+		onPause
+		onStop
+
+		startActivity
+		startActivityForResult
+		onActivityResult
+		
+
+window.class = "Landroid/app/Activity;"
+window.init = onCreate -> onRestart -> onStart -> onResume
+window.end = finish
+window.navigate = startActivity | startActivityForResult
+
+-- Fragment	
+	--> Fragment life cycle: initialization
+-- Intent
+	--> startActivity/startActivityForResult: new window, (modal/modeless)
+
+-- UI Widget
+	--- Button, Checkbox, Radio, Toggle, Switch  => Button, CompoundButton
+	--- TextView, EditText
+	--- ListView, GridView, Spinner, StackView => AdapterView
+	--- Custom Component
+
+	setOnClickListener
+	setVisibility
+
+
+-- Menu
+	Menu: onCreateOptionsMenu onPrepareOptionsMenu onOptionsItemSelected
+
+-- Dialog
+-- Backstack
+
+
+- Service 
+- Content Provider
