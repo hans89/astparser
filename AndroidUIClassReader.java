@@ -10,6 +10,24 @@ import java.util.*;
 import java.io.*;
 import java.util.Map.Entry;
 
+/**
+ *	This class is used to read the interesting lists of UI classes and methods
+ *	of a UI framework, defined in an XML file format.
+ *
+ *	The XML file starts with a list of all possible actions (methods) with the
+ *	"action" tag, then a list of all UI objects (classes, tag "window", "widget"
+ *	"dialog" or "menu") that link to the actions using tag "action-ref"
+ *
+ *	The inner class UIStructureXMLHandler extends the SAX ML reader listener
+ *	DefaultHandler.
+ *	
+ *	The reader extracts 2 maps:
+ *		- map from class key to UIObjectClass, which also contains list of actions
+ *		- map from method key to UIActionClass
+ *	The reader also binds the event actions (UIActionLinkedEventClass)
+ *	 and event binder actions (UIActionEventBinderClass)
+ *
+ */
 public class AndroidUIClassReader {
 
 	private HashMap<String,UIObjectClass> structures;
@@ -81,18 +99,18 @@ public class AndroidUIClassReader {
 				String actKey = e.getKey();
 				UIActionClass act = e.getValue();
 
-				if (act instanceof UIActionClass.UIActionLinkedEventClass) {
-					UIActionClass.UIActionLinkedEventClass linkedEvent 
-						= (UIActionClass.UIActionLinkedEventClass) act;
+				if (act instanceof UIActionLinkedEventClass) {
+					UIActionLinkedEventClass linkedEvent 
+						= (UIActionLinkedEventClass) act;
 
 					if (actions.containsKey(linkedEvent.setterKey)) {
-						UIActionClass.UIActionEventBinderClass binder = 
-							(UIActionClass.UIActionEventBinderClass)actions.get(linkedEvent.setterKey);
+						UIActionEventBinderClass binder = 
+							(UIActionEventBinderClass)actions.get(linkedEvent.setterKey);
 
 						linkedEvent.setterAction = binder;
 						if (binder.linkedEventList == null)
 							binder.linkedEventList 
-								= new ArrayList<UIActionClass.UIActionLinkedEventClass>();
+								= new ArrayList<UIActionLinkedEventClass>();
 						binder.linkedEventList.add(linkedEvent);
 					}
 				}
@@ -137,16 +155,14 @@ public class AndroidUIClassReader {
 
 			} else if (qName.equalsIgnoreCase("action")) {
 
-				//System.out.println(attributes.getValue("method"));
-
 				if (attributes.getValue("setter") != null) {
-					currentAction = new UIActionClass.UIActionLinkedEventClass();
-					((UIActionClass.UIActionLinkedEventClass)currentAction).setterKey
+					currentAction = new UIActionLinkedEventClass();
+					((UIActionLinkedEventClass)currentAction).setterKey
 						= attributes.getValue("setter");
 					currentAction.type = UIActionClass.UIActionType.LINKED_EVENT;
 				} else if (attributes.getValue("type") != null
 						&& attributes.getValue("type").equals("event-binder")) {
-					currentAction = new UIActionClass.UIActionEventBinderClass();
+					currentAction = new UIActionEventBinderClass();
 					currentAction.type = UIActionClass.UIActionType.BIND_EVENT;
 				}
 				else
@@ -155,8 +171,11 @@ public class AndroidUIClassReader {
 
 				currentAction.methodName = attributes.getValue("method");
 				currentAction.classKey = attributes.getValue("class");
-				currentAction.category = attributes.getValue("category").equalsIgnoreCase("INSOURCE")
-					? UIActionClass.UIActionCategory.INSOURCE : UIActionClass.UIActionCategory.OUTSOURCE;
+
+				currentAction.category = 
+					attributes.getValue("category").equalsIgnoreCase("INSOURCE")
+					? UIActionClass.UIActionCategory.INSOURCE 
+					: UIActionClass.UIActionCategory.OUTSOURCE;
 
 				/*
 				INIT,   init

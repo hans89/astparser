@@ -3,66 +3,88 @@ package astparser.UIModel;
 import org.eclipse.jdt.core.dom.*;
 import java.util.*;
 
+/**
+ *	Objects of this class store data about each and every actual method that are 
+ *	defined or used in the application. These include external methods defined in
+ *	binary/bytecode libraries, and the application methods defined in the
+ *	application source code.
+ *
+ *	If the method is an UI-related method (that are defined by an UIActionClass)
+ *	then it is accompanied by the a UIActionClass object that describes its 
+ *	possibly interesting properties.
+ *
+ *	If the method is a non-UI raw method, either being an external non-UI method,
+ *	or an app-defined non-UI method, it won't have a UIActionClass object. Although
+ *	this kind of method may be non-UI related at first, it may be related with 
+ *	UI methods through a possible chain of method invocations, therefore it is
+ *	also put in the category of UIAction
+ *
+ *	The type of each actual method is then the combination of the UIActionClass
+ *	object type (UIActionClass.UIActionType, UIActionClass.UICategory) and the 
+ *	specific type (UIAction.ActionType)
+ *	
+ *	This class is Eclipse JDT dependent.
+ *
+ *	@author Hai Dang (dhhai.uns@gmail.com)
+ */
+
 public class UIAction {
-	/* this class defines information of a particular method
+	
+	/**
+	 * 	Meta class info defines interesting UI-related properties of the method
+	 * 	(possibly) non-UI methods don't have this property (is null).
+	 */
+	public UIActionClass metaClassInfo;
 
-	 TYPE:
-		EXTERNAL vs INTERNAL: isFromSource
-		INTERESTING vs UNINTERESTING: UI actions vs non-UI actions
-
-		EXTERNAL_NON_UI: non UI external method invocations, should be
-			ignored. Is not used to create model
-		EXTERNAL_UI: external method invocations that relates to UI,
-			including setting events, enabling/disabling widgets,
-			starting new windows, closing windows, setting other various
-			UI states. External UIs are used to check whether INTERNAL 
-			actions are actually UI-related.
-
-		There are internal actions that are called by the framework
-			(they never gets called in application code), of these:
-		
-		INTERNAL_INIT: actions that set up windows or widgets. if one is
-			not UI-related, it can be ignored.
-		INTERNAL_TOP_EVENT: event handlers that are automatically enabled 
-			with a window or widget
-		INTERNAL_LINKED_EVENT: event handlers that need to be linked by
-			an explicit external action.
-
-		Other actions can be seen as Application-defined actions:
-		INTERNAL_APP_DEFINED
-		Some of these actions may not be called, this may indicate that
-			they are unused.
-		Some actions may be UI-related, if they (recursively) call UI-related
-		actions. Any non UI-related app-defined actions can be ignored.
-
-		Recursive definition of UI-related actions:
-			One action is UI-related if:
-			- (BASE) it is of EXTERNAL_UI type
-			- (BASE) it is an event
-			- (INDUCTION) it calls an UI-related action
-	*/
-
+	/**
+	 *	Action type provide a quick property of whether this method is external
+	 *	or interal, is definitely UI-related or possibly non-UI related.
+	 * 	This combines with metaClassInfo type (UIActionClass.UIActionType, 
+	 *	UIActionClass.UICategory) to provide the complete classification of
+	 *	action types.
+	 *
+	 *	EXTERNAL_UI are OUTSOURCE, INTERNAL_UI are INSOURCE, both are further
+	 *	classified by UIActionClass.UIActionType:
+	 *		- EXTERNAL_UI: BIND_EVENT, START_MODAL, END_MODAL, OPEN_MENU, ENABLE_WIDGET
+	 *		- INTERNAL_UI: 	INIT, TOP_EVENT, LINKED_EVENT
+	 *	
+	 *	EXTERNAL_NON_UI are non-UI external invocations, and are usually ignored.
+	 *	INTERNAL_APP_DEFINED are possibly non-UI related, and can be refined to
+	 *		INTERNAL_APP_UI and INTERNAL_APP_NON_UI, where INTERAL_APP_UI are 
+	 *		defined recursively as methods that can call recursively any UI-related
+	 *		methods (EXTERNAL_UI/INTERNAL_UI). INTERNAL_APP_NON_UI are the rest.
+	 */
+	public ActionType type;
 	public enum ActionType {
 		EXTERNAL_NON_UI,
 		EXTERNAL_UI,
-		INTERNAL_INIT,
-		INTERNAL_TOP_EVENT,
-		INTERNAL_LINKED_EVENT,
+		INTERNAL_UI,
 		INTERNAL_APP_DEFINED
 	}
-	// each method has methodBinding as its ID
+
+	/**
+	 *	The containing type of the method definition
+	 */
+	public ITypeBinding containingType;
+	
+	/**
+	 *	The definite info of a method, often used as its key
+	 *	IMethodBinding is a Eclipse JDT class, reprensting a unique object
+	 *	for each method. The definition and all invocations of a single method
+	 *	are linked to this binding, therefore it can be used to identified if
+	 *	the invocation is of a concerned method.
+	 *
+	 *	All methods known by the compiler must have this property.
+	 *
+	 *	This property is Eclipse JDT dependent.
+	 */
 	public IMethodBinding methodBinding;
-
-	// each interesting method has a Android class info 
-	// which is used to identify its type
-	public UIActionClass metaClassInfo;
-	public ActionType type;
-
-	// each internal method has a declaration, which defines action
-	// invocations that it calls
-	public MethodDeclaration declaration;
-
-	// list of action invocations that calls this method
+	
+	/**
+	 *	The list of actual invocation of this method
+	 *	In the Android UI model, all INTERNAL_UI methods
+	 * 	(INIT, TOP_EVENT, LINKED_EVENT) should have this list empty or null
+	 */
 	public List<UIActionInvocation> invokedList;
 }
 

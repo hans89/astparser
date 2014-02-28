@@ -57,7 +57,8 @@
 
 		<action method="onCheckedChanged" class="android.widget.CompoundButton"
 			setter="android.widget.CompoundButton#setOnCheckedChangeListener"
-			category="INSOURCE"/>
+			category="INSOURCE"
+			type="linked-event"/>
 
 		<action method="onCheckedChanged" 
 			class="android.widget.RadioGroup.OnCheckedChangeListener"

@@ -44,68 +44,224 @@ public class TestSuit {
 	      	 + " .............");
 	   }
 	};
+	
+	// @Test
+	// @Ignore
+	// public void testApproach3() {
 
+	// 	/*---- Find events that are set up in initializer implicit acts----*/
+	// 	for (UIObject.UILinkedEventObject uiLinkedEventObj : uiEventObjs.values()) {
+	// 		for (UIActionInvocation setter : uiLinkedEventObj.setters) {
+	// 			// find which Object's init method that make the set.
+	// 			for (UIObject uiO : uiObjs.values()) {
+	// 				for (List<Set<UIActionInvocation>> initMethodPath : uiO.initPaths.values()) {
+	// 					for (Set<UIActionInvocation> initPath : initMethodPath) {
+	// 						if (initPath.contains(setter)) {
+	// 							if (uiO.initEvents == null)
+	// 								uiO.initEvents = new HashSet<UIObject.UILinkedEventObject>();
 
-    private boolean matchSuperClass(String superKey, ITypeBinding tbind) {
-		while (tbind != null && tbind.getKey() != "Ljava/lang/Object;") {
-			String key = tbind.getKey();
-			if (superKey.equals(key))
-				return true;
-			tbind = tbind.getSuperclass();
-		}
+	// 							uiO.initEvents.add(uiLinkedEventObj);
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	// 			// find which event that make the set
+	// 		}
+	// 	}
 		
-		return false;
-	}
+	// 	/*--------- Build LTS ----------*/
+	// 	LTS<Set<UIAction>, UIAction> lts = new LTS<Set<UIAction>, UIAction>();
 
-
-	private void addParentNodes(Set<ASTNode> container, ASTNode node) {
-		// add all parents of interesting nodes
-		while (node != null) {
-			container.add(node);
-			node = node.getParent();
-		}
-	}
-
-	private Set<String> getSuperTypeQualifiedNames(ITypeBinding startClass) {
-		Set<String> qualNames = null;
-		if (startClass != null) {
-			qualNames = new HashSet<String>();
+	// 	for (UIObject obj : uiObjs.values()) {
 			
-			Queue<ITypeBinding> tbQueue = new LinkedList<ITypeBinding>();
+	// 		// set up initial state
+	// 		Set<UIAction> initialState = new Set<UIAction>();
+	// 		UIAction currentAct;
+	// 		// get top event
+	// 		for (IMethodBinding topEvent : obj.topEventPaths.keySet()) {
+	// 			if (methodReferences.containsKey(topEvent)) {
+	// 				currentAct = methodReferences.get(topEvent);
+	// 				initialState.add(currentAct);
+	// 				lts.actions.add(currentAct);
+	// 			}
+	// 		}
 
-			tbQueue.offer(startClass);
+	// 		// get linked-event 
+	// 		for (UIObject.UILinkedEventObject uiLEO : obj.initEvents) {
+	// 			for (IMethodBinding linkEvent : uiLEO.eventPaths.keySet()){
+	// 				if (methodReferences.containsKey(linkEvent)) {
+	// 					currentAct = methodReferences.get(linkeEvent);
+	// 					initialState.add(currentAct);
+	// 					lts.actions.add(currentAct);
+	// 				}
+	// 			}
+	// 		}
 
-			ITypeBinding current;
+	// 		lts.states.add(initialState);
+	// 		lts.initialStates.add(initialState);
 
-			// a BFS to visit all super types
-			// while the queue is not empty
-			while ((current = tbQueue.poll()) != null) {
-				String currentTypeName = current.getQualifiedName();
-				if (!qualNames.contains(currentTypeName)) {
-					// if we haven't seen this class yet
+	// 		Set<UIAction> nextState;
+	// 		// now for each initialState's possible action, add transition
+	// 		for (Entry<IMethodBinding,List<Set<UIActionInvocation>>>
+	// 				 topEvent : obj.topEventPaths.entrySet()) {
+	// 			if (methodReferences.containsKey(topEvent.getKey())) {
+	// 				currentAct = methodReferences.get(topEvent);
+					
 
-					qualNames.add(currentTypeName);
+	// 				List<Set<UIActionInvocation>> paths = topEvent.getValue();
 
-					// we find its direct super types
-					tbQueue.addAll(Arrays.asList(current.getInterfaces()));
+	// 				for (Set<UIAction> path : paths) {
+	// 					for (UIAction extAction : path) {
 
-					ITypeBinding superClass = current.getSuperclass();
-					if (superClass != null)
-						tbQueue.offer(superClass);
-				}
-				// or else we have seen this type before,
-				// so its super types have been listed,
-				// we don't need to do anything
-			}
-		}
+	// 			/* check if extAction 
+	// 				- enabled a new event
+	// 					set up new event handler
+	// 					show up some menu (not sure for now)
+	// 				- disabled some event
+	// 					disable some widgets
+	// 				- start a completely new window
+	// 					startActivity
+	// 					show dialog9
+	// 				- close the current window
+	// 					finish
+	// 			BIND_EVENT
+	// 			START_MODAL
+	// 			END_MODAL
+	// 			OPEN_MENU
+	// 			ENABLE_WIDGET
+	// 			*/			if (extAction.metaClassInfo != null 
+	// 							&& extAction.metaClassInfo.type != null) {
+	// 							switch (extAction.metaClassInfo.type) {
+	// 								case BIND_EVENT:
+	// 									break;
+	// 								case START_MODAL:
+	// 									break;
+	// 								case END_MODAL:
+	// 									break;
+	// 								case OPEN_MENU:
+	// 									break;
+	// 								case ENABLE_WIDGET:
+	// 									break;
+	// 							}
+	// 						}
+							
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
 
-		return qualNames;
-	}
+	// 	/*------------------------- Printer code ------------------------------*/
+	// 	class Printer {
+	// 		public void print(String mes, Set<UIActionInvocation> actList) {
+	// 			System.out.print(mes);
+	// 			for (UIActionInvocation act : actList) {
+	// 				System.out.print(act.astSourceNode.getExpression()
+	// 					 + "." + act.astSourceNode.getName() + " -> ");
+	// 			}
+	// 			System.out.println(".");
+	// 		}
+	// 	}
 
+	// 	Printer printer = new Printer();
+
+	// 	System.out.println(TestSuit.SHORT_DASH + " UIObjects " + TestSuit.SHORT_DASH);
+	// 	for (UIObject obj : uiObjs.values()) {
+	// 		System.out.println(obj.typeBinding.getQualifiedName());
+	// 		System.out.println(obj.typeBinding.getKey());
+	// 		if (obj.metaClassInfo != null)
+	// 			System.out.println("Meta: " + obj.metaClassInfo.classKey);
+	// 		else 
+	// 			System.out.println("No meta class");
+
+	// 		if (obj.initPaths != null) {
+	// 			System.out.println("\t -> INITS");
+	// 			for (Entry<IMethodBinding, List<Set<UIActionInvocation>>> e : 
+	// 								obj.initPaths.entrySet()) {
+	// 			System.out.println("\t -> " + e.getKey().getKey());
+
+	// 			for (Set<UIActionInvocation> initMethodPath : e.getValue())
+	// 				printer.print("\t\t |- ", initMethodPath);
+	// 			}
+	// 			System.out.println(TestSuit.SHORT_DASH);
+	// 		}
+			
+	// 		if (obj.topEventPaths != null) {
+	// 			System.out.println("\t -> TOPEVENTS");
+	// 			for (Entry<IMethodBinding, List<Set<UIActionInvocation>>> e : 
+	// 									obj.topEventPaths.entrySet()) {
+	// 				System.out.println("\t -> " + e.getKey().getKey());
+
+	// 				for (Set<UIActionInvocation> topEventMethodPath : e.getValue())
+	// 					printer.print("\t\t |- ", topEventMethodPath);
+	// 			}
+	// 			System.out.println(TestSuit.SHORT_DASH);
+	// 		}
+
+	// 		if (obj.initEvents != null) {
+	// 			System.out.println("\t -> Init Events ");
+
+	// 			for (UIObject.UILinkedEventObject ieObj : obj.initEvents) {
+	// 				System.out.println(ieObj.typeBinding.getQualifiedName());
+	// 				System.out.println(ieObj.typeBinding.getKey());
+					
+	// 				System.out.println("\t Affective range: ");
+
+	// 				for (Entry<IMethodBinding, List<Set<UIActionInvocation>>> e : 
+	// 										ieObj.eventPaths.entrySet()) {
+	// 					System.out.println("\t -> " + e.getKey().getKey());
+
+	// 					for (Set<UIActionInvocation> eventMethodPath : e.getValue())
+	// 						printer.print("\t\t |- ", eventMethodPath);
+	// 				}
+
+	// 				System.out.println(TestSuit.SHORT_DASH);
+
+	// 				System.out.println("\t Set up by:");
+	// 				for (UIActionInvocation setter : ieObj.setters) {
+	// 					System.out.println("\t\t " + setter.astSourceNode.getExpression()
+	// 							 + "." + setter.astSourceNode.getName());
+	// 				}
+	// 			}
+	// 		}
+			
+	// 		System.out.println(TestSuit.LONG_DASH);
+
+	// 	}
+
+
+	// 	System.out.println(TestSuit.SHORT_DASH + " LinkedEvents " + TestSuit.SHORT_DASH);
+
+	// 	for (UIObject.UILinkedEventObject obj : uiEventObjs.values()) {
+	// 		System.out.println(obj.typeBinding.getQualifiedName());
+	// 		System.out.println(obj.typeBinding.getKey());
+			
+	// 		System.out.println("\t Affective range: ");
+
+	// 		for (Entry<IMethodBinding, List<Set<UIActionInvocation>>> e : 
+	// 								obj.eventPaths.entrySet()) {
+	// 			System.out.println("\t -> " + e.getKey().getKey());
+
+	// 			for (Set<UIActionInvocation> eventMethodPath : e.getValue())
+	// 				printer.print("\t\t |- ", eventMethodPath);
+
+				
+	// 		}
+	// 		System.out.println(TestSuit.SHORT_DASH);
+
+	// 		System.out.println("\t Set up by:");
+	// 		for (UIActionInvocation setter : obj.setters) {
+	// 			System.out.println("\t\t " + setter.astSourceNode.getExpression()
+	// 					 + "." + setter.astSourceNode.getName());
+	// 		}
+
+	// 		System.out.println(TestSuit.LONG_DASH);
+	// 	}
+	// 	/*------------------------- End Printer code --------------------------*/
+	// }
 
 	@Test
-	public void testApproach3() {
-
+	public void testApproach4() {
 		// 1. get meta info: Android structures
 		AndroidUIClassReader structureReader = new AndroidUIClassReader();
 
@@ -114,7 +270,7 @@ public class TestSuit {
 						"android-ui/android.xml"
 					});
 
-		// 1a. interesting Android UI Structures
+		// 1a. interesting Android UI Object Structures
 		final HashMap<String, UIObjectClass>
 			androidUIStructures = structureReader.getUIStructures();
 		// 1b. interesting Android UI Actions
@@ -131,452 +287,126 @@ public class TestSuit {
 					"test-android/todomanager"
 				});
 
-		// find all actions
 
-		final HashMap<IMethodBinding, UIAction>
-			methodReferences = new HashMap<IMethodBinding, UIAction>();
+		// 3. find all actions, set up their types and invocations
+		MethodVisitor methodVisitor 
+					= new MethodVisitor(new UIActionBuilder(androidUIActions));
 
-		// 3. visit the CUs
-		/* the visitor will: identify all methods, including definition (declaration) and
-				references (invocation). It will identify:
-				1. methodBinding
-				2. declaration (if available)
-				3. invokedList (if available)
-		*/
-		ASTVisitor methodVisitor = new ASTVisitor() {
-			@Override
-			public boolean visit(MethodDeclaration node) {
-				IMethodBinding mBinding;
-				if ((mBinding = node.resolveBinding()) != null) {
-					UIAction mRef;
-					if (!methodReferences.containsKey(mBinding)) {
-						mRef = new UIAction();
-						mRef.methodBinding = mBinding;
-						methodReferences.put(mBinding, mRef);
-					} else {
-						mRef = methodReferences.get(mBinding);	
-					}
-					 
-					mRef.declaration = node;
-				}
-				return true;
-			}
-
-			@Override
-			public boolean visit(MethodInvocation node) {
-				IMethodBinding mBinding;
-
-				if ((mBinding = node.resolveMethodBinding()) != null) {
-					UIAction mRef;
-
-					if (!methodReferences.containsKey(mBinding)) {
-						mRef = new UIAction();
-						mRef.methodBinding = mBinding;
-						methodReferences.put(mBinding, mRef);
-					} else {
-						mRef = methodReferences.get(mBinding);	
-					}
-
-					
-					if (mRef.invokedList == null)
-						mRef.invokedList = new ArrayList<UIActionInvocation>();
-
-					UIActionInvocation actionInvoke = new UIActionInvocation();
-					actionInvoke.astSourceNode = node;
-					actionInvoke.invokedMethod = mBinding;
-
-					ASTNode parent = actionInvoke.astSourceNode;
-
-					while ((parent = parent.getParent()) != null
-					 	&& !(parent instanceof MethodDeclaration))
-						;
-
-					if (parent != null)
-						actionInvoke.invokingMethod = ((MethodDeclaration)parent).resolveBinding();
-
-					mRef.invokedList.add(actionInvoke);
-				}
-				return true;
-			}
-		};
-
-
-
-		CompilationUnit[] unitsArray = units.values().toArray(new CompilationUnit[0]);
-
-		for (CompilationUnit u : unitsArray) {
+		for (CompilationUnit u : units.values()) {
 			u.accept(methodVisitor);
 		}
 
-		// 4. find the action types
-		/* with each method identified by its binding, declaration and invoked list
-		 	now identify its meta class and its type
-		
+		HashMap<IMethodBinding, UIAction> 
+				allActions = methodVisitor.getAllActions();
+
+		// 4. link event setters with corresponding events
+		ASTNodeUtils.bindEventSetters(allActions);		
+
+		// 5. find all ui external actions, and trace their way up to the
+		// INTERNAL_UI methods. This completes all the UIAction info.
+		ASTNodeUtils.traceExternalUIPaths(allActions);
+
+		// 6. find all UIObjects, attach their UIObjectClass and their init
+		//	and top-event actions
+		HashMap<ITypeBinding, UIObject> allUIObjects = 
+			ASTNodeUtils.findAllUIObjects(androidUIStructures, allActions);
+
+		// 7. now we are ready to build the LTS
+		/*
+			Each state of the LTS is identified by the possible events at that 
+			state.
+
+			In the initial states, possible events includes top-events and linked
+			events that are set up by the initializers
+
+			For going to the next state, we shall check each event allowed in
+			the current state:
+				- if the event change the current possible event set, then it
+					create a transition from the current state to another state
+				- if the event does not change the possible event set, then it
+					create a transition from and to the current state itself
+
+			All the process follows from finding the effects of each event handler
+			or initializer
 		*/
-		Set<IMethodBinding> uiExternals = new HashSet<IMethodBinding>();
-
-		HashMap<ITypeBinding, UIObject> uiObjs = new HashMap<ITypeBinding, UIObject>();
-		HashMap<ITypeBinding, UIObject.UILinkedEventObject> uiEventObjs
-				 = new HashMap<ITypeBinding, UIObject.UILinkedEventObject>();
 
 
-		for (Entry<IMethodBinding, UIAction> e : methodReferences.entrySet()) {
 
-			IMethodBinding methodBind = e.getKey();
-			UIAction mRef = e.getValue();
-			ITypeBinding declaringClass = methodBind.getDeclaringClass();
-
-			// check if current method is interesting as declared in android.xml
-			Set<String> superTypeNames = ASTNodeUtils.getSuperTypeQualifiedNames(declaringClass);
-			String methodName = methodBind.getName();
-
-			UIActionClass interestingActionClass = null;
-			for (String superTypeName : superTypeNames) {
-				String methodClassName = superTypeName + "#" + methodName;
-				if (androidUIActions.containsKey(methodClassName)) {
-					interestingActionClass = androidUIActions.get(methodClassName);
-					break;
-				}
-			}
-
-			mRef.metaClassInfo = interestingActionClass;
-
-
-			// ok, interesting
-			if (interestingActionClass != null) {
-				
-				/*  EXTERNAL_UI */
-				if (declaringClass.isFromSource() == false
-					&& interestingActionClass.category == UIActionClass.UIActionCategory.OUTSOURCE) {
-					mRef.type = UIAction.ActionType.EXTERNAL_UI;
-
-					uiExternals.add(methodBind);
-				} else 
-					/*  INTERNAL_UI */
-					if (declaringClass.isFromSource()
-						&& interestingActionClass.category == UIActionClass.UIActionCategory.INSOURCE) {
-					switch (interestingActionClass.type) {
-						case INIT:
-							mRef.type = UIAction.ActionType.INTERNAL_INIT;
-							break;
-						case TOP_EVENT:
-							mRef.type = UIAction.ActionType.INTERNAL_TOP_EVENT;
-							break;
-						case LINKED_EVENT:
-							mRef.type = UIAction.ActionType.INTERNAL_LINKED_EVENT;
-							break;
-					}
-				}
-
-			} else {
-				/* EXTERNAL_NON_UI */
-				if (declaringClass.isFromSource() == false) {
-					mRef.type = UIAction.ActionType.EXTERNAL_NON_UI;
-				// can be remove!!!
-				}
-				else {
-				/* INTERNAL, not known yet */
-					mRef.type = UIAction.ActionType.INTERNAL_APP_DEFINED;
-				}
-			}	
-		}
-
-		class UIObjectMetaClassFinder {
-			public UIObjectClass find(ITypeBinding type, HashMap<String, UIObjectClass> map) {
-				ITypeBinding parent = type;
-
-				while (parent != null) {
-					String name = parent.getQualifiedName();
-					if (map.containsKey(name)) {
-						return map.get(name);
-					}
-
-					parent = parent.getSuperclass();
-				}
-				return null;
-			}
-		}
-
-		UIObjectMetaClassFinder objMetaClassFinder = new UIObjectMetaClassFinder();
-
-		
-
-		for (IMethodBinding method : uiExternals) {
-			UIAction mRef = methodReferences.get(method);
-
-			if (mRef != null && mRef.type == UIAction.ActionType.EXTERNAL_UI) {
-
-
-				Deque<UIActionInvocation> stack = new ArrayDeque<UIActionInvocation>();
-				Deque<Set<UIActionInvocation>> pathStack = new ArrayDeque<Set<UIActionInvocation>>();
-
-				Set<UIActionInvocation> currentPath;
-
-				for (UIActionInvocation act : mRef.invokedList) {
-					currentPath = new LinkedHashSet<UIActionInvocation>();
-
-					currentPath.add(act);
-
-					stack.addFirst(act);
-					pathStack.addFirst(currentPath);	
-				}
-				
-
-				UIActionInvocation currentAct;
-				// DFS
-				while ((currentAct = stack.peekFirst()) != null) {
-					stack.removeFirst();
-					currentPath = pathStack.removeFirst();
-				
-					UIAction invoker = methodReferences.get(currentAct.invokingMethod);
-
-					if (invoker.invokedList == null || invoker.invokedList.size() == 0) {
-						// if the invoker of the invoker is not available: 
-						// we have reach the sink node
-						ITypeBinding invokerDeclaringClass 
-							= currentAct.invokingMethod.getDeclaringClass();
-
-						switch (invoker.type) {
-							case INTERNAL_INIT:
-								UIObject uiO;
-								if (!uiObjs.containsKey(invokerDeclaringClass)) {
-									uiO = new UIObject();
-									uiO.typeBinding = invokerDeclaringClass;
-									uiO.metaClassInfo = objMetaClassFinder.find(
-										invokerDeclaringClass, androidUIStructures);
-
-									uiObjs.put(invokerDeclaringClass, uiO);	
-								}
-
-								uiO = uiObjs.get(invokerDeclaringClass);
-								if (uiO.initPaths == null)
-									uiO.initPaths = new 
-										HashMap<IMethodBinding,List<Set<UIActionInvocation>>>();
-
-								if (!uiO.initPaths.containsKey(invoker.methodBinding))
-									uiO.initPaths.put(invoker.methodBinding,
-											new ArrayList<Set<UIActionInvocation>>());
-
-								uiO.initPaths.get(invoker.methodBinding).add(currentPath);
-								
-								break;
-
-							case INTERNAL_TOP_EVENT:
-								UIObject uiO2;
-								if (!uiObjs.containsKey(invokerDeclaringClass)) {
-									uiO2 = new UIObject();
-									uiO2.typeBinding = invokerDeclaringClass;
-									uiO2.metaClassInfo = objMetaClassFinder.find(
-										invokerDeclaringClass, androidUIStructures);
-
-									uiObjs.put(invokerDeclaringClass, uiO2);	
-								}
-
-								uiO2 = uiObjs.get(invokerDeclaringClass);
-								if (uiO2.topEventPaths == null)
-									uiO2.topEventPaths = new 
-										HashMap<IMethodBinding,List<Set<UIActionInvocation>>>();
-
-								if (!uiO2.topEventPaths.containsKey(invoker.methodBinding))
-									uiO2.topEventPaths.put(invoker.methodBinding,
-											new ArrayList<Set<UIActionInvocation>>());
-
-								uiO2.topEventPaths.get(invoker.methodBinding).add(currentPath);
-
-								break;
-							case INTERNAL_LINKED_EVENT:
-								UIObject.UILinkedEventObject uiEObj;
-
-
-								if (!uiEventObjs.containsKey(invokerDeclaringClass)) {
-									uiEObj = new UIObject.UILinkedEventObject();
-									uiEObj.typeBinding = invokerDeclaringClass;
-
-									uiEventObjs.put(invokerDeclaringClass, uiEObj);	
-								}
-
-								uiEObj = uiEventObjs.get(invokerDeclaringClass);
-
-								if (uiEObj.eventPaths == null)
-									uiEObj.eventPaths = new 
-										HashMap<IMethodBinding,List<Set<UIActionInvocation>>>();
-
-								if (!uiEObj.eventPaths.containsKey(invoker.methodBinding))
-									uiEObj.eventPaths.put(invoker.methodBinding,
-											new ArrayList<Set<UIActionInvocation>>());
-
-								uiEObj.eventPaths.get(invoker.methodBinding).add(currentPath);
-								break;
-						}
-
-					} else {
-						for (UIActionInvocation invokingAct : invoker.invokedList) {
-							if (!currentPath.contains(invokingAct)) {
-								Set<UIActionInvocation> nextPath 
-									= new LinkedHashSet<UIActionInvocation>(currentPath);
-
-								nextPath.add(invokingAct);
-
-								stack.addFirst(invokingAct);
-								pathStack.addFirst(nextPath);
-							}
-						}
-					}
-				}
-			}
-		}
-
-		for (IMethodBinding method : uiExternals) {
-			UIAction mRef = methodReferences.get(method);
-
-			if (mRef != null && mRef.type == UIAction.ActionType.EXTERNAL_UI) {
-
-				for (UIActionInvocation act : mRef.invokedList) {
-
-					List<Expression> args = act.astSourceNode.arguments();
-					ITypeBinding argTypeBinding;
-					
-					for (Expression exp : args) {
-						argTypeBinding = exp.resolveTypeBinding();
-						if (argTypeBinding != null 
-							&& uiEventObjs.containsKey(argTypeBinding)) {
-							UIObject.UILinkedEventObject obj =
-								uiEventObjs.get(argTypeBinding);
-
-							if (obj.setters == null)
-								obj.setters = new HashSet<UIActionInvocation>();
-
-							obj.setters.add(act);
-						}
-					}
-				}
-			}
-		}	
-		
-
-		for (UIObject.UILinkedEventObject uiLinkedEventObj : uiEventObjs.values()) {
-			for (UIActionInvocation setter : uiLinkedEventObj.setters) {
-				// find which Object's init method that make the set.
-				for (UIObject uiO : uiObjs.values()) {
-					for (List<Set<UIActionInvocation>> initMethodPath : uiO.initPaths.values()) {
-						for (Set<UIActionInvocation> initPath : initMethodPath) {
-							if (initPath.contains(setter)) {
-								if (uiO.initEvents == null)
-									uiO.initEvents = new HashSet<UIObject.UILinkedEventObject>();
-
-								uiO.initEvents.add(uiLinkedEventObj);
-							}
-						}
-					}
-				}
-				// find which event that make the set
-			}
-		}
-		
+		/*------------------------- Printer code ------------------------------*/
 		class Printer {
-			public void print(String mes, Set<UIActionInvocation> actList) {
-				System.out.print(mes);
-				for (UIActionInvocation act : actList) {
-					System.out.print(act.astSourceNode.getExpression()
-						 + "." + act.astSourceNode.getName() + " -> ");
-				}
-				System.out.println(".");
+			public void printIntAct(String mes, UIActionInternal internalAct) {
+				System.out.println(mes + internalAct.methodBinding.getKey());
+				if (internalAct.executingPaths != null)
+					for (Set<UIActionInvocation> path : internalAct.executingPaths) {
+						for (UIActionInvocation act : path) {
+							System.out.print(act.astSourceNode.getExpression()
+								 + "." + act.astSourceNode.getName() + " -> ");
+						}
+						System.out.println(".");
+					}
 			}
 		}
 
 		Printer printer = new Printer();
 
+
 		System.out.println(TestSuit.SHORT_DASH + " UIObjects " + TestSuit.SHORT_DASH);
-		for (UIObject obj : uiObjs.values()) {
+		for (UIObject obj : allUIObjects.values()) {
 			System.out.println(obj.typeBinding.getQualifiedName());
-			System.out.println(obj.typeBinding.getKey());
+			
 			if (obj.metaClassInfo != null)
 				System.out.println("Meta: " + obj.metaClassInfo.classKey);
 			else 
 				System.out.println("No meta class");
 
-			if (obj.initPaths != null) {
+			if (obj.initActions != null) {
 				System.out.println("\t -> INITS");
-				for (Entry<IMethodBinding, List<Set<UIActionInvocation>>> e : 
-									obj.initPaths.entrySet()) {
-				System.out.println("\t -> " + e.getKey().getKey());
-
-				for (Set<UIActionInvocation> initMethodPath : e.getValue())
-					printer.print("\t\t |- ", initMethodPath);
+				for (UIAction act : obj.initActions.values()) {
+					if (act instanceof UIActionInternal)
+						printer.printIntAct("Act: ", (UIActionInternal)act);
 				}
 				System.out.println(TestSuit.SHORT_DASH);
 			}
 			
-			if (obj.topEventPaths != null) {
+			if (obj.topEventActions != null) {
 				System.out.println("\t -> TOPEVENTS");
-				for (Entry<IMethodBinding, List<Set<UIActionInvocation>>> e : 
-										obj.topEventPaths.entrySet()) {
-					System.out.println("\t -> " + e.getKey().getKey());
-
-					for (Set<UIActionInvocation> topEventMethodPath : e.getValue())
-						printer.print("\t\t |- ", topEventMethodPath);
+				for (UIAction act : obj.topEventActions.values()) {
+					if (act instanceof UIActionInternal)
+						printer.printIntAct("Act: ", (UIActionInternal)act);
 				}
 				System.out.println(TestSuit.SHORT_DASH);
 			}
-
-			if (obj.initEvents != null) {
-				System.out.println("\t -> Init Events ");
-
-				for (UIObject.UILinkedEventObject ieObj : obj.initEvents) {
-					System.out.println(ieObj.typeBinding.getQualifiedName());
-					System.out.println(ieObj.typeBinding.getKey());
-					
-					System.out.println("\t Affective range: ");
-
-					for (Entry<IMethodBinding, List<Set<UIActionInvocation>>> e : 
-											ieObj.eventPaths.entrySet()) {
-						System.out.println("\t -> " + e.getKey().getKey());
-
-						for (Set<UIActionInvocation> eventMethodPath : e.getValue())
-							printer.print("\t\t |- ", eventMethodPath);
-					}
-
-					System.out.println(TestSuit.SHORT_DASH);
-
-					System.out.println("\t Set up by:");
-					for (UIActionInvocation setter : ieObj.setters) {
-						System.out.println("\t\t " + setter.astSourceNode.getExpression()
-								 + "." + setter.astSourceNode.getName());
-					}
-				}
-			}
-			
-			System.out.println(TestSuit.LONG_DASH);
-
 		}
 
-
-		System.out.println(TestSuit.SHORT_DASH + " LinkedEvents " + TestSuit.SHORT_DASH);
-
-		for (UIObject.UILinkedEventObject obj : uiEventObjs.values()) {
-			System.out.println(obj.typeBinding.getQualifiedName());
-			System.out.println(obj.typeBinding.getKey());
 			
-			System.out.println("\t Affective range: ");
 
-			for (Entry<IMethodBinding, List<Set<UIActionInvocation>>> e : 
-									obj.eventPaths.entrySet()) {
-				System.out.println("\t -> " + e.getKey().getKey());
+		// System.out.println(TestSuit.SHORT_DASH + " LinkedEvents " + TestSuit.SHORT_DASH);
 
-				for (Set<UIActionInvocation> eventMethodPath : e.getValue())
-					printer.print("\t\t |- ", eventMethodPath);
+		// for (UIObject.UILinkedEventObject obj : uiEventObjs.values()) {
+		// 	System.out.println(obj.typeBinding.getQualifiedName());
+		// 	System.out.println(obj.typeBinding.getKey());
+			
+		// 	System.out.println("\t Affective range: ");
+
+		// 	for (Entry<IMethodBinding, List<Set<UIActionInvocation>>> e : 
+		// 							obj.eventPaths.entrySet()) {
+		// 		System.out.println("\t -> " + e.getKey().getKey());
+
+		// 		for (Set<UIActionInvocation> eventMethodPath : e.getValue())
+		// 			printer.print("\t\t |- ", eventMethodPath);
 
 				
-			}
-			System.out.println(TestSuit.SHORT_DASH);
+		// 	}
+		// 	System.out.println(TestSuit.SHORT_DASH);
 
-			System.out.println("\t Set up by:");
-			for (UIActionInvocation setter : obj.setters) {
-				System.out.println("\t\t " + setter.astSourceNode.getExpression()
-						 + "." + setter.astSourceNode.getName());
-			}
+		// 	System.out.println("\t Set up by:");
+		// 	for (UIActionInvocation setter : obj.setters) {
+		// 		System.out.println("\t\t " + setter.astSourceNode.getExpression()
+		// 				 + "." + setter.astSourceNode.getName());
+		// 	}
 
-			System.out.println(TestSuit.LONG_DASH);
-		}
-	}
+		// 	System.out.println(TestSuit.LONG_DASH);
+		// }
+		/*------------------------- End Printer code --------------------------*/
+	}	
 }
