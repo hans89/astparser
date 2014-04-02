@@ -43,5 +43,23 @@ public class UIObject {
 	 *	hide another window, menu, or dialog
 	 */
 	public HashMap<IMethodBinding, UIAction> topEventActions;
+
+	public Set<UIAction> getAllInitialEvents() {
+		Set<UIAction> initialEvents = new HashSet<UIAction>();
+
+		if (topEventActions != null)
+			initialEvents.addAll(topEventActions.values());
+
+		// get linked-event set up by inits
+		if (initActions != null)
+			for (UIAction act : initActions.values()) {
+				Set<UIAction> enabledEvents =
+						((UIActionInternal)act).getEnabledEvents();
+
+				initialEvents.addAll(enabledEvents);				
+			}
+
+		return initialEvents;
+	}
 }
 

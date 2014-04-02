@@ -1,0 +1,52 @@
+digraph {
+fontname="Helvetica";
+node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
+s30[peripheries=2];
+s25;
+s9;
+s13;
+s27[peripheries=2];
+s1;
+s18;
+s31[peripheries=2];
+s32[peripheries=2];
+s26[peripheries=2];
+s11;
+s3;
+s29[peripheries=2];
+s12;
+s22;
+s23;
+s28[peripheries=2];
+s13 -> s13[label="t2"];
+s13 -> s13[label="t7"];
+s22 -> s32[label="t26"];
+s23 -> s23[label="t27"];
+s18 -> s31[label="t25"];
+s13 -> s13[label="t12"];
+s11 -> s26[label="t17"];
+s1 -> s1[label="t19"];
+s13 -> s13[label="t14"];
+s1 -> s28[label="t20"];
+s9 -> s9[label="t1"];
+s13 -> s13[label="t8"];
+s13 -> s13[label="t13"];
+s13 -> s13[label="t5"];
+s12 -> s30[label="t23"];
+s11 -> s11[label="t16"];
+s9 -> s9[label="t0"];
+s13 -> s13[label="t3"];
+s12 -> s12[label="t24"];
+s13 -> s13[label="t10"];
+s13 -> s13[label="t9"];
+s23 -> s23[label="t28"];
+s13 -> s13[label="t6"];
+s12 -> s12[label="t21"];
+s13 -> s13[label="t11"];
+s3 -> s27[label="t18"];
+s13 -> s13[label="t4"];
+s13 -> s13[label="t15"];
+s12 -> s29[label="t22"];
+subgraph cluster_key {
+ds[shape=plaintext, style=solid,label="s30 : null\ns9 : t0 : Lcom/android/photos/GalleryActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns9 : t1 : Lcom/android/photos/GalleryActivity;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\ns13 : t2 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.getDeletedRepresentations()Ljava/util/ArrayList<Lcom/android/gallery3d/filtershow/filters/FilterUserPresetRepresentation;>;\ns13 : t3 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.onClick(Landroid/view/View;)V\ns13 : t4 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.(Landroid/content/Context;I)V\ns13 : t5 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.(Landroid/content/Context;)V\ns13 : t6 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.onFocusChange(Landroid/view/View;Z)V\ns13 : t7 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.changePreset(Lcom/android/gallery3d/filtershow/category/Action;)V\ns13 : t8 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.add(Lcom/android/gallery3d/filtershow/category/Action;)V\ns13 : t9 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.updateActionFromEditText(Landroid/widget/EditText;)V\ns13 : t10 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.updateCurrent()V\ns13 : t11 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.clearChangedRepresentations()V\ns13 : t12 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.getChangedRepresentations()Ljava/util/ArrayList<Lcom/android/gallery3d/filtershow/filters/FilterUserPresetRepresentation;>;\ns13 : t13 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.clearDeletedRepresentations()V\ns13 : t14 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.getView(ILandroid/view/View;Landroid/view/ViewGroup;)Landroid/view/View;\ns13 : t15 : Lcom/android/gallery3d/filtershow/presets/UserPresetsAdapter;.deletePreset(Lcom/android/gallery3d/filtershow/category/Action;)V\ns27 : null\ns1 : t19 : Lcom/android/gallery3d/app/MovieActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns1 : t20 : Lcom/android/gallery3d/app/MovieActivity;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\ns18 : t25 : Lcom/android/gallery3d/app/TrimVideo$3084;.onClick(Landroid/view/View;)V\ns31 : null\ns32 : null\ns26 : null\ns11 : t16 : Lcom/android/gallery3d/app/AbstractGalleryActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns11 : t17 : Lcom/android/gallery3d/app/AbstractGalleryActivity;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\ns3 : t18 : Lcom/android/gallery3d/filtershow/crop/CropActivity$4253;.onClick(Landroid/view/View;)V\ns29 : null\ns12 : t21 : Lcom/android/gallery3d/app/PickerActivity;.onCreate(Landroid/os/Bundle;)V\ns12 : t22 : Lcom/android/gallery3d/app/PickerActivity;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\ns12 : t23 : Lcom/android/gallery3d/app/PickerActivity;.onClick(Landroid/view/View;)V\ns12 : t24 : Lcom/android/gallery3d/app/PickerActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns22 : t26 : Lcom/android/gallery3d/gadget/WidgetTypeChooser$1808;.onClick(Landroid/view/View;)V\ns23 : t27 : Lcom/android/gallery3d/ingest/IngestActivity;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\ns23 : t28 : Lcom/android/gallery3d/ingest/IngestActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns28 : null\n"];}
+}

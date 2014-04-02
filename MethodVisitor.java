@@ -71,7 +71,27 @@ public class MethodVisitor extends ASTVisitor {
 			if (act.invokedList == null)
 				act.invokedList = new ArrayList<UIActionInvocation>();
 
-			UIActionInvocation actionInvoke = new UIActionInvocation();
+			UIActionInvocation actionInvoke;
+			if (act.metaClassInfo != null && act.metaClassInfo.type != null) {
+				switch (act.metaClassInfo.type) {
+					case BIND_EVENT:
+						actionInvoke = new UIActionInvocationBindEvent();
+					break;
+					case ENABLE_WIDGET:
+						actionInvoke = new UIActionInvocationEnableWidget();
+					break;
+					case START_MODAL:
+					case END_MODAL:
+						actionInvoke = new UIActionInvocationStartModal();
+					break;
+					default:
+						actionInvoke = new UIActionInvocation();
+					break;
+				} 
+			} else {
+				actionInvoke = new UIActionInvocation();
+			}
+				
 			actionInvoke.astSourceNode = node;
 			actionInvoke.invokedMethod = mBinding;
 

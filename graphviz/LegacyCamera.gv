@@ -1,0 +1,15 @@
+digraph {
+fontname="Helvetica";
+node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
+s5;
+s4;
+s2;
+s1;
+s1 -> s1[label="t4"];
+s4 -> s4[label="t0"];
+s2 -> s2[label="t1"];
+s1 -> s1[label="t3"];
+s2 -> s2[label="t2"];
+subgraph cluster_key {
+ds[shape=plaintext, style=solid,label="s4 : t0 : Lcom/android/camera/VideoCamera;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns2 : t1 : Lcom/android/camera/Camera;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns2 : t2 : Lcom/android/camera/Camera;.onPrepareOptionsMenu(Landroid/view/Menu;)Z\ns1 : t3 : Lcom/android/camera/panorama/PanoramaActivity;.onPrepareOptionsMenu(Landroid/view/Menu;)Z\ns1 : t4 : Lcom/android/camera/panorama/PanoramaActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\n"];}
+}

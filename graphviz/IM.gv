@@ -1,0 +1,53 @@
+digraph {
+fontname="Helvetica";
+node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
+s15;
+s8;
+s25[peripheries=2];
+s18[peripheries=2];
+s11;
+s9;
+s14;
+s26[peripheries=2];
+s12;
+s6;
+s20[peripheries=2];
+s1;
+s7;
+s16;
+s21[peripheries=2];
+s19[peripheries=2];
+s24[peripheries=2];
+s23[peripheries=2];
+s22[peripheries=2];
+s17[peripheries=2];
+s8 -> s17[label="t1"];
+s8 -> s8[label="t2"];
+s7 -> s7[label="t20"];
+s16 -> s16[label="t25"];
+s11 -> s18[label="t3"];
+s14 -> s20[label="t6"];
+s1 -> s24[label="t17"];
+s16 -> s16[label="t22"];
+s12 -> s22[label="t9"];
+s12 -> s12[label="t10"];
+s7 -> s7[label="t21"];
+s12 -> s12[label="t11"];
+s7 -> s7[label="t18"];
+s14 -> s21[label="t7"];
+s6 -> s6[label="t14"];
+s12 -> s12[label="t8"];
+s9 -> s19[label="t4"];
+s16 -> s26[label="t23"];
+s16 -> s16[label="t26"];
+s1 -> s1[label="t16"];
+s12 -> s12[label="t13"];
+s8 -> s8[label="t0"];
+s12 -> s23[label="t12"];
+s1 -> s1[label="t15"];
+s16 -> s16[label="t24"];
+s7 -> s25[label="t19"];
+s9 -> s9[label="t5"];
+subgraph cluster_key {
+ds[shape=plaintext, style=solid,label="s8 : t0 : Lcom/android/im/app/ContactListActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns8 : t1 : Lcom/android/im/app/ContactListActivity;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\ns8 : t2 : Lcom/android/im/app/ContactListActivity;.onCreateContextMenu(Landroid/view/ContextMenu;Landroid/view/View;Landroid/view/ContextMenu$ContextMenuInfo;)V\ns25 : null\ns18 : null\ns11 : t3 : Lcom/android/im/app/PreferenceActivity$3872;.onClick(Landroid/view/View;)V\ns9 : t4 : Lcom/android/im/app/SigningInActivity;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\ns9 : t5 : Lcom/android/im/app/SigningInActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns14 : t6 : Lcom/android/im/app/SimpleInputActivity$2367;.onClick(Landroid/view/View;)V\ns14 : t7 : Lcom/android/im/app/SimpleInputActivity$2859;.onClick(Landroid/view/View;)V\ns26 : null\ns12 : t8 : Lcom/android/im/app/LandingPage;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns12 : t9 : Lcom/android/im/app/LandingPage;.onContextItemSelected(Landroid/view/MenuItem;)Z\ns12 : t10 : Lcom/android/im/app/LandingPage;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\ns12 : t11 : Lcom/android/im/app/LandingPage;.onPrepareOptionsMenu(Landroid/view/Menu;)Z\ns12 : t12 : Lcom/android/im/app/LandingPage;.onListItemClick(Landroid/widget/ListView;Landroid/view/View;IJ)V\ns12 : t13 : Lcom/android/im/app/LandingPage;.onCreateContextMenu(Landroid/view/ContextMenu;Landroid/view/View;Landroid/view/ContextMenu$ContextMenuInfo;)V\ns6 : t14 : Lcom/android/im/app/BlockedContactsActivity;.onListItemClick(Landroid/widget/ListView;Landroid/view/View;IJ)V\ns20 : null\ns1 : t15 : Lcom/android/im/app/NewChatActivity;.onPrepareOptionsMenu(Landroid/view/Menu;)Z\ns1 : t16 : Lcom/android/im/app/NewChatActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns1 : t17 : Lcom/android/im/app/NewChatActivity;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\ns7 : t18 : Lcom/android/im/app/ContactsPickerActivity$2149;.beforeTextChanged(Ljava/lang/CharSequence;III)V\ns7 : t19 : Lcom/android/im/app/ContactsPickerActivity;.onListItemClick(Landroid/widget/ListView;Landroid/view/View;IJ)V\ns7 : t20 : Lcom/android/im/app/ContactsPickerActivity$2149;.afterTextChanged(Landroid/text/Editable;)V\ns7 : t21 : Lcom/android/im/app/ContactsPickerActivity$2149;.onTextChanged(Ljava/lang/CharSequence;III)V\ns16 : t22 : Lcom/android/im/app/AccountActivity$5557;.onClick(Landroid/view/View;)V\ns16 : t23 : Lcom/android/im/app/AccountActivity$6898;.onClick(Landroid/view/View;)V\ns16 : t24 : Lcom/android/im/app/AccountActivity$6006;.onClick(Landroid/view/View;)V\ns16 : t25 : Lcom/android/im/app/AccountActivity$3244;.onCheckedChanged(Landroid/widget/CompoundButton;Z)V\ns16 : t26 : Lcom/android/im/app/AccountActivity$6898;.signIn(ZLjava/lang/String;)V\ns21 : null\ns19 : null\ns24 : null\ns23 : null\ns22 : null\ns17 : null\n"];}
+}

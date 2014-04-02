@@ -251,6 +251,10 @@
 		<action-ref id="android.content.DialogInterface.OnClickListener#onClick"/>
 	</dialog>
 
+	<widget class="android.widget.BaseAdapter">
+		<action-ref id="android.widget.BaseAdapter#getView" />
+	</widget>
+
 	<widget class="android.view.View">
 		<action-ref id="android.view.View#setVisibility"/>
 		<action-ref id="android.view.View#setEnabled"/>

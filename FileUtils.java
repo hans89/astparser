@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.BufferedReader;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
+
 
 public class FileUtils {
 
@@ -19,24 +19,25 @@ public class FileUtils {
 	 *  @param  path absolute path to a text file
 	 *  @return      lines from the text file
 	 */
-	public static String[] getAllLines(String path) throws IOException {
+	public static String[] getAllLines(String path) {
 		FileReader fin;
+		BufferedReader reader;
+		List<String> lines = new ArrayList<String>();
 		try {
 			fin = new FileReader(path);
-		} catch (FileNotFoundException ex) {
-			return null;
-		}
-		
-		BufferedReader reader = new BufferedReader(fin);
+			reader = new BufferedReader(fin);
 
-		String StrArr = null;
-		List<String> lines = new ArrayList<String>();
-		String line;
-		while((line = reader.readLine()) != null) {
-			lines.add(line);
+			String line;
+			while((line = reader.readLine()) != null) {
+				lines.add(line);
+			}
+
+		} catch (Exception ex) {
+			// silent
 		}
-		
-		return lines.toArray(new String[0]);
+		finally {
+			return lines.toArray(new String[0]);
+		}
 	}
 
 	/**
@@ -122,4 +123,65 @@ public class FileUtils {
 			return false;
 		}
 	}
+
+
+	public static String[] getFilePaths(String folderPath) {
+		File folder = new File(folderPath);
+
+		Collection<File> files = 
+			org.apache.commons.io.FileUtils.listFiles(
+						folder,
+						new org.apache.commons.io.filefilter.WildcardFileFilter("*.java", org.apache.commons.io.IOCase.INSENSITIVE),
+						org.apache.commons.io.filefilter.TrueFileFilter.TRUE
+					);
+
+		List<String> filePaths = new ArrayList<String>();
+
+		for (File f : files) {
+			filePaths.add(f.getPath());
+		}
+
+		return filePaths.toArray(new String[0]);
+	}
+
+	public static String[] getFolderPaths(String folderPath) {
+		File folder = new File(folderPath);
+
+		Collection<File> folders = 
+			org.apache.commons.io.FileUtils.listFiles(
+						folder,
+						org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY,
+						org.apache.commons.io.filefilter.TrueFileFilter.TRUE
+					);
+
+		List<String> folderPaths = new ArrayList<String>();
+
+		for (File f : folders) {
+			folderPaths.add(f.getPath());
+		}
+
+		folderPaths.add(folderPath);
+
+		return folderPaths.toArray(new String[0]);
+	}
+
+
+	public static String[] getDirectSubFolderPaths(String rootPath) {
+		// String rootPath = //"/Users/hans/Desktop/android.googlesource.com/platform/packages/apps";
+		// 	"/Users/hans/Desktop/android/android-sdk-sample";
+
+		String[] folders = 
+			new File(rootPath).list(
+						org.apache.commons.io.filefilter.DirectoryFileFilter.DIRECTORY);
+
+		List<String> folderPaths = new ArrayList<String>();
+
+		for (String folder : folders) {
+			folderPaths.add(rootPath + "/" + folder);
+		}
+
+		return folderPaths.toArray(new String[0]);
+	}
+
+
 }

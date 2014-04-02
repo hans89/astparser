@@ -1,0 +1,17 @@
+digraph {
+fontname="Helvetica";
+node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
+s7;
+s0;
+s1;
+s8[peripheries=2];
+s5;
+s1 -> s1[label="t2"];
+s5 -> s5[label="t4"];
+s5 -> s8[label="t5"];
+s5 -> s5[label="t3"];
+s1 -> s1[label="t1"];
+s0 -> s7[label="t0"];
+subgraph cluster_key {
+ds[shape=plaintext, style=solid,label="s0 : t0 : Lcom/android/dialer/tests/calllog/FillCallLogTestActivity$2419;.onClick(Landroid/view/View;)V\ns1 : t1 : Lcom/android/dialer/CallDetailActivity;.onPrepareOptionsMenu(Landroid/view/Menu;)Z\ns1 : t2 : Lcom/android/dialer/CallDetailActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns8 : null\ns5 : t3 : Lcom/android/dialer/calllog/CallLogActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns5 : t4 : Lcom/android/dialer/calllog/CallLogActivity;.onPrepareOptionsMenu(Landroid/view/Menu;)Z\ns5 : t5 : Lcom/android/dialer/calllog/CallLogActivity;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\n"];}
+}

@@ -1,0 +1,16 @@
+digraph {
+fontname="Helvetica";
+node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
+s4;
+s7[peripheries=2];
+s5[peripheries=2];
+s2;
+s6[peripheries=2];
+s0;
+s2 -> s5[label="t0"];
+s0 -> s6[label="t1"];
+s0 -> s0[label="t2"];
+s0 -> s7[label="t3"];
+subgraph cluster_key {
+ds[shape=plaintext, style=solid,label="s7 : null\ns5 : null\ns2 : t0 : Lcom/android/camera/crop/CropActivity$4072;.onClick(Landroid/view/View;)V\ns6 : null\ns0 : t1 : Lcom/android/camera/CameraActivity$48985;.onClick(Landroid/view/View;)V\ns0 : t2 : Lcom/android/camera/CameraActivity;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns0 : t3 : Lcom/android/camera/CameraActivity;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\n"];}
+}

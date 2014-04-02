@@ -1,0 +1,34 @@
+digraph G {
+    fontname="Helvetica";
+    labelloc=t;
+    rankdir=LR;
+    label="Course Graph";
+
+    node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
+
+   
+
+    c3[color=3, peripheries=2];
+    c4[color=3, peripheries=2];
+
+    c1->c2[dir=both];
+    c2->c3;
+
+    c4_reqs[style="dashed", color="black", shape="diamond", label="OR"];
+    c4_reqs->c4;
+    c2->c4_reqs[style="dashed", dir="none"];
+    c5->c4_reqs[style="dashed", dir="none"];
+
+    subgraph cluster_key {
+        
+
+        label="Key";
+        
+
+        kc1[label="Course", peripheries=2, color=2];
+        k1[shape=plaintext, style=solid, label="Required Course\r"] 
+        // Add fixed width so all nodes line up
+
+    }
+
+}

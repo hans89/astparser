@@ -16,13 +16,14 @@ PKGNAME = astparser
 MAINCLASS = $(PKGNAME).Main
 TESTCLASS = $(PKGNAME).TestSuit
 TESTRUNNER = org.junit.runner.JUnitCore 
+HEAPMEM = 2048
 
 all:
 	mkdir -p $(CLASSOUT)
-	$(CC) -sourcepath $(SRCPATH) -classpath $(CLASSPATH) $(SOURCES) -d $(CLASSOUT)
+	$(CC) -sourcepath $(SRCPATH) -classpath $(CLASSPATH) $(SOURCES) -d $(CLASSOUT) 
 
 test: all
-		$(EC) -cp $(CLASSPATH) $(TESTRUNNER) $(TESTCLASS)
+		$(EC) -Xmx$(HEAPMEM)M -cp $(CLASSPATH) $(TESTRUNNER) $(TESTCLASS) 
 
 main: all
 		$(EC) -cp $(CLASSPATH) $(MAINCLASS)

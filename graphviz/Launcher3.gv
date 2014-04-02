@@ -1,0 +1,35 @@
+digraph {
+fontname="Helvetica";
+node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
+s8[peripheries=2];
+s6;
+s0;
+s7;
+s7 -> s7[label="t7"];
+s7 -> s7[label="t14"];
+s7 -> s7[label="t23"];
+s7 -> s7[label="t9"];
+s7 -> s7[label="t4"];
+s7 -> s7[label="t10"];
+s7 -> s7[label="t17"];
+s7 -> s7[label="t19"];
+s7 -> s7[label="t20"];
+s7 -> s7[label="t1"];
+s7 -> s7[label="t12"];
+s7 -> s7[label="t3"];
+s7 -> s7[label="t6"];
+s7 -> s7[label="t21"];
+s7 -> s7[label="t13"];
+s0 -> s0[label="t0"];
+s7 -> s7[label="t18"];
+s7 -> s7[label="t2"];
+s7 -> s7[label="t5"];
+s7 -> s7[label="t22"];
+s7 -> s7[label="t15"];
+s7 -> s7[label="t11"];
+s7 -> s7[label="t24"];
+s7 -> s8[label="t8"];
+s7 -> s7[label="t16"];
+subgraph cluster_key {
+ds[shape=plaintext, style=solid,label="s8 : null\ns0 : t0 : Lcom/android/launcher3/WallpaperCropActivity$3880;.onClick(Landroid/view/View;)V\ns7 : t1 : Lcom/android/launcher3/Cling;.(Landroid/content/Context;Landroid/util/AttributeSet;I)V\ns7 : t2 : Lcom/android/launcher3/Launcher;.onPrepareOptionsMenu(Landroid/view/Menu;)Z\ns7 : t3 : Lcom/android/launcher3/Cling;.onTouch(Landroid/view/View;Landroid/view/MotionEvent;)Z\ns7 : t4 : Lcom/android/launcher3/Launcher$45589;.onClick(Landroid/view/View;)V\ns7 : t5 : Lcom/android/launcher3/Launcher$45251;.onClick(Landroid/view/View;)V\ns7 : t6 : Lcom/android/launcher3/Cling;.setFocusedHotseatApp(IILandroid/content/ComponentName;Ljava/lang/String;Ljava/lang/String;)V\ns7 : t7 : Lcom/android/launcher3/Cling;.getContent()Landroid/view/View;\ns7 : t8 : Lcom/android/launcher3/Cling;.onClick(Landroid/view/View;)V\ns7 : t9 : Lcom/android/launcher3/Cling;.cleanup()V\ns7 : t10 : Lcom/android/launcher3/Cling;.init(Lcom/android/launcher3/Launcher;Landroid/view/View;)V\ns7 : t11 : Lcom/android/launcher3/Cling;.onHoverEvent(Landroid/view/MotionEvent;)Z\ns7 : t12 : Lcom/android/launcher3/Cling;.getDrawIdentifier()Ljava/lang/String;\ns7 : t13 : Lcom/android/launcher3/Cling;.show(ZI)V\ns7 : t14 : Lcom/android/launcher3/Launcher$44862;.onClick(Landroid/view/View;)V\ns7 : t15 : Lcom/android/launcher3/Cling;.(Landroid/content/Context;Landroid/util/AttributeSet;)V\ns7 : t16 : Lcom/android/launcher3/Cling;.onTouchEvent(Landroid/view/MotionEvent;)Z\ns7 : t17 : Lcom/android/launcher3/Cling;.setInsets(Landroid/graphics/Rect;)V\ns7 : t18 : Lcom/android/launcher3/Cling;.bringScrimToFront()V\ns7 : t19 : Lcom/android/launcher3/Cling;.focusSearch(Landroid/view/View;I)Landroid/view/View;\ns7 : t20 : Lcom/android/launcher3/Cling;.hide(ILjava/lang/Runnable;)V\ns7 : t21 : Lcom/android/launcher3/Cling;.dispatchDraw(Landroid/graphics/Canvas;)V\ns7 : t22 : Lcom/android/launcher3/Cling;.(Landroid/content/Context;)V\ns7 : t23 : Lcom/android/launcher3/Cling;.focusSearch(I)Landroid/view/View;\ns7 : t24 : Lcom/android/launcher3/Cling;.onLongClick(Landroid/view/View;)Z\n"];}
+}

@@ -230,6 +230,20 @@ public class ASTNodeUtils {
 	}
 
 	/**
+	 *	Find the super class of the input subclass that match the qualified name
+	 *	@return the ITypeBinding of the super class with the qualified name, or
+	 *				null if not found
+	 */
+	public static ITypeBinding subClassOf(ITypeBinding subClass, 
+													String superClassQName) {
+
+		while (subClass != null &&
+			!subClass.getQualifiedName().equals(superClassQName))
+			subClass = subClass.getSuperclass();
+
+		return subClass;
+	}
+	/**
 	 *	find and bind events with the actual statements that set up the events
 	 *	
 	 *	@param allActions	contains all actions including the events and setters
@@ -256,6 +270,8 @@ public class ASTNodeUtils {
 
 								if (allActions.containsKey(method)) {
 									UIAction action2 = allActions.get(method);
+									UIActionInvocationBindEvent bindEAct 
+											= (UIActionInvocationBindEvent)act;
 
 									if (action2 instanceof UIActionLinkedEvent) {
 										UIActionLinkedEvent eventAction
@@ -265,9 +281,17 @@ public class ASTNodeUtils {
 											eventAction.setters =
 											  new HashSet<UIActionInvocation>();
 										
-										eventAction.setters.add(act);
+										eventAction.setters.add(bindEAct);
 									}
-								}
+
+									if (bindEAct.bindedEvents == null)
+										bindEAct.bindedEvents = new 
+												ArrayList<UIAction>();
+									bindEAct.bindedEvents.add(action2);
+								}  // else {
+								// 	System.out.println("null key args " + method); 
+								// 	System.out.println("in " + exp);
+								// }
 							}
 						}
 					}
@@ -276,6 +300,221 @@ public class ASTNodeUtils {
 		}
 	}
 
+	/**
+	 *	find all actions that start and end modal windows, bind those actions
+	 *	with the corresponding windows (UIActionInvocation -> UIObject)
+	 *
+	 *	the implementation is Android-dependent
+	 */
+	public static void bindStartModals(HashMap<IMethodBinding, UIAction> 
+													allActions, 
+										HashMap<ITypeBinding, UIObject> 
+													allUIObjects) {
+		for (UIAction action : allActions.values()) {
+			// find action that binds events
+			// redundant check
+			if (action.type == UIAction.ActionType.EXTERNAL_UI
+				&& action.metaClassInfo != null
+				&& (action.metaClassInfo.type 
+									== UIActionClass.UIActionType.START_MODAL
+					|| action.metaClassInfo.type 
+									== UIActionClass.UIActionType.END_MODAL)) {
+
+				for (UIActionInvocation actInvoke : action.invokedList) {
+					UIActionInvocationStartModal act 
+							= (UIActionInvocationStartModal)actInvoke;
+
+					if (action.metaClassInfo.type == 
+							UIActionClass.UIActionType.START_MODAL) {
+
+						List<Expression> args = act.astSourceNode.arguments();
+						ITypeBinding argTypeBinding;
+						
+						
+						for (Expression exp : args) {
+							if ((argTypeBinding = exp.resolveTypeBinding()) != null
+								&& argTypeBinding.getQualifiedName().
+										equals("android.content.Intent")) {
+								
+								// exp is an intent 
+								// it can be either a variable, declare somewhere
+								// or can be a ClassInstanceCreation
+
+								// the creation of the intent is based on
+								// the target Activity class
+								// or the registered id in the AndroidManifest.xml
+
+								// in any way, it may be too hard to identify it
+								// statically
+							}
+						}
+
+					} else if (action.metaClassInfo.type ==
+							UIActionClass.UIActionType.END_MODAL) {
+
+						// "finish" will end the calling activiy
+						if (act.invokedMethod.getName().equals("finish")) {
+							ITypeBinding callingClass =
+								act.invokingMethod.getDeclaringClass();
+
+							while (callingClass != null &&
+									ASTNodeUtils.subClassOf(callingClass, 
+										"android.app.Activity") == null) {
+								callingClass = callingClass.getDeclaringClass();
+							}
+
+							if (callingClass != null)
+								act.targetObject
+									= allUIObjects.get(callingClass);
+						}
+
+						// finishActivity(int requestCode)
+						// -> finish the activity that was called by
+						// 		startActivityForResult(Intent intent,
+						//								int requestCode)
+						// they can be match by looking at intent and requestCode
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 *	Check if a widget is enabled/disabled by some action invocation,
+	 *	then check if that widget is binded with some events
+	 *
+	 *	This is Android-dependent
+	 */
+	public static void bindEnableWidgetWithEvents(
+				HashMap<IMethodBinding, UIAction> allActions, 
+				HashMap<ITypeBinding, UIObject> allUIObjects) {
+
+		for (UIAction action : allActions.values()) {
+			if (action.type == UIAction.ActionType.EXTERNAL_UI &&
+				action.metaClassInfo != null &&
+				action.metaClassInfo.type == UIActionClass.UIActionType.ENABLE_WIDGET) {
+
+				// available supported Android Action:
+				// <action method="setContentView" class="android.app.Activity" 
+				// 	category="OUTSOURCE"
+				// 	type="enable"/>
+				// 	-> this requires finding the content view, parse the layout xml file
+				//	and certainly requires identifying objects and their identity, which
+				//	we are trying to advoid. Certainly this is not a concern if the events
+				// 	are set-up by commands, rather then supplying event handlers through
+				//	android:onClick properties
+				// 	For now, this is ignored
+
+				// <action method="setVisible" class="android.app.Activity" 
+				// 	category="OUTSOURCE"
+				// 	type="enable"/>
+				//	-> this completely hides or shows an Activity, for now, let us ignore
+
+				for (UIActionInvocation actInvoke : action.invokedList) {
+					if (actInvoke instanceof UIActionInvocationEnableWidget) {
+
+						UIActionInvocationEnableWidget act 
+							= (UIActionInvocationEnableWidget)actInvoke;
+
+						/* we have to identify the object that this action
+								affects. Since we try to avoid this object
+								identification, this is a stupid, ugly, hard-coded,
+								restricted solution:
+
+								we will only identify object with a name, i.e. a
+								variable. then we search for its reference, hopefully 
+								to find a set-event action, where we can learn 
+								what events are binded to this object
+
+							*/
+						Expression callOnObject 
+								= act.astSourceNode.getExpression();
+						IBinding objBinding;
+
+						Set<UIAction> affectedEvents = new HashSet<UIAction>();
+
+						if (callOnObject != null && 
+							callOnObject instanceof Name &&
+							(objBinding = 
+								((Name)callOnObject).resolveBinding())
+								instanceof IVariableBinding) {
+						
+							// look for all actions that bind event upon
+							// the same IVariableBinding
+							for (UIAction act2 : allActions.values()) {
+								if (act2.type == UIAction.ActionType.EXTERNAL_UI &&
+									act2.metaClassInfo != null &&
+									act2.metaClassInfo.type 
+									== UIActionClass.UIActionType.BIND_EVENT) {
+
+									for (UIActionInvocation actInv2 
+											: act2.invokedList) {
+
+										Expression coObj2 
+										= actInv2.astSourceNode.getExpression();
+										if (coObj2 != null
+											&& coObj2 instanceof Name &&
+											((Name)coObj2).resolveBinding()
+												== objBinding) {
+										// actInv2 is an UIActionInvocationBindEvent
+											if (((UIActionInvocationBindEvent)actInv2).bindedEvents == null){
+												// System.out.println("null binder " + 
+												// 	actInv2.astSourceNode);
+												// System.out.println("enable/disable in "
+												// + act.astSourceNode);
+											}
+											else
+											affectedEvents.addAll(
+												((UIActionInvocationBindEvent)actInv2)
+													.bindedEvents);
+										}
+									}
+								}
+							}
+						}
+
+						// <action method="setVisibility" class="android.view.View"
+						// 	category="OUTSOURCE"
+						// 	type="enable"/>
+						//	-> setVisibility of a View, through View.VISIBLE, View.INVISIBLE,
+						//		and View.GONE
+						if (action.metaClassInfo.methodName.equals("setVisibility")
+							&& action.metaClassInfo.classKey.equals("android.view.View")) {
+							List<Expression> exps = act.astSourceNode.arguments();
+							for (Expression exp : exps) {
+								if (exp.toString().equals("View.VISIBLE")) {
+									act.enabledEvents = affectedEvents;
+									break;
+
+								} else if (exp.toString().equals("View.INVISIBLE") ||
+									exp.toString().equals("View.GONE")) {
+									act.disabledEvents = affectedEvents;
+									break;
+								}
+							}
+						}
+						// <action method="setEnabled" class="android.view.View"
+						// 	category="OUTSOURCE"
+						// 	type="enable"/>
+						else if (action.metaClassInfo.methodName.equals("setEnabled")
+							&& action.metaClassInfo.classKey.equals("android.view.View")) {
+							List<Expression> exps = act.astSourceNode.arguments();
+							for (Expression exp : exps) {
+								if (exp.toString().equals("true")) {
+									act.enabledEvents = affectedEvents;
+									break;
+
+								} else if (exp.toString().equals("false")) {
+									act.disabledEvents = affectedEvents;
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 	/**
 	 *	This method will, for each external execution, trace its execution path
 	 *	up to the INTERAL_UI methods (INITS, TOP_EVENT, lINKED_EVENTS)
@@ -324,6 +563,9 @@ public class ASTNodeUtils {
 				
 					UIAction invoker = allActions.get(currentAct.invokingMethod);
 
+					if (invoker == null) 
+						System.out.println("null invoker" + currentAct.invokingMethod);
+					else 
 					if (invoker.invokedList == null 
 							|| invoker.invokedList.size() == 0) {
 
@@ -347,7 +589,7 @@ public class ASTNodeUtils {
 							if (internalAct.executingPaths == null)
 								internalAct.executingPaths = new 
 									ArrayList<LinkedHashSet<UIActionInvocation>>();
-							System.out.println("add");
+							
 							internalAct.executingPaths.add(currentPath);
 
 						}
@@ -451,5 +693,18 @@ public class ASTNodeUtils {
 
 		return uiObjects;
 	}
-	
+
+
+	public static String matchSuperClass(ITypeBinding tBind, 
+										Set<String> classes) {
+		String name = null;
+		while (tBind != null) {
+			name = tBind.getQualifiedName();
+			if (classes.contains(name)) {
+				return name;
+			}
+			tBind = tBind.getSuperclass();
+		}
+		return null;
+	}
 }
