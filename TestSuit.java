@@ -181,8 +181,8 @@ public class TestSuit {
 			or initializer
 		*/
 		LTS<Set<UIAction>, UIAction> lts = new LTS<Set<UIAction>, UIAction>();
-		HashMap<Set<UIAction>, Integer> stateIDs = new HashMap<Set<UIAction>, Integer>();
-		HashMap<UIAction, Integer> transIDs = new HashMap<UIAction, Integer>();
+		HashMap<Set<UIAction>, String> stateIDs = new HashMap<Set<UIAction>, String>();
+		HashMap<UIAction, String> transIDs = new HashMap<UIAction, String>();
 
 		class IntegerIDGenerator {
 			private Integer counter;
@@ -196,8 +196,23 @@ public class TestSuit {
 			}
 		}
 
+		class StateInfo {
+			private String stateName;
+			private  int stateOrder;
+
+			public StateInfo(String s, int i) {
+				stateName = s;
+				stateOrder = i;
+			}
+
+			public String getName() {
+				return stateName + Integer.toString(stateOrder);
+			}
+		}
+
+
 		IntegerIDGenerator idSGen = new IntegerIDGenerator();
-		IntegerIDGenerator idTGen = new IntegerIDGenerator();
+		//IntegerIDGenerator idTGen = new IntegerIDGenerator();
 
 		for (UIObject obj : allUIObjects.values()) {
 			
@@ -209,7 +224,7 @@ public class TestSuit {
 
 			lts.states.add(initialState);
 			// id for a state
-			stateIDs.put(initialState, idSGen.next());
+			stateIDs.put(initialState, obj.getName());
 
 
 			lts.initialStates.add(initialState);
@@ -291,7 +306,7 @@ public class TestSuit {
 						if (!lts.states.contains(nextState)) {
 							// if this is a new state, add it to the set
 							lts.states.add(nextState);
-							stateIDs.put(nextState, idSGen.next());
+							stateIDs.put(nextState, "s" + Integer.toString(idSGen.next()));
 
 							if (terminal == false) {
 								// and also add it to the stack for transition building
@@ -309,7 +324,7 @@ public class TestSuit {
 						newTransition.toState = nextState;
 						lts.transitions.add(newTransition);
 
-						transIDs.put(act, idTGen.next());
+						transIDs.put(act, act.getName());
 					}
 				}
 			}
@@ -370,7 +385,7 @@ public class TestSuit {
     
 			for (Set<UIAction> state : lts.states) {
 				
-				bw.write("s" + Integer.toString(stateIDs.get(state)));
+				bw.write(stateIDs.get(state));
 
 				for (UIAction event : state) {
 					if (event.methodBinding == null) {
@@ -386,11 +401,24 @@ public class TestSuit {
 
 			for (LTS.Transition<Set<UIAction>, UIAction> trans : lts.transitions) {
 
-				bw.write("s" + Integer.toString(stateIDs.get(trans.fromState))
-						+ " -> " + "s" + Integer.toString(stateIDs.get(trans.toState)));
+				bw.write(stateIDs.get(trans.fromState)
+						+ " -> " + stateIDs.get(trans.toState));
 
-				bw.write("[label=\"" + "t" + Integer.toString(transIDs.get(trans.labelledAction))
-							+ "\"]");
+				bw.write("[label=\"" + transIDs.get(trans.labelledAction)
+							+ "\"");
+
+				boolean terminal = false;
+
+				for (UIAction act : trans.toState)
+					if (act.methodBinding == null) {
+						terminal = true;
+						break;
+					}
+
+				if (terminal == true)
+					bw.write(",style=dotted");
+
+				bw.write("]");
 
 
 
@@ -399,55 +427,55 @@ public class TestSuit {
 			} 
 
 
-			bw.write("subgraph cluster_key {");
-			bw.newLine();
+			// bw.write("subgraph cluster_key {");
+			// bw.newLine();
 
-			bw.write("ds" + "[shape=plaintext, style=solid," 
-							+ "label=\"");
+			// bw.write("ds" + "[shape=plaintext, style=solid," 
+			// 				+ "label=\"");
 			
 
-			for (Set<UIAction> state : lts.states) {
+			// for (Set<UIAction> state : lts.states) {
 				
-				String sID = Integer.toString(stateIDs.get(state));
+			// 	String sID = stateIDs.get(state);
 
-				for (UIAction event : state) {
-					if (event.methodBinding == null) {
-						// terminal
-						bw.write(
-							"s" + sID + " : "
-							+ "null"
-							+ "\\n");
-						break;
-					}
-					else {
-						if (transIDs.get(event) != null)
-						bw.write(
-							"s" + sID + " : "
-							+ "t" + Integer.toString(transIDs.get(event))  + " : "
-							+ event.methodBinding.getKey()
-							+ "\\n");
-						else {
+			// 	for (UIAction event : state) {
+			// 		if (event.methodBinding == null) {
+			// 			// terminal
+			// 			bw.write(
+			// 				sID + " : "
+			// 				+ "null"
+			// 				+ "\\n");
+			// 			break;
+			// 		}
+			// 		else {
+			// 			if (transIDs.get(event) != null)
+			// 			bw.write(
+			// 				sID + " : "
+			// 				+ transIDs.get(event)  + " : "
+			// 				+ event.methodBinding.getKey()
+			// 				+ "\\n");
+			// 			else {
 
-							// bw.write(
-							// "s" + sID + " : "
-							// + "tNullTrans : "
-							// + event.methodBinding.getKey()
-							// + "\\n");
+			// 				// bw.write(
+			// 				// "s" + sID + " : "
+			// 				// + "tNullTrans : "
+			// 				// + event.methodBinding.getKey()
+			// 				// + "\\n");
 
-							System.out.println("null trans " + event.methodBinding + " in " + event.containingType.getKey() + " isInitialState: " + lts.states.contains(state));
+			// 				System.out.println("null trans " + event.methodBinding + " in " + event.containingType.getKey() + " isInitialState: " + lts.states.contains(state));
 
 							
-						}
+			// 			}
 							
-					}
-				}
-			}
+			// 		}
+			// 	}
+			// }
 
 
-			bw.write("\"" + "];");
+			// bw.write("\"" + "];");
 
-			bw.write("}");
-			bw.newLine();
+			// bw.write("}");
+			// bw.newLine();
 
 			bw.write("}");
 
@@ -463,7 +491,7 @@ public class TestSuit {
 	@Test
 	public void testProject() {
 		String projectList = "/Users/hans/Desktop/android/app-projects.txt";
-		String outPath = "/Users/hans/Desktop/ast/graphviz";
+		String outPath = "/Users/hans/Desktop/ast/astparser/graphviz";
 
 		String[] projectPaths = FileUtils.getAllLines(projectList);
 

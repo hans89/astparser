@@ -86,5 +86,9 @@ public class UIAction {
 	 * 	(INIT, TOP_EVENT, LINKED_EVENT) should have this list empty or null
 	 */
 	public List<UIActionInvocation> invokedList;
+
+	public String getName() {
+		return methodBinding.getName();
+	}
 }
 

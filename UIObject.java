@@ -61,5 +61,14 @@ public class UIObject {
 
 		return initialEvents;
 	}
+
+	public String getName() {
+		String name = typeBinding.getName();
+		if (name.equals("")) {
+
+		}
+
+		return name;
+	}
 }
 

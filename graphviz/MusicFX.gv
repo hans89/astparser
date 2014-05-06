@@ -1,10 +1,8 @@
 digraph {
 fontname="Helvetica";
 node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
-s1;
-s0;
-s0 -> s0[label="t0"];
-s0 -> s0[label="t1"];
-subgraph cluster_key {
-ds[shape=plaintext, style=solid,label="s0 : t0 : Lcom/android/musicfx/ActivityMusic$11851;.onCheckedChanged(Landroid/widget/CompoundButton;Z)V\ns0 : t1 : Lcom/android/musicfx/ActivityMusic$15264;.onCheckedChanged(Landroid/widget/CompoundButton;Z)V\n"];}
+Redirector;
+ActivityMusic;
+ActivityMusic -> ActivityMusic[label="onCheckedChanged"];
+ActivityMusic -> ActivityMusic[label="onCheckedChanged"];
 }

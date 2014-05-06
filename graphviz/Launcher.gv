@@ -1,23 +1,21 @@
 digraph {
 fontname="Helvetica";
 node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
-s4;
-s6[peripheries=2];
-s0;
-s7[peripheries=2];
-s5[peripheries=2];
-s1;
-s1 -> s1[label="t6"];
-s1 -> s1[label="t8"];
-s1 -> s7[label="t4"];
-s0 -> s0[label="t2"];
-s0 -> s6[label="t3"];
-s0 -> s0[label="t0"];
-s1 -> s1[label="t9"];
-s1 -> s1[label="t7"];
-s1 -> s1[label="t5"];
-s1 -> s1[label="t10"];
-s0 -> s5[label="t1"];
-subgraph cluster_key {
-ds[shape=plaintext, style=solid,label="s6 : null\ns0 : t0 : Lcom/android/launcher/Launcher;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns0 : t1 : Lcom/android/launcher/Launcher;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\ns0 : t2 : Lcom/android/launcher/Launcher;.onPrepareOptionsMenu(Landroid/view/Menu;)Z\ns0 : t3 : Lcom/android/launcher/Launcher$52901;.onClick(Landroid/view/View;)V\ns7 : null\ns5 : null\ns1 : t4 : Lcom/android/launcher/WallpaperChooser;.onClick(Landroid/view/View;)V\ns1 : t5 : Lcom/android/launcher/WallpaperChooser;.onItemSelected(Landroid/widget/AdapterView;Landroid/view/View;IJ)V\ns1 : t6 : Lcom/android/launcher/WallpaperChooser;.selectWallpaper(I)V\ns1 : t7 : Lcom/android/launcher/WallpaperChooser;.onCreate(Landroid/os/Bundle;)V\ns1 : t8 : Lcom/android/launcher/WallpaperChooser;.onNothingSelected(Landroid/widget/AdapterView;)V\ns1 : t9 : Lcom/android/launcher/WallpaperChooser;.findWallpapers()V\ns1 : t10 : Lcom/android/launcher/WallpaperChooser;.onResume()V\n"];}
+AddAdapter;
+s2[peripheries=2];
+s0[peripheries=2];
+WallpaperChooser;
+Launcher;
+s1[peripheries=2];
+WallpaperChooser -> WallpaperChooser[label="onCreate"];
+WallpaperChooser -> WallpaperChooser[label="onNothingSelected"];
+WallpaperChooser -> WallpaperChooser[label="selectWallpaper"];
+WallpaperChooser -> WallpaperChooser[label="findWallpapers"];
+Launcher -> Launcher[label="onPrepareOptionsMenu"];
+Launcher -> Launcher[label="onCreateOptionsMenu"];
+Launcher -> s2[label="onClick",style=dotted];
+WallpaperChooser -> s0[label="onClick",style=dotted];
+Launcher -> s1[label="onOptionsItemSelected",style=dotted];
+WallpaperChooser -> WallpaperChooser[label="onItemSelected"];
+WallpaperChooser -> WallpaperChooser[label="onResume"];
 }

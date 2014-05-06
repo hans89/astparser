@@ -1,11 +1,9 @@
 digraph {
 fontname="Helvetica";
 node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
-s2;
-s3;
-s3 -> s3[label="t2"];
-s3 -> s3[label="t1"];
-s3 -> s3[label="t0"];
-subgraph cluster_key {
-ds[shape=plaintext, style=solid,label="s3 : t0 : Lcom/android/launcher2/Launcher;.onPrepareOptionsMenu(Landroid/view/Menu;)Z\ns3 : t1 : Lcom/android/launcher2/Launcher;.onCreateOptionsMenu(Landroid/view/Menu;)Z\ns3 : t2 : Lcom/android/launcher2/Launcher;.onOptionsItemSelected(Landroid/view/MenuItem;)Z\n"];}
+WallpaperChooser;
+Launcher;
+Launcher -> Launcher[label="onPrepareOptionsMenu"];
+Launcher -> Launcher[label="onOptionsItemSelected"];
+Launcher -> Launcher[label="onCreateOptionsMenu"];
 }

@@ -245,24 +245,54 @@ public class ASTNodeUtils {
 	}
 	/**
 	 *	find and bind events with the actual statements that set up the events
+	 *	This function must identifies which event setter invocation binds
+	 *	which event to which event handler. 
+	 *
+	 *	There are a few cases:
+	 *	1. set...Listener(new On..Listener(){ ... }): the handler is delivered
+	 *		through an object of an anonymous class fed directly as an argument
+	 *	2. set...Listener(this): the handler is delivered through this object
+	 *	3. set...Listener(aListener): the handler is delivered through a
+	 *		variable
+	 *	4. set...Listener(getListener()): the handler is delivered through a 
+	 *		return value of a method
+	 *	5. set...Listener(null): disable an event with a null listener
+	 *	6. multiple levels of indirection created by combining 3 and 4
 	 *	
 	 *	@param allActions	contains all actions including the events and setters
+	 *
 	 */
 	public static void bindEventSetters(HashMap<IMethodBinding, UIAction> 
 																allActions) {
 
 		for (UIAction action : allActions.values()) {
-			// find action that binds events
+			// find external action that binds events
 			// redundant check
 			if (action.type == UIAction.ActionType.EXTERNAL_UI
 				&& action.metaClassInfo != null
 				&& action.metaClassInfo.type == 
-										UIActionClass.UIActionType.BIND_EVENT) {
+										UIActionClass.UIActionType.BIND_EVENT
+				&& action.metaClassInfo instanceof UIActionEventBinderClass
+				) {
 
+				UIActionEventBinderClass metaClassInfo 
+							= (UIActionEventBinderClass) action.metaClassInfo;
+
+				// list of event that can be bind by this action class
+
+				// metaClassInfo.linkedEventList 
+
+				// for each call (invocation)
 				for (UIActionInvocation act : action.invokedList) {
+					// get the list of arguments
 					List<Expression> args = act.astSourceNode.arguments();
 					ITypeBinding argTypeBinding;
 					
+					// there may be more than one argument
+					// each argument is an Expression
+					// we should check that the Expression is either:
+					// 1. null
+					// 2. in the list of possible event: metaClassInfo.linkedEventList
 					for (Expression exp : args) {
 						if ((argTypeBinding = exp.resolveTypeBinding()) != null) {
 							for (IMethodBinding method : 

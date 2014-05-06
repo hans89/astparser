@@ -1,0 +1,55 @@
+digraph {
+fontname="Helvetica";
+rank=LR;
+node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
+ClockPicker;
+CP_finish[peripheries=2];
+ClockPicker -> ClockPicker[label="onItemSelected"];
+ClockPicker -> CP_finish[label="onItemClick"];
+ClockPicker -> CP_finish[label="mClockLayout#onClick"];
+CP_finish -> AlarmClock[style=dotted];
+
+AlarmAlert;
+AA_finish[peripheries=2];
+AlarmAlert -> AA_finish[label="snooze#onClick"];
+AlarmAlert -> AA_finish[label="dismiss#onClick"];
+
+SetAlarm;
+SA_finish[peripheries=2];
+SA_TimeDialog;
+SetAlarm -> SetAlarm[label="onOptionsItemSelected/*"];
+SetAlarm -> SetAlarm[label="onCreateOptionsMenu"];
+SetAlarm -> SA_finish[label="alarm_save#onClick"];
+SetAlarm -> SA_finish[label="alarm_cancel#onClick"];
+SetAlarm -> SA_finish[label="onOptionsItemSelected/mDeleteAlarmItem"];
+SetAlarm -> SA_TimeDialog[label="onPreferenceTreeClick"];
+SA_TimeDialog -> SetAlarm[label="onTimeSet"];
+SA_finish -> AlarmClock[style=dotted];
+
+
+AlarmClock;
+AlarmClock -> SetAlarm[label="onItemClick",style=dotted];
+AlarmClock -> SetAlarm[label="onOptionsItemSelected/add",style=dotted];
+
+AlarmClock -> ClockPicker[label="mClockLayout#onClick",style=dotted];
+AlarmClock -> AlarmClock[label="onCreateOptionsMenu"];
+AlarmClock -> AlarmClock[label="onPrepareOptionsMenu"];
+AlarmClock -> AlarmClock[label="onCreateContextMenu"];
+
+AC_DeleteDialog;
+AlarmClock -> AC_DeleteDialog[label="onContextItemSelected/delete"];
+AC_DeleteDialog -> AlarmClock[label="OK"];
+AC_DeleteDialog -> AlarmClock[label="Cancel"];
+
+
+
+
+
+
+Settings;
+AlarmClock -> Settings[label="onOptionsItemSelected/setting",style=dotted];
+
+
+
+
+}

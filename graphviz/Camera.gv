@@ -1,7 +1,5 @@
 digraph {
 fontname="Helvetica";
 node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
-s1;
-subgraph cluster_key {
-ds[shape=plaintext, style=solid,label=""];}
+ProxyLauncher;
 }
