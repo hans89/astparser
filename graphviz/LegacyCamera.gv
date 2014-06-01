@@ -1,13 +1,13 @@
 digraph {
 fontname="Helvetica";
 node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
-ActivityBase;
+MySimpleAdapter;
+VideoCamera;
 Camera;
 PanoramaActivity;
-VideoCamera;
-PanoramaActivity -> PanoramaActivity[label="onCreateOptionsMenu"];
-Camera -> Camera[label="onCreateOptionsMenu"];
-PanoramaActivity -> PanoramaActivity[label="onPrepareOptionsMenu"];
 VideoCamera -> VideoCamera[label="onCreateOptionsMenu"];
 Camera -> Camera[label="onPrepareOptionsMenu"];
+PanoramaActivity -> PanoramaActivity[label="onCreateOptionsMenu"];
+PanoramaActivity -> PanoramaActivity[label="onPrepareOptionsMenu"];
+Camera -> Camera[label="onCreateOptionsMenu"];
 }

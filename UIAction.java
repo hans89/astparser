@@ -90,5 +90,7 @@ public class UIAction {
 	public String getName() {
 		return methodBinding.getName();
 	}
+
+	public final static UIAction NullAction = new UIAction();
 }
 

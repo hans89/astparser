@@ -1,15 +1,15 @@
 digraph {
 fontname="Helvetica";
 node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
+PhoneItemAdapter;
 s0[peripheries=2];
-DialpadChooserAdapter;
-CallLogActivity;
 FillCallLogTestActivity;
+CallLogActivity;
 CallDetailActivity;
 CallDetailActivity -> CallDetailActivity[label="onPrepareOptionsMenu"];
+FillCallLogTestActivity -> PhoneItemAdapter[label="onClick"];
+CallLogActivity -> CallLogActivity[label="onCreateOptionsMenu"];
+CallDetailActivity -> CallDetailActivity[label="onCreateOptionsMenu"];
 CallLogActivity -> CallLogActivity[label="onPrepareOptionsMenu"];
 CallLogActivity -> s0[label="onOptionsItemSelected",style=dotted];
-FillCallLogTestActivity -> DialpadChooserAdapter[label="onClick"];
-CallDetailActivity -> CallDetailActivity[label="onCreateOptionsMenu"];
-CallLogActivity -> CallLogActivity[label="onCreateOptionsMenu"];
 }

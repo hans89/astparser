@@ -40,9 +40,17 @@ public class UIActionBuilder {
 
 		UIActionClass interestingActionClass = null;
 
+		// DEBUG
+		// System.out.println("-------------");
+
 		for (String superTypeName : superTypeNames) {
 			String methodClassName = superTypeName + "#" + methodName;
+
+
+
 			if (actionMetaData.containsKey(methodClassName)) {
+				// DEBUG
+				// System.out.println("Found " + methodClassName + " for " + declaringClass);
 				interestingActionClass = actionMetaData.get(methodClassName);
 				break;
 			}

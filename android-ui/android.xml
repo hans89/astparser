@@ -55,7 +55,8 @@
 			category="INSOURCE"
 			type="linked-event"/>
 
-		<action method="onCheckedChanged" class="android.widget.CompoundButton"
+		<action method="onCheckedChanged" 
+			class="android.widget.CompoundButton.OnCheckedChangeListener"
 			setter="android.widget.CompoundButton#setOnCheckedChangeListener"
 			category="INSOURCE"
 			type="linked-event"/>
@@ -90,6 +91,7 @@
 			setter="android.widget.AdapterView#setOnItemSelectedListener"
 			category="INSOURCE"
 			type="linked-event"/>
+
 		<action method="onNothingSelected" 
 			class="android.widget.AdapterView.OnItemSelectedListener"
 			setter="android.widget.AdapterView#setOnItemSelectedListener"	
@@ -130,7 +132,6 @@
 			class="android.widget.AdapterView"
 			category="OUTSOURCE"
 			type="event-binder"/>
-
 
 		<action method="onCreate" 
 			class="android.app.Activity"

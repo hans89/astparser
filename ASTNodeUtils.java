@@ -49,6 +49,15 @@ public class ASTNodeUtils {
 		return null;	
 	}
 
+	public static String getTypeNameWithErasure(ITypeBinding typeBinding) {
+		if (typeBinding.isParameterizedType()) {
+			// System.out.println("Para type:" + typeBinding.getErasure().getQualifiedName()
+			// 		+ " > " + typeBinding.getQualifiedName());
+			return typeBinding.getErasure().getQualifiedName();
+		} 
+
+		return typeBinding.getQualifiedName();
+	}
 
 	public static Set<String> getSuperTypeQualifiedNames(ITypeBinding startClass) {
 		Set<String> qualNames = null;
@@ -64,8 +73,10 @@ public class ASTNodeUtils {
 			// a BFS to visit all super types
 			// while the queue is not empty
 			while ((current = tbQueue.poll()) != null) {
-				String currentTypeName = current.getQualifiedName();
-				if (!qualNames.contains(currentTypeName)) {
+				// handling parameterized type
+				String currentTypeName = ASTNodeUtils.getTypeNameWithErasure(current);
+				if (currentTypeName != null && !currentTypeName.equals("")
+					&& !qualNames.contains(currentTypeName)) {
 					// if we haven't seen this class yet
 
 					qualNames.add(currentTypeName);
@@ -243,6 +254,45 @@ public class ASTNodeUtils {
 
 		return subClass;
 	}
+
+	/**
+	 *	find all methods provided by this class, including its super classes
+	 *	if a method is overridden by a subclass in the inheritance chain
+	 *	the final method will be used, corresponding to the input type
+	 *	
+	 */
+	public static List<IMethodBinding> getAllMethods(ITypeBinding typeBinding) {
+		List<IMethodBinding> methods 
+			= new LinkedList<IMethodBinding>();
+
+		methods.addAll(Arrays.asList(typeBinding.getDeclaredMethods()));
+
+		// loop until java.lang.Object is reached
+		List<IMethodBinding> tmpMethods = new LinkedList<IMethodBinding>();
+		while ((typeBinding = typeBinding.getSuperclass()) != null) {
+			IMethodBinding[] declaredMethods = typeBinding.getDeclaredMethods();
+
+			tmpMethods.clear();
+
+			boolean overrided = false;
+			for (IMethodBinding method : declaredMethods) {
+				overrided = false;
+				for (IMethodBinding subClassMethod : methods) {
+					if (subClassMethod.overrides(method)) {
+						overrided = true;
+						break;
+					}
+				}
+				if (overrided == false) {
+					tmpMethods.add(method);
+				}
+			}
+
+			methods.addAll(tmpMethods);
+		}
+
+		return methods;
+	}
 	/**
 	 *	find and bind events with the actual statements that set up the events
 	 *	This function must identifies which event setter invocation binds
@@ -262,12 +312,21 @@ public class ASTNodeUtils {
 	 *	@param allActions	contains all actions including the events and setters
 	 *
 	 */
-	public static void bindEventSetters(HashMap<IMethodBinding, UIAction> 
-																allActions) {
+	public static void bindEventSetters(
+			HashMap<IMethodBinding, UIAction> allActions,
+			HashMap<IVariableBinding, UIEventObject> allEventVars) {
+
+		MethodExtractorGroup extractor 
+					= new MethodExtractorGroup(allActions, allEventVars);
 
 		for (UIAction action : allActions.values()) {
 			// find external action that binds events
 			// redundant check
+
+			// DEBUG
+			// if (action.metaClassInfo != null)
+			// 	System.out.println(action.metaClassInfo.getKey());
+
 			if (action.type == UIAction.ActionType.EXTERNAL_UI
 				&& action.metaClassInfo != null
 				&& action.metaClassInfo.type == 
@@ -278,50 +337,95 @@ public class ASTNodeUtils {
 				UIActionEventBinderClass metaClassInfo 
 							= (UIActionEventBinderClass) action.metaClassInfo;
 
-				// list of event that can be bind by this action class
-
-				// metaClassInfo.linkedEventList 
-
 				// for each call (invocation)
 				for (UIActionInvocation act : action.invokedList) {
+					// DEBUG
+					// System.out.println("------");
+					// System.out.println("Setter act: " + act.astSourceNode);
+
 					// get the list of arguments
 					List<Expression> args = act.astSourceNode.arguments();
 					ITypeBinding argTypeBinding;
 					
-					// there may be more than one argument
-					// each argument is an Expression
-					// we should check that the Expression is either:
-					// 1. null
-					// 2. in the list of possible event: metaClassInfo.linkedEventList
-					for (Expression exp : args) {
-						if ((argTypeBinding = exp.resolveTypeBinding()) != null) {
-							for (IMethodBinding method : 
-										argTypeBinding.getDeclaredMethods()) {
+					// each setter might involves more than 1 event handlers
+					for (UIActionLinkedEventClass linkedClass
+									 : metaClassInfo.linkedEventList) {
 
-								if (allActions.containsKey(method)) {
-									UIAction action2 = allActions.get(method);
-									UIActionInvocationBindEvent bindEAct 
-											= (UIActionInvocationBindEvent)act;
+						for (Expression exp : args) {
+							// extract the type of the expression,
+							// expecting a subclass of linkedClass.classKey
+							argTypeBinding = extractor.handle(exp, linkedClass.classKey);
 
-									if (action2 instanceof UIActionLinkedEvent) {
-										UIActionLinkedEvent eventAction
-											= ((UIActionLinkedEvent)action2);
+							// DEBUG
+							// {	
+							// 	System.out.println("Exp: " + exp);
+							// 	if (argTypeBinding != null)
+							// 		System.out.println("Binding: " + argTypeBinding.getKey());
+							// 	else
+							// 		System.out.println("Binding: " + argTypeBinding);
+							// }
 
-										if (eventAction.setters == null)
-											eventAction.setters =
-											  new HashSet<UIActionInvocation>();
-										
-										eventAction.setters.add(bindEAct);
-									}
-
+							// if argTypeBinding is type null?
+							// i.e argTypeBinding.isNullType() == true
+							UIActionInvocationBindEvent bindEAct = 
+										(UIActionInvocationBindEvent)act;
+							if (argTypeBinding != null) {
+								
+								if (argTypeBinding.isNullType()) {
 									if (bindEAct.bindedEvents == null)
 										bindEAct.bindedEvents = new 
-												ArrayList<UIAction>();
-									bindEAct.bindedEvents.add(action2);
-								}  // else {
-								// 	System.out.println("null key args " + method); 
-								// 	System.out.println("in " + exp);
-								// }
+													HashSet<UIAction>();
+									bindEAct.bindedEvents.add(UIAction.NullAction);
+									//DEBUG
+									// System.out.println("Binded: "
+									// 	+ " NullAction by "
+									// 	+ bindEAct.astSourceNode);
+								} else {
+									UIAction action2;
+									// get the methods declared in the Expression class
+									for (IMethodBinding method : 
+												ASTNodeUtils.getAllMethods(argTypeBinding)) {
+
+										// if the type has a method that:
+										// - matches the expected method name
+										// - is defined in source (i.e. found in allActions)
+										if (method.getName().equals(linkedClass.methodName)
+											&& (action2 = allActions.get(method)) != null) {
+
+											// the invocation is expected to be
+											// an event setter (binder)
+											
+
+											// the found action is expected to be
+											// a linked event									
+											if (action2 instanceof UIActionLinkedEvent) {
+
+												if (bindEAct.bindedEvents == null)
+													bindEAct.bindedEvents = new 
+														HashSet<UIAction>();
+												bindEAct.bindedEvents.add(action2);
+
+												UIActionLinkedEvent eventAction
+													= ((UIActionLinkedEvent)action2);
+
+												if (eventAction.setters == null)
+													eventAction.setters =
+													  new HashSet<UIActionInvocation>();
+												
+												eventAction.setters.add(bindEAct);
+
+												/*DEBUG*/
+												// System.out.println("Binded: "
+												// 	+ " by "
+												// 	+ bindEAct.astSourceNode + " with "
+												// 	+ method + " in "
+												// 	+ bindEAct.astSourceNode.getParent().getParent()
+												// );
+											}
+										} 
+									}
+
+								}
 							}
 						}
 					}
@@ -736,5 +840,49 @@ public class ASTNodeUtils {
 			tBind = tBind.getSuperclass();
 		}
 		return null;
+	}
+
+	public static Set<String> matchSuperType(ITypeBinding startType, 
+										Set<String> typeKeys) {
+		
+		Set<String> superTypeKeys = null;
+
+		if (startType != null && typeKeys != null) {
+			Set<String> qualNames = new HashSet<String>();
+			superTypeKeys = new HashSet<String>();
+			
+			Queue<ITypeBinding> tbQueue = new LinkedList<ITypeBinding>();
+
+			tbQueue.offer(startType);
+
+			ITypeBinding current;
+
+			// a BFS to visit all super types
+			// while the queue is not empty
+			while ((current = tbQueue.poll()) != null) {
+				String currentTypeName = current.getQualifiedName();
+
+				if (!qualNames.contains(currentTypeName)) {
+					// if we haven't seen this class yet
+
+					if (typeKeys.contains(currentTypeName))
+						superTypeKeys.add(currentTypeName);
+
+					qualNames.add(currentTypeName);
+
+					// we find its direct super types
+					tbQueue.addAll(Arrays.asList(current.getInterfaces()));
+
+					ITypeBinding superClass = current.getSuperclass();
+					if (superClass != null)
+						tbQueue.offer(superClass);
+				}
+				// or else we have seen this type before,
+				// so its super types have been listed,
+				// we don't need to do anything
+			}
+		}
+
+		return superTypeKeys;
 	}
 }

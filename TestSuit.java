@@ -64,6 +64,8 @@ public class TestSuit {
 			androidUIActions = structureReader.getUIActions();		
 
 
+
+
 		// 2. parse project
 		HashMap<String,CompilationUnit> units = parseProject(projectFullPath, libs);
 
@@ -72,39 +74,84 @@ public class TestSuit {
 		MethodVisitor methodVisitor 
 					= new MethodVisitor(new UIActionBuilder(androidUIActions));
 
-		for (CompilationUnit u : units.values()) {
+		for (Entry<String,CompilationUnit> entry : units.entrySet()) {
+			// DEBUG
+			// System.out.println(entry.getKey());
+			CompilationUnit u = entry.getValue();
+
+			// for (IProblem prob : u.getProblems())
+			// 	System.out.println(prob);
 			u.accept(methodVisitor);
 		}
 
+		
 		HashMap<IMethodBinding, UIAction> 
 				allActions = methodVisitor.getAllActions();
 
+		// DEBUG print all actions
+		
+		// for (UIAction action : allActions.values()) {
+		// 	// find action that binds events
+		// 	System.out.println("METHOD " + action.getName());
 
-		// 4. link event setters with corresponding events
-		ASTNodeUtils.bindEventSetters(allActions);	
+		// 	if (action.metaClassInfo == null) {
+		// 		System.out.println("META: none");
+		// 	} else {
+		// 		System.out.println("META: " + action.metaClassInfo.getKey());
+		// 	}
 
+		// 	if (action.invokedList == null) {
+		// 		System.out.println("INVOKE: none");
+		// 	}
+		// }
+		// --END DEBUG
 
-		for (UIAction action : allActions.values()) {
-			// find action that binds events
-			// redundant check
-			if (action.type == UIAction.ActionType.EXTERNAL_UI
-				&& action.metaClassInfo != null
-				&& action.metaClassInfo.type == 
-										UIActionClass.UIActionType.BIND_EVENT) {
+		// 3a. find the event objects (as variables)
+		Set<String> eventClassKeys = new HashSet<String>();
 
-				for (UIActionInvocation act : action.invokedList) {
-					if (act instanceof UIActionInvocationBindEvent) {
-						UIActionInvocationBindEvent bindEAct 
-							= (UIActionInvocationBindEvent)act;
-
-						if (bindEAct.bindedEvents == null) {
-							System.out.println("null binded " + act.astSourceNode);
-						}
-					}
-				}
+		for (UIActionClass uAct : androidUIActions.values()) {
+			if (uAct instanceof UIActionLinkedEventClass) {
+				eventClassKeys.add(uAct.classKey);
 			}
 		}
-									
+
+		EventObjectVisitor eventObjectVisitor 
+							= new EventObjectVisitor(eventClassKeys);
+
+		for (CompilationUnit u : units.values()) {
+			u.accept(eventObjectVisitor);
+		}
+
+		HashMap<IVariableBinding, UIEventObject> 
+				allEventObjects = eventObjectVisitor.getAllEventObjects();
+
+		// 4. link event setters with corresponding events
+		ASTNodeUtils.bindEventSetters(allActions, allEventObjects);	
+
+
+		// DEBUG: check null binded events
+
+		// for (UIAction action : allActions.values()) {
+		// 	// find action that binds events
+		// 	// redundant check
+		// 	if (action.type == UIAction.ActionType.EXTERNAL_UI
+		// 		&& action.metaClassInfo != null
+		// 		&& action.metaClassInfo.type == 
+		// 								UIActionClass.UIActionType.BIND_EVENT) {
+
+		// 		for (UIActionInvocation act : action.invokedList) {
+		// 			if (act instanceof UIActionInvocationBindEvent) {
+		// 				UIActionInvocationBindEvent bindEAct 
+		// 					= (UIActionInvocationBindEvent)act;
+
+		// 				if (bindEAct.bindedEvents == null) {
+		// 					System.out.println("null binded " + act.astSourceNode);
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
+		// -END DEBUG							
 
 		// 5. find all ui external actions, and trace their way up to the
 		// INTERNAL_UI methods. This completes all the UIAction info.
@@ -115,7 +162,7 @@ public class TestSuit {
 		HashMap<ITypeBinding, UIObject> allUIObjects = 
 			ASTNodeUtils.findAllUIObjects(androidUIStructures, allActions);
 
-
+		// DEBUG
 		// for (UIAction act : allActions.values()) {
 		// 	if (act instanceof UIActionInternal) {
 		// 		UIActionInternal actInt = (UIActionInternal)act;
@@ -135,7 +182,7 @@ public class TestSuit {
 		// }
 
 		// System.out.println(TestSuit.LONG_DASH);
-
+		// DEBUG
 		// for (UIObject obj : allUIObjects.values()) {
 		// 	System.out.println(obj.typeBinding.getQualifiedName());
 		// 	if (obj.initActions != null)
@@ -162,6 +209,7 @@ public class TestSuit {
 		// 		System.out.println("\t -> " + event.methodBinding.getKey());
 		// 	}
 		// }
+		// END DEBUG
 
 		// 4b. link start modals with their target
 		ASTNodeUtils.bindStartModals(allActions, allUIObjects);
@@ -196,21 +244,6 @@ public class TestSuit {
 			}
 		}
 
-		class StateInfo {
-			private String stateName;
-			private  int stateOrder;
-
-			public StateInfo(String s, int i) {
-				stateName = s;
-				stateOrder = i;
-			}
-
-			public String getName() {
-				return stateName + Integer.toString(stateOrder);
-			}
-		}
-
-
 		IntegerIDGenerator idSGen = new IntegerIDGenerator();
 		//IntegerIDGenerator idTGen = new IntegerIDGenerator();
 
@@ -228,13 +261,6 @@ public class TestSuit {
 
 
 			lts.initialStates.add(initialState);
-
-			
-
-			// System.out.println(obj.typeBinding.getQualifiedName());
-			// for (UIAction event : initialState) {
-			// 	System.out.println("\t -> " + event.methodBinding.getKey());
-			// }
 		}
 
 		/**
@@ -330,40 +356,6 @@ public class TestSuit {
 			}
 		}
 
-		// // Print the LTS
-		// for (Set<UIAction> state : lts.states) {
-		// 	if (lts.initialStates.contains(state))
-		// 		System.out.println("Init: ");
-		// 	else if (lts.terminalStates.contains(state))
-		// 		System.out.println("Term: ");
-		// 	else 
-		// 		System.out.println("Norm: ");
-
-		// 	for (UIAction event : state) {
-		// 		System.out.println("\t ->" + event.methodBinding.getKey());
-		// 	}
-		// }
-
-		// for (LTS.Transition<Set<UIAction>, UIAction> trans : lts.transitions) {
-		// 	for (UIAction event : trans.fromState) {
-		// 		System.out.println("\t ->" + event.methodBinding.getKey());
-		// 	}
-
-		// 	System.out.println("====" + trans.labelledAction.methodBinding.getKey() 
-		// 		+ "===>");
-
-		// 	for (UIAction event : trans.toState) {
-		// 		if (event.methodBinding != null)
-		// 			System.out.println("\t ->" + event.methodBinding.getKey());
-		// 		else 	
-		// 			System.out.println("\t ->" + event.methodBinding);
-		// 	}
-
-		// 	System.out.println(TestSuit.LONG_DASH);
-		// }
-
-
-
 		try {
 			File file = new File(graphOutput);
  
@@ -426,57 +418,6 @@ public class TestSuit {
 				bw.newLine();
 			} 
 
-
-			// bw.write("subgraph cluster_key {");
-			// bw.newLine();
-
-			// bw.write("ds" + "[shape=plaintext, style=solid," 
-			// 				+ "label=\"");
-			
-
-			// for (Set<UIAction> state : lts.states) {
-				
-			// 	String sID = stateIDs.get(state);
-
-			// 	for (UIAction event : state) {
-			// 		if (event.methodBinding == null) {
-			// 			// terminal
-			// 			bw.write(
-			// 				sID + " : "
-			// 				+ "null"
-			// 				+ "\\n");
-			// 			break;
-			// 		}
-			// 		else {
-			// 			if (transIDs.get(event) != null)
-			// 			bw.write(
-			// 				sID + " : "
-			// 				+ transIDs.get(event)  + " : "
-			// 				+ event.methodBinding.getKey()
-			// 				+ "\\n");
-			// 			else {
-
-			// 				// bw.write(
-			// 				// "s" + sID + " : "
-			// 				// + "tNullTrans : "
-			// 				// + event.methodBinding.getKey()
-			// 				// + "\\n");
-
-			// 				System.out.println("null trans " + event.methodBinding + " in " + event.containingType.getKey() + " isInitialState: " + lts.states.contains(state));
-
-							
-			// 			}
-							
-			// 		}
-			// 	}
-			// }
-
-
-			// bw.write("\"" + "];");
-
-			// bw.write("}");
-			// bw.newLine();
-
 			bw.write("}");
 
 			bw.close();
@@ -488,9 +429,11 @@ public class TestSuit {
 		}
 	}
 
+
 	@Test
+	// @Ignore
 	public void testProject() {
-		String projectList = "/Users/hans/Desktop/android/app-projects.txt";
+		String projectList = "/Users/hans/Desktop/android/app-projects copy.txt";
 		String outPath = "/Users/hans/Desktop/ast/astparser/graphviz";
 
 		String[] projectPaths = FileUtils.getAllLines(projectList);
@@ -524,8 +467,6 @@ public class TestSuit {
 				outPath + "/" + new File(projectPath).getName() + ".gv");			
 			System.out.println(TestSuit.LONG_DASH);
 		}
-
-
 	}
 
 	public void getProjectOverview(String folderFullPath, 
@@ -560,6 +501,7 @@ public class TestSuit {
 			}
 		}
 
+		// DEBUG
 		System.out.println("Numbers: ");
 		for (String s: counts.keySet()) {
 			System.out.println("\t" + s + " : " + counts.get(s));
@@ -583,5 +525,117 @@ public class TestSuit {
 				/* path that contain the source files*/
 				FileUtils.getFolderPaths(path)
 			);
+	}
+
+
+	@Test
+	@Ignore
+	public void testEventLink() {		
+		
+
+		String[] projectPaths = new String[] {
+							"/Users/hans/Desktop/ast/astparser/test-android/ast"
+							};
+
+
+		String[] libs = new String[]{
+			"lib/android/android-18.jar",
+			"android-support-v4.jar",
+			"android-support-v7-appcompat.jar",
+			"android-support-v7-gridlayout.jar",
+			"android-support-v7-mediarouter.jar",
+			"android-support-v13.jar"
+		};
+
+		for (String projectPath : projectPaths) {
+			System.out.println("Project: " + projectPath);
+
+			AndroidUIClassReader structureReader = new AndroidUIClassReader();
+
+			structureReader.parseXML(
+						new String[] {
+							"android-ui/android.xml"
+						});
+
+			// 1a. interesting Android UI Object Structures
+			final HashMap<String, UIObjectClass>
+				androidUIStructures = structureReader.getUIStructures();
+			// 1b. interesting Android UI Actions
+			final HashMap<String, UIActionClass>
+				androidUIActions = structureReader.getUIActions();		
+
+			// for (Entry<String, UIActionClass> e : androidUIActions.entrySet()) {
+			// 	if (e.getValue().type == UIActionClass.UIActionType.BIND_EVENT)
+			// 		System.out.println(e.getKey());
+			// }
+
+			// 2. parse project
+			HashMap<String,CompilationUnit> units = parseProject(projectPath, libs);
+
+
+			// 3. find all actions, set up their types and invocations
+			MethodVisitor methodVisitor 
+						= new MethodVisitor(new UIActionBuilder(androidUIActions));
+
+			for (CompilationUnit u : units.values()) {
+				// DEBUG
+				// for (IProblem prob : u.getProblems())
+				// 	System.out.println(prob);
+
+				u.accept(methodVisitor);
+			}
+
+			HashMap<IMethodBinding, UIAction> 
+					allActions = methodVisitor.getAllActions();
+
+			// 3a. find the event objects (as variables)
+			Set<String> eventClassKeys = new HashSet<String>();
+
+			for (UIActionClass uAct : androidUIActions.values()) {
+				if (uAct instanceof UIActionLinkedEventClass) {
+					eventClassKeys.add(uAct.classKey);
+				}
+			}
+
+			// DEBUG
+			// for (String s : eventClassKeys) {
+			// 	System.out.println(s);
+			// }
+
+			System.out.println(TestSuit.LONG_DASH);
+
+			EventObjectVisitor eventObjectVisitor 
+								= new EventObjectVisitor(eventClassKeys);
+
+			for (CompilationUnit u : units.values()) {
+				u.accept(eventObjectVisitor);
+			}
+
+			HashMap<IVariableBinding, UIEventObject> 
+					allEventObjects = eventObjectVisitor.getAllEventObjects();
+
+			// DEBUG
+			// for (UIEventObject uiEO : allEventObjects.values()) {
+
+			// 	System.out.println("Decl: " + uiEO.declaration);
+
+			// 	for (String s : uiEO.superTypeKeys) {
+			// 		System.out.println(s);
+			// 	}
+
+			// 	if (uiEO.references != null) {
+			// 		System.out.println("References: ");
+			// 		for (Expression ex : uiEO.references) {
+			// 			System.out.println(ex + " in " + ex.getParent());
+			// 		}
+			// 	}
+			// 	System.out.println(TestSuit.SHORT_DASH);
+			// }
+
+			// 4. link event setters with corresponding events
+			ASTNodeUtils.bindEventSetters(allActions, allEventObjects);
+
+			System.out.println(TestSuit.LONG_DASH);
+		}
 	}
 }

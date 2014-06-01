@@ -20,10 +20,12 @@ import org.eclipse.jdt.core.dom.*;
  */
 public class MethodVisitor extends ASTVisitor {
 	private HashMap<IMethodBinding, UIAction> actions;
+	private HashMap<IVariableBinding, UIEventObject> eventObjects;
 	private UIActionBuilder builder;
 
 	public MethodVisitor(UIActionBuilder b) {
 		actions = new HashMap<IMethodBinding, UIAction>();
+		eventObjects = new HashMap<IVariableBinding, UIEventObject>();
 		builder = b;
 	}
 
@@ -56,6 +58,9 @@ public class MethodVisitor extends ASTVisitor {
 	public boolean visit(MethodInvocation node) {
 		IMethodBinding mBinding;
 
+		// DEBUG 
+		// String nodeName = node.getName().toString();		
+
 		if ((mBinding = node.resolveMethodBinding()) != null) {
 			UIAction act;
 
@@ -63,9 +68,16 @@ public class MethodVisitor extends ASTVisitor {
 				act = builder.buildAction(mBinding);
 				
 				actions.put(mBinding, act);
+
+				//DEBUG
+				// if (nodeName.equals("setOnItemSelectedListener")) {
+				// 	System.out.println(act.metaClassInfo);
+				// }
+
 			} else {
 				act = actions.get(mBinding);	
 			}
+
 
 			// set up the invocation list
 			if (act.invokedList == null)

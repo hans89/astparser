@@ -1,9 +1,9 @@
 digraph {
 fontname="Helvetica";
 node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
-WallpaperChooser;
 Launcher;
-Launcher -> Launcher[label="onPrepareOptionsMenu"];
-Launcher -> Launcher[label="onOptionsItemSelected"];
+ImageAdapter;
 Launcher -> Launcher[label="onCreateOptionsMenu"];
+Launcher -> Launcher[label="onOptionsItemSelected"];
+Launcher -> Launcher[label="onPrepareOptionsMenu"];
 }
