@@ -157,6 +157,35 @@ public class TestSuit {
 		// INTERNAL_UI methods. This completes all the UIAction info.
 		ASTNodeUtils.traceExternalUIPaths(allActions);
 
+		// DEBUG - all the paths
+
+		// for (UIAction action : allActions.values()) {
+		// 	if (action instanceof UIActionInternal) {
+		// 		UIActionInternal internalAct 
+		// 								= (UIActionInternal)action;
+
+		// 		if (action.type == UIAction.ActionType.INTERNAL_UI)
+		// 			System.out.println("INTERNAL_UI: " + internalAct.declaration);
+		// 		else if (action.type == UIAction.ActionType.INTERNAL_APP_DEFINED)
+		// 			System.out.println("INTERNAL_APP_DEFINED: " + internalAct.declaration);
+
+		// 		if (internalAct.executingPaths != null) {
+		// 			System.out.println("CHAINS:");
+		// 			for (LinkedHashSet<UIActionInvocation> path : internalAct.executingPaths) {
+		// 				for (UIActionInvocation actInv : path) {
+		// 					System.out.print(actInv.astSourceNode + " <- ");
+		// 				}
+		// 				System.out.println(".");
+		// 			}
+		// 		} else {
+		// 			System.out.println("CHAINS: null");
+		// 		}
+		// 		System.out.println(TestSuit.LONG_DASH);
+		// 	}
+		// }
+
+		// END DEBUG
+
 		// 6. find all UIObjects, attach their UIObjectClass and their init
 		//	and top-event actions
 		HashMap<ITypeBinding, UIObject> allUIObjects = 
@@ -211,13 +240,89 @@ public class TestSuit {
 		// }
 		// END DEBUG
 
-		// 4b. link start modals with their target
-		ASTNodeUtils.bindStartModals(allActions, allUIObjects);
-
-		// 4c. link enable widgets with the event they affect
+		// 7. link enable widgets with the event they affect
 		ASTNodeUtils.bindEnableWidgetWithEvents(allActions, allUIObjects);
 
-		// 7. now we are ready to build the LTS
+		// 8. link start modals with their target
+		IntentVisitor intentVisitor = new IntentVisitor();
+
+		for (CompilationUnit u : units.values()) {
+			u.accept(intentVisitor);
+		}
+
+		HashMap<IVariableBinding, IntentVisitor.IntentInfo>
+			allIntents = intentVisitor.getAllIntents();
+
+
+		ASTNodeUtils.bindStartModals(allActions, allUIObjects, allIntents);
+
+		// DEBUG
+		// for (UIObject obj : allUIObjects.values()) {
+		// 	System.out.println(TestSuit.LONG_DASH);
+		// 	System.out.println(obj.typeBinding.getQualifiedName());
+		// 	if (obj.initActions != null)
+		// 	for (UIAction act : obj.initActions.values()) {
+		// 		if (act instanceof UIActionInternal) {
+		// 			UIActionInternal actInt = (UIActionInternal)act;
+		// 			if (actInt.executingPaths != null) {
+		// 				System.out.println(actInt.methodBinding.getKey());
+		// 				for (Set<UIActionInvocation> path : actInt.executingPaths) {
+		// 					System.out.print("\t ");
+		// 					for (UIActionInvocation actInv : path) {
+		// 						System.out.print(actInv.astSourceNode.getExpression()
+		// 							+ "." + actInv.astSourceNode.getName() + " -> ");
+		// 					}
+
+		// 					System.out.println(".");
+		// 				}	
+		// 			}
+		// 		}
+		// 	}
+		// }
+		
+
+		// for (UIObject obj : allUIObjects.values()) {
+		// 	System.out.println(TestSuit.LONG_DASH);
+		// 	System.out.println(obj.typeBinding.getQualifiedName());
+		// 	if (obj.initActions != null)
+		// 	for (UIAction act : obj.getAllInitialEvents()) {
+		// 		if (act instanceof UIActionInternal) {
+		// 			UIActionInternal actInt = (UIActionInternal)act;
+		// 			if (actInt.executingPaths != null) {
+		// 				System.out.println(actInt.methodBinding.getKey());
+		// 				for (Set<UIActionInvocation> path : actInt.executingPaths) {
+		// 					System.out.print("\t ");
+		// 					for (UIActionInvocation actInv : path) {
+		// 						if (actInv instanceof UIActionInvocationStartModal) {
+		// 							UIActionInvocationStartModal actInvStart
+		// 								= (UIActionInvocationStartModal)actInv;
+
+		// 							if (actInvStart.targetObject != null)
+		// 								System.out.print("Target: " + 
+		// 								actInvStart.targetObject.typeBinding.getKey() + " | "); 
+									
+		// 							if (actInvStart.endTargetObject != null)
+		// 								System.out.print("EndTarget: " + 
+		// 								actInvStart.endTargetObject.typeBinding.getKey() + " | "); 
+
+		// 						}
+									
+								
+		// 						System.out.print(actInv.astSourceNode.getExpression()
+		// 							+ "." + actInv.astSourceNode.getName() + " <- ");
+
+
+		// 					}
+
+		// 					System.out.println(".");
+		// 				}	
+		// 			}
+		// 		}
+		// 	}
+		// }
+		// END DEBUG
+
+		// 9. now we are ready to build the LTS
 		/*
 			Each state of the LTS is identified by the possible events at that 
 			state.
@@ -247,6 +352,8 @@ public class TestSuit {
 		IntegerIDGenerator idSGen = new IntegerIDGenerator();
 		//IntegerIDGenerator idTGen = new IntegerIDGenerator();
 
+		// set up initial LTS, where each node represents the initial state of 
+		// each ui object
 		for (UIObject obj : allUIObjects.values()) {
 			
 			// set up initial state
@@ -278,13 +385,14 @@ public class TestSuit {
 		 *	We also have to add the effect of branching: possible and/or state
 		 */
 
+		// we chose to make a DFS here
+
 		for (Set<UIAction> initialState : lts.initialStates) {
 			Deque<Set<UIAction>> stateStack = new ArrayDeque<Set<UIAction>>();
 
 			stateStack.addFirst(initialState);
 
 			Set<UIAction> currentState;
-			Set<UIAction> nextState;
 
 			while ((currentState = stateStack.peekFirst()) != null) {
 				stateStack.removeFirst();
@@ -302,22 +410,13 @@ public class TestSuit {
 					// identify effect of act
 					// get all possible effects
 					if (actInv instanceof UIActionInternal) {
-						
 						UIActionInternal act = (UIActionInternal)actInv;
 
-						boolean terminal = false;
-						// if it is a terminal state
-						if (act.getStartEndModals().size() > 0) {
+						Set<UIActionInvocation> startModals = 
+							act.getStartEndModals();
 
-							
-							nextState = new HashSet<UIAction>();
-
-							nextState.add(new UIAction());
-
-							lts.terminalStates.add(nextState);
-							terminal = true;
-						} else {
-							nextState = new HashSet<UIAction>(currentState);
+						if (startModals.size() == 0) {
+							Set<UIAction> nextState = new HashSet<UIAction>(currentState);
 
 							Set<UIAction> enabledEvents = 
 								act.getEnabledEvents();
@@ -327,34 +426,122 @@ public class TestSuit {
 
 							nextState.addAll(enabledEvents);
 							nextState.removeAll(disabledEvents);
-						}
 
-						if (!lts.states.contains(nextState)) {
+							// add the transition
+							lts.addTransition(currentState, act, nextState);
+							transIDs.put(act, act.getName());	
+
+							if (!lts.states.contains(nextState)) {
 							// if this is a new state, add it to the set
-							lts.states.add(nextState);
-							stateIDs.put(nextState, "s" + Integer.toString(idSGen.next()));
+								lts.states.add(nextState);
+								stateIDs.put(nextState, "s" + Integer.toString(idSGen.next()));
 
-							if (terminal == false) {
-								// and also add it to the stack for transition building
-								// if it is not a terminal state
+							// add it to the stack for transition building
 								stateStack.addFirst(nextState);	
 							}
 						}
-
-						// add the transition
-						LTS.Transition<Set<UIAction>, UIAction> newTransition
-							= new LTS.Transition<Set<UIAction>, UIAction>();
-
-						newTransition.fromState = currentState;
-						newTransition.labelledAction = act;
-						newTransition.toState = nextState;
-						lts.transitions.add(newTransition);
-
-						transIDs.put(act, act.getName());
 					}
 				}
 			}
 		}
+
+		Set<Set<UIAction>> newStates = new HashSet<Set<UIAction>>();
+
+		// {
+		// 	for (UIActionInvocation actStart : startModals) {
+
+		// 		if (actStart instanceof UIActionInvocationStartModal) {
+		// 			UIObject targetObject =
+		// 				((UIActionInvocationStartModal)actStart).targetObject;
+		// 			if (targetObject != null) {
+		// 				nextState = targetObject.getAllInitialEvents();
+
+		// 				// add the transition
+		// 				lts.addTransition(currentState, act, nextState);
+		// 				transIDs.put(act, act.getName());	
+		// 				break;	
+		// 			}
+		// 		}
+		// 	}
+
+		// 	// if (nextState == null) {
+		// 	// 	nextState = new HashSet<UIAction>();
+
+		// 	// 	nextState.add(new UIAction());
+
+		// 	// 	lts.terminalStates.add(nextState);
+		// 	// 	terminal = true;	
+		// 	// }	
+		// } 
+
+		for (Set<UIAction> state : lts.states) {
+			for (UIAction actInv : state) {
+				if (actInv instanceof UIActionInternal) {
+						
+					UIActionInternal act = (UIActionInternal)actInv;
+
+					Set<UIAction> nextState = null;
+					
+					// if it is a terminal state
+					Set<UIActionInvocation> startModals = 
+						act.getStartEndModals();
+
+					if (startModals.size() > 0) {
+
+						for (UIActionInvocation actStart : startModals) {
+
+							if (actStart instanceof UIActionInvocationStartModal) {
+								UIObject targetObject =
+									((UIActionInvocationStartModal)actStart).targetObject;
+								if (targetObject != null) {
+									found = true;
+									break;	
+								}
+							}
+						}
+
+						if (found == false) {
+							// if this state ends itself
+							// it will to its caller, if any
+							// if it has no caller, then it moves to a terminal state
+
+							for (LTS.Transition<Set<UIAction>, UIAction>
+									trans : lts.transitions) {
+								if (trans.toState.equals(state)){
+									nextState = 
+										trans.fromState;
+									//break;
+								}
+							}
+
+							// no caller 
+							if (nextState == null) {
+								nextState = new HashSet<UIAction>();
+
+								nextState.add(new UIAction());
+
+								lts.terminalStates.add(nextState);
+							}
+
+							
+							// add the transition
+							lts.addTransition(state, actInv, nextState);
+							transIDs.put(actInv, actInv.getName());	
+
+							if (!lts.states.contains(nextState)) {
+								// if this is a new state, add it to the set
+								newStates.add(nextState);
+								stateIDs.put(nextState, "s" + Integer.toString(idSGen.next()));
+							}
+						}
+						// found a target object, this has been handled above
+						//	continue;
+					}
+				}
+			}
+		}
+
+		lts.states.addAll(newStates);
 
 		try {
 			File file = new File(graphOutput);
@@ -431,7 +618,7 @@ public class TestSuit {
 
 
 	@Test
-	// @Ignore
+	//@Ignore
 	public void testProject() {
 		String projectList = "/Users/hans/Desktop/android/app-projects copy.txt";
 		String outPath = "/Users/hans/Desktop/ast/astparser/graphviz";
@@ -469,50 +656,50 @@ public class TestSuit {
 		}
 	}
 
-	public void getProjectOverview(String folderFullPath, 
-									Set<String> interestingClasses,
-									String[] androidLibs) {
+	// public void getProjectOverview(String folderFullPath, 
+	// 								Set<String> interestingClasses,
+	// 								String[] androidLibs) {
 
-		HashMap<String,CompilationUnit> units;
-		HashMap<String, Integer> counts = new HashMap<String, Integer>();
-		for (String s: interestingClasses) {
-			counts.put(s,0);
-		}
+	// 	HashMap<String,CompilationUnit> units;
+	// 	HashMap<String, Integer> counts = new HashMap<String, Integer>();
+	// 	for (String s: interestingClasses) {
+	// 		counts.put(s,0);
+	// 	}
 
-		System.out.println("Project: " + folderFullPath);
+	// 	System.out.println("Project: " + folderFullPath);
 
-		units = parseProject(folderFullPath, androidLibs);
-		Integer countAll = 0;
-		for (Entry<String, CompilationUnit> e : units.entrySet()) {
-			CompilationUnit u = e.getValue();
-			List<AbstractTypeDeclaration> types = u.types();
-			ITypeBinding tBind;
-			String typeName;
+	// 	units = parseProject(folderFullPath, androidLibs);
+	// 	Integer countAll = 0;
+	// 	for (Entry<String, CompilationUnit> e : units.entrySet()) {
+	// 		CompilationUnit u = e.getValue();
+	// 		List<AbstractTypeDeclaration> types = u.types();
+	// 		ITypeBinding tBind;
+	// 		String typeName;
 
-			for (AbstractTypeDeclaration t : types) {
-				tBind = t.resolveBinding();
-				if ((typeName = ASTNodeUtils.matchSuperClass(tBind, interestingClasses)) != null) {
-					System.out.println("\t class: " + tBind.getQualifiedName()
-						+ " > " + typeName);
+	// 		for (AbstractTypeDeclaration t : types) {
+	// 			tBind = t.resolveBinding();
+	// 			if ((typeName = ASTNodeUtils.matchSuperClass(tBind, interestingClasses)) != null) {
+	// 				System.out.println("\t class: " + tBind.getQualifiedName()
+	// 					+ " > " + typeName);
 
-					counts.put(typeName, counts.get(typeName)+1);
-				}
-				countAll++;
-			}
-		}
+	// 				counts.put(typeName, counts.get(typeName)+1);
+	// 			}
+	// 			countAll++;
+	// 		}
+	// 	}
 
-		// DEBUG
-		System.out.println("Numbers: ");
-		for (String s: counts.keySet()) {
-			System.out.println("\t" + s + " : " + counts.get(s));
-		}
-		System.out.println("\tAll : " + countAll);
+	// 	// DEBUG
+	// 	System.out.println("Numbers: ");
+	// 	for (String s: counts.keySet()) {
+	// 		System.out.println("\t" + s + " : " + counts.get(s));
+	// 	}
+	// 	System.out.println("\tAll : " + countAll);
 
-		units.clear();
-		units = null;
+	// 	units.clear();
+	// 	units = null;
 
-		System.out.println(TestSuit.LONG_DASH);
-	}
+	// 	System.out.println(TestSuit.LONG_DASH);
+	// }
 
 	
 
@@ -602,7 +789,7 @@ public class TestSuit {
 			// 	System.out.println(s);
 			// }
 
-			System.out.println(TestSuit.LONG_DASH);
+			// System.out.println(TestSuit.LONG_DASH);
 
 			EventObjectVisitor eventObjectVisitor 
 								= new EventObjectVisitor(eventClassKeys);
@@ -635,7 +822,78 @@ public class TestSuit {
 			// 4. link event setters with corresponding events
 			ASTNodeUtils.bindEventSetters(allActions, allEventObjects);
 
-			System.out.println(TestSuit.LONG_DASH);
+			// System.out.println(TestSuit.LONG_DASH);
+		}
+	}
+
+	@Test
+	@Ignore
+	public void testClassExtraction() {		
+		
+
+		String[] projectPaths = new String[] {
+							"/Users/hans/Desktop/ast/astparser/test-android/ast"
+							};
+
+
+		String[] libs = new String[]{
+			"lib/android/android-18.jar",
+			"android-support-v4.jar",
+			"android-support-v7-appcompat.jar",
+			"android-support-v7-gridlayout.jar",
+			"android-support-v7-mediarouter.jar",
+			"android-support-v13.jar"
+		};
+
+		for (String projectPath : projectPaths) {
+			System.out.println("Project: " + projectPath);
+
+			
+
+			// for (Entry<String, UIActionClass> e : androidUIActions.entrySet()) {
+			// 	if (e.getValue().type == UIActionClass.UIActionType.BIND_EVENT)
+			// 		System.out.println(e.getKey());
+			// }
+
+			// 2. parse project
+			HashMap<String,CompilationUnit> units = parseProject(projectPath, libs);
+
+
+			// 3. find all actions, set up their types and invocations
+			ASTVisitor classVisitor 
+						= new ASTVisitor() {
+							@Override
+							public boolean visit(ClassInstanceCreation node) {
+								System.out.println(node.resolveTypeBinding().getQualifiedName());
+								List<Expression> exps = node.arguments();
+								for (Expression exp : exps) {
+									ITypeBinding typeBinding = exp.resolveTypeBinding();
+
+									if (typeBinding != null &&
+										typeBinding.isParameterizedType() && 
+										typeBinding.getErasure().getQualifiedName().toString().equals("java.lang.Class")) {
+
+										System.out.println(exp + " " + typeBinding.getErasure().getQualifiedName());		
+
+										for (ITypeBinding typeArg : typeBinding.getTypeArguments()){
+											System.out.println(typeArg.getQualifiedName());
+										}
+									}
+									
+								
+								}
+								return true;
+							}
+						};
+
+			for (CompilationUnit u : units.values()) {
+				// DEBUG
+				// for (IProblem prob : u.getProblems())
+				// 	System.out.println(prob);
+
+				u.accept(classVisitor);
+			}
+
 		}
 	}
 }

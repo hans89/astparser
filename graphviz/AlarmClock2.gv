@@ -2,52 +2,42 @@ digraph {
 fontname="Helvetica";
 rank=LR;
 node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
-ClockPicker;
-CP_finish[peripheries=2];
-ClockPicker -> ClockPicker[label="onItemSelected"];
-ClockPicker -> CP_finish[label="onItemClick"];
-ClockPicker -> CP_finish[label="mClockLayout#onClick"];
-CP_finish -> AlarmClock[style=dotted];
 
 AlarmAlert;
-AA_finish[peripheries=2];
-AlarmAlert -> AA_finish[label="snooze#onClick"];
-AlarmAlert -> AA_finish[label="dismiss#onClick"];
-
-SetAlarm;
-SA_finish[peripheries=2];
-SA_TimeDialog;
-SetAlarm -> SetAlarm[label="onOptionsItemSelected/*"];
-SetAlarm -> SetAlarm[label="onCreateOptionsMenu"];
-SetAlarm -> SA_finish[label="alarm_save#onClick"];
-SetAlarm -> SA_finish[label="alarm_cancel#onClick"];
-SetAlarm -> SA_finish[label="onOptionsItemSelected/mDeleteAlarmItem"];
-SetAlarm -> SA_TimeDialog[label="onPreferenceTreeClick"];
-SA_TimeDialog -> SetAlarm[label="onTimeSet"];
-SA_finish -> AlarmClock[style=dotted];
-
-
+AlarmAlertFullScreen;
 AlarmClock;
-AlarmClock -> SetAlarm[label="onItemClick",style=dotted];
-AlarmClock -> SetAlarm[label="onOptionsItemSelected/add",style=dotted];
+ClockPicker;
+SetAlarm;
+SettingsActivity;
 
-AlarmClock -> ClockPicker[label="mClockLayout#onClick",style=dotted];
-AlarmClock -> AlarmClock[label="onCreateOptionsMenu"];
-AlarmClock -> AlarmClock[label="onPrepareOptionsMenu"];
-AlarmClock -> AlarmClock[label="onCreateContextMenu"];
+AA_finish[peripheries=2];
+AlarmAlertFullScreen -> AA_finish[label="snooze#onClick\ndismiss#onClick",style=dotted];
+AlarmAlertFullScreen -> AlarmAlertFullScreen[label="onBackPressed"];
+
+AA_finish[peripheries=2];
+AlarmAlert -> AA_finish[label="snooze#onClick\ndismiss#onClick\nonBackPressed",style=dotted];
 
 AC_DeleteDialog;
-AlarmClock -> AC_DeleteDialog[label="onContextItemSelected/delete"];
-AC_DeleteDialog -> AlarmClock[label="OK"];
-AC_DeleteDialog -> AlarmClock[label="Cancel"];
+AlarmClock -> AC_DeleteDialog[label="onContextItemSelected/delete_alarm"];
+AC_DeleteDialog -> AlarmClock[label="OK\nCancel"];
+AlarmClock -> AlarmClock[label="onContextItemSelected/enable_alarm\nonCreateContextMenu\nonPrepareOptionsMenu\nonCreateOptionsMenu\nonOptionsItemSelected/menu_toggle_clock\nonButton#onClick"];
+
+AlarmClock -> SetAlarm[label="onItemClick\nonOptionsItemSelected/menu_add_alarm",style=dotted];
+
+AlarmClock -> ClockPicker[label="mClockLayout#onClick",style=dotted];
+
+AlarmClock -> SettingsActivity[label="onOptionsItemSelected/menu_settings",style=dotted];
+
+ClockPicker -> ClockPicker[label="onItemSelected\nonNothingSelected"];
+ClockPicker -> AlarmClock[label="onItemClick\nmClockLayout#onClick",style=dotted];
 
 
 
-
-
-
-Settings;
-AlarmClock -> Settings[label="onOptionsItemSelected/setting",style=dotted];
+SetAlarm -> SetAlarm[label="onOptionsItemSelected/*\nonCreateOptionsMenu"];
+SetAlarm -> AlarmClock[label="onBackPressed\nalarm_save#onClick\nalarm_cancel#onClick\nonOptionsItemSelected/mDeleteAlarmItem",style=dotted];
+SA_TimePickerDialog;
+SetAlarm -> SA_TimePickerDialog[label="onPreferenceTreeClick"];
+SA_TimePickerDialog -> SetAlarm[label="onTimeSet"];
 
 
 

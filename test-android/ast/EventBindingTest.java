@@ -4,17 +4,21 @@ import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 import java.util.*;
-
+import android.app.Activity;
+import android.content.Intent;
 
 public class EventBindingTest implements View.OnClickListener,
 	AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
+	public static class ActivityE extends Activity {
+
+	}
 
 	public void onClick(View view) {
 		ListView list = (ListView)view;
 		list.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView parent, View v, int position, long id) {
-        
+        		Intent intent= new Intent(this, ActivityE.class);
     		}
 		});
 

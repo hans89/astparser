@@ -60,11 +60,12 @@ public class ASTNodeUtils {
 	}
 
 	public static Set<String> getSuperTypeQualifiedNames(ITypeBinding startClass) {
+
 		Set<String> qualNames = null;
 		if (startClass != null) {
 			qualNames = new HashSet<String>();
 			
-			Queue<ITypeBinding> tbQueue = new LinkedList<ITypeBinding>();
+			Queue<ITypeBinding> tbQueue = new ArrayDeque<ITypeBinding>();
 
 			tbQueue.offer(startClass);
 
@@ -75,7 +76,9 @@ public class ASTNodeUtils {
 			while ((current = tbQueue.poll()) != null) {
 				// handling parameterized type
 				String currentTypeName = ASTNodeUtils.getTypeNameWithErasure(current);
-				if (currentTypeName != null && !currentTypeName.equals("")
+				
+				// warning: local class has empty string name ""
+				if (currentTypeName != null //&& !currentTypeName.equals("")
 					&& !qualNames.contains(currentTypeName)) {
 					// if we haven't seen this class yet
 
@@ -424,7 +427,6 @@ public class ASTNodeUtils {
 											}
 										} 
 									}
-
 								}
 							}
 						}
@@ -440,12 +442,13 @@ public class ASTNodeUtils {
 	 *
 	 *	the implementation is Android-dependent
 	 */
-	public static void bindStartModals(HashMap<IMethodBinding, UIAction> 
-													allActions, 
-										HashMap<ITypeBinding, UIObject> 
-													allUIObjects) {
+	public static void bindStartModals(
+						HashMap<IMethodBinding, UIAction> allActions, 
+						HashMap<ITypeBinding, UIObject> allUIObjects,
+						HashMap<IVariableBinding, IntentVisitor.IntentInfo> allIntents) {
+
 		for (UIAction action : allActions.values()) {
-			// find action that binds events
+			// find action that starts/ends
 			// redundant check
 			if (action.type == UIAction.ActionType.EXTERNAL_UI
 				&& action.metaClassInfo != null
@@ -466,24 +469,68 @@ public class ASTNodeUtils {
 						
 						
 						for (Expression exp : args) {
-							if ((argTypeBinding = exp.resolveTypeBinding()) != null
-								&& argTypeBinding.getQualifiedName().
-										equals("android.content.Intent")) {
-								
-								// exp is an intent 
-								// it can be either a variable, declare somewhere
-								// or can be a ClassInstanceCreation
+							// exp is an intent 
+							// it can be either a variable, declare somewhere
+							// or can be a ClassInstanceCreation
 
-								// the creation of the intent is based on
-								// the target Activity class
-								// or the registered id in the AndroidManifest.xml
+							// the creation of the intent is based on
+							// the target Activity class
+							// or the registered id in the AndroidManifest.xml
 
-								// in any way, it may be too hard to identify it
-								// statically
+							// in any way, it may be too hard to identify it
+							// statically
+							if (exp instanceof ClassInstanceCreation) {
+								ITypeBinding targetActivity =
+									IntentVisitor.IntentInfo.extract(
+										(ClassInstanceCreation)exp);
+								if (targetActivity != null) {
+									// found the activity type as ClassInstanceCreation
+									act.targetObject = allUIObjects.get(targetActivity);
+									break;
+								}
+							}
+
+							IVariableBinding varBinding = null;
+							if (exp instanceof SuperFieldAccess) {
+								varBinding =
+								((SuperFieldAccess)exp).resolveFieldBinding();
+							} else
+							if (exp instanceof FieldAccess) {
+								varBinding =
+								((FieldAccess)exp).resolveFieldBinding();
+							} else
+							if (exp instanceof QualifiedName) {
+								IBinding ibinding =
+								((QualifiedName)exp).resolveBinding();
+								if (ibinding != null &&
+									ibinding instanceof IVariableBinding)
+									varBinding = (IVariableBinding)ibinding;
+							} else
+							if (exp instanceof SimpleName) {
+								IBinding ibinding =
+								((SimpleName)exp).resolveBinding();
+								if (ibinding != null &&
+									ibinding instanceof IVariableBinding)
+									varBinding = (IVariableBinding)ibinding;
+							}
+
+							if (varBinding != null) {
+								IntentVisitor.IntentInfo intentInfo =
+									allIntents.get(varBinding);
+								ITypeBinding targetActivity;
+								if (intentInfo != null && 
+									(targetActivity = intentInfo.extractActivity()) 
+									!= null) {
+									// found the activity type field/variable
+									act.targetObject = allUIObjects.get(targetActivity);
+									break;
+								}
 							}
 						}
 
-					} else if (action.metaClassInfo.type ==
+					} 
+					//TEMP DISABLE end modals
+					else if (action.metaClassInfo.type ==
 							UIActionClass.UIActionType.END_MODAL) {
 
 						// "finish" will end the calling activiy
@@ -491,6 +538,8 @@ public class ASTNodeUtils {
 							ITypeBinding callingClass =
 								act.invokingMethod.getDeclaringClass();
 
+
+							// handle nested local class - may be wrong!
 							while (callingClass != null &&
 									ASTNodeUtils.subClassOf(callingClass, 
 										"android.app.Activity") == null) {
@@ -498,7 +547,7 @@ public class ASTNodeUtils {
 							}
 
 							if (callingClass != null)
-								act.targetObject
+								act.endTargetObject
 									= allUIObjects.get(callingClass);
 						}
 
@@ -662,6 +711,8 @@ public class ASTNodeUtils {
 	 *	Multiple UIActionInvocation paths that lead to the same INTERNAL_UI
 	 *	action are grouped and saved in the UIActionInternal#executingPaths
 	 *	properties.
+	 * 	
+	 *	TODO: integrate conditional branchings
 	 *
 	 *	@param allActions	contains all actions including the events and setters
 	 */
@@ -672,13 +723,22 @@ public class ASTNodeUtils {
 
 			if (action.type == UIAction.ActionType.EXTERNAL_UI) {
 
+				// stack for exploring the invocation series using a DFS
 				Deque<UIActionInvocation> stack 
 										= new ArrayDeque<UIActionInvocation>();
+
+				// pathStack for tracing the path travelled so far for the action
+				// atop of stack
 				Deque<LinkedHashSet<UIActionInvocation>> pathStack 
 						= new ArrayDeque<LinkedHashSet<UIActionInvocation>>();
 
+				// current action examined at top of stack
+				UIActionInvocation currentAct;	
+				// corresponding current path of current action
 				LinkedHashSet<UIActionInvocation> currentPath;
 
+
+				// init
 				for (UIActionInvocation act : action.invokedList) {
 					currentPath = new LinkedHashSet<UIActionInvocation>();
 
@@ -688,8 +748,6 @@ public class ASTNodeUtils {
 					pathStack.addFirst(currentPath);	
 				}
 				
-
-				UIActionInvocation currentAct;
 				// DFS
 				while ((currentAct = stack.peekFirst()) != null) {
 					stack.removeFirst();
@@ -709,13 +767,15 @@ public class ASTNodeUtils {
 						ITypeBinding invokerDeclaringClass 
 							= invoker.containingType;
 
-						// if the sink node is of type INTERNAL_UI, check it
+						// if the sink node is of type INTERNAL_UI, or a hook 
+						// method check it
+						//
 						// else if the node is of type INTERNAL_APP_DEFINED,
-						// the it probably is a redundant method
+						// then it probably is a redundant (unused) method
 
 						// redundant check
-						if (invoker.type == UIAction.ActionType.INTERNAL_UI
-							&& invoker instanceof UIActionInternal) {
+						if (//invoker.type == UIAction.ActionType.INTERNAL_UI && 
+							invoker instanceof UIActionInternal) {
 
 							UIActionInternal internalAct 
 										= (UIActionInternal)invoker;
@@ -884,5 +944,49 @@ public class ASTNodeUtils {
 		}
 
 		return superTypeKeys;
+	}
+
+	public static Map<String, ITypeBinding> resolveWellknownType(AST ast) {
+		Map<String, ITypeBinding> types = new HashMap<String, ITypeBinding>();
+
+		String[] wellknownTypes = new String[] {
+			"boolean",
+			"byte",
+			"char",
+			"double",
+			"float",
+			"int",
+			"long",
+			"short",
+			"void",
+			"java.lang.AssertionError", 
+			"java.lang.Boolean", 
+			"java.lang.Byte", 
+			"java.lang.Character", 
+			"java.lang.Class",
+			"java.lang.Cloneable",
+			"java.lang.Double", 
+			"java.lang.Error",
+			"java.lang.Exception",
+			"java.lang.Float", 
+			"java.lang.Integer", 
+			"java.lang.Long", 
+			"java.lang.Object",
+			"java.lang.RuntimeException",
+			"java.lang.Short", 
+			"java.lang.String",
+			"java.lang.StringBuffer",
+			"java.lang.Throwable",
+			"java.lang.Void", 
+			"java.io.Serializable"
+		};
+
+		for (String type : wellknownTypes) {
+			ITypeBinding binding = ast.resolveWellKnownType(type);
+			if (binding != null) {
+				types.put(type, binding);
+			}
+		}
+		return types;
 	}
 }

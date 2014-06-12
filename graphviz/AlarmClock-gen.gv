@@ -1,0 +1,22 @@
+digraph {
+fontname="Helvetica";
+node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
+SettingsActivity;
+AlarmClock;
+s2[peripheries=2];
+ClockPicker;
+s1[peripheries=2];
+SetAlarm;
+s3[peripheries=2];
+s0[peripheries=2];
+
+ClockPicker -> ClockPicker[label="onItemSelected\nonNothingSelected"];
+ClockPicker -> s2[label="onItemClick",style=dotted];
+SetAlarm -> SetAlarm[label="onCreateOptionsMenu\nonTimeSet"];
+SetAlarm -> s3[label="onOptionsItemSelected",style=dotted];
+
+AlarmClock -> AlarmClock[label="onPrepareOptionsMenu\nonCreateOptionsMenu\nonContextItemSelected\nonCreateContextMenu"];
+AlarmClock -> s1[label="onItemClick",style=dotted];
+AlarmClock -> s0[label="onOptionsItemSelected",style=dotted];
+
+}

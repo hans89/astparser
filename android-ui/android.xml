@@ -20,7 +20,7 @@
 			category="INSOURCE"
 			type="top-event"/>
 
-		<action method="onBackPresses"  class="android.app.Activity"
+		<action method="onBackPressed"  class="android.app.Activity"
 			category="INSOURCE"
 			type="top-event"/>	
 

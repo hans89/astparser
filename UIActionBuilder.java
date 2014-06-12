@@ -41,19 +41,25 @@ public class UIActionBuilder {
 		UIActionClass interestingActionClass = null;
 
 		// DEBUG
-		// System.out.println("-------------");
+		
+		// System.out.println(" for " + declaringClass.getKey());
+
+		// if (superTypeNames == null)
+		// 	System.out.println("super types: NULL");
+		// else 
+		// 	System.out.println("super types: size " + superTypeNames.size());
 
 		for (String superTypeName : superTypeNames) {
 			String methodClassName = superTypeName + "#" + methodName;
 
 
-
 			if (actionMetaData.containsKey(methodClassName)) {
 				// DEBUG
-				// System.out.println("Found " + methodClassName + " for " + declaringClass);
+				// System.out.println("Found " + methodClassName);
 				interestingActionClass = actionMetaData.get(methodClassName);
 				break;
 			}
+			// System.out.println(methodClassName);
 		}
 
 		// has a UIActionClass		
@@ -92,6 +98,7 @@ public class UIActionBuilder {
 			}
 			else {
 			/* INTERNAL, not known yet */
+				// System.out.println("INTERNAL_APP_DEFINED " + node);
 				action = new UIActionInternal();
 
 				((UIActionInternal)action).declaration = node;	
@@ -104,6 +111,8 @@ public class UIActionBuilder {
 		action.metaClassInfo = interestingActionClass;
 		action.methodBinding = methodBinding;
 
+		//System.out.println("-------------");
+		
 		return action;
 	}
 }

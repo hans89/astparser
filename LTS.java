@@ -24,6 +24,17 @@ public class LTS<S, A> {
 		public S fromState;
 		public A labelledAction;
 		public S toState;
+		public boolean isTransition;
+	}
+
+	public void addTransition(S fromState, A action, S toState) {
+		Transition<S, A> newTransition
+				= new Transition<S, A>();
+
+		newTransition.fromState = fromState;
+		newTransition.labelledAction = action;
+		newTransition.toState = toState;
+		this.transitions.add(newTransition);
 	}
 }
 
