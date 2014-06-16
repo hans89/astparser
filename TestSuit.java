@@ -257,70 +257,91 @@ public class TestSuit {
 		ASTNodeUtils.bindStartModals(allActions, allUIObjects, allIntents);
 
 		// DEBUG
-		// for (UIObject obj : allUIObjects.values()) {
-		// 	System.out.println(TestSuit.LONG_DASH);
-		// 	System.out.println(obj.typeBinding.getQualifiedName());
-		// 	if (obj.initActions != null)
-		// 	for (UIAction act : obj.initActions.values()) {
-		// 		if (act instanceof UIActionInternal) {
-		// 			UIActionInternal actInt = (UIActionInternal)act;
-		// 			if (actInt.executingPaths != null) {
-		// 				System.out.println(actInt.methodBinding.getKey());
-		// 				for (Set<UIActionInvocation> path : actInt.executingPaths) {
-		// 					System.out.print("\t ");
-		// 					for (UIActionInvocation actInv : path) {
-		// 						System.out.print(actInv.astSourceNode.getExpression()
-		// 							+ "." + actInv.astSourceNode.getName() + " -> ");
-		// 					}
 
-		// 					System.out.println(".");
-		// 				}	
+		// class InternalActionPrinter {
+		// 	public void print(Collection<UIAction> actions) {
+		// 		for (UIAction act : actions) {
+		// 			if (act instanceof UIActionInternal) {
+		// 				UIActionInternal actInt = (UIActionInternal)act;
+		// 				System.out.println(actInt.methodBinding.getKey());
+		// 				if (actInt.executingPaths != null) {
+		// 					for (Set<UIActionInvocation> path : actInt.executingPaths) {
+		// 						System.out.print("\t ");
+		// 						for (UIActionInvocation actInv : path) {
+		// 							System.out.print(actInv.astSourceNode.getExpression()
+		// 								+ "." + actInv.astSourceNode.getName() + " <- ");
+		// 						}
+
+		// 						System.out.println(".");
+		// 					}	
+		// 				}
 		// 			}
 		// 		}
 		// 	}
+		// }
+
+		// InternalActionPrinter actPrinter = new InternalActionPrinter();
+
+		// for (UIObject obj : allUIObjects.values()) {
+		// 	System.out.println(TestSuit.LONG_DASH);
+		// 	System.out.println(obj.typeBinding.getQualifiedName());
+		// 	if (obj.initActions != null) {
+		// 		System.out.println("INITACTION");
+		// 		actPrinter.print(obj.initActions.values());
+		// 	}
+
+		// 	if (obj.topEventActions != null) {
+		// 		System.out.println("TOPEVENT");
+		// 		actPrinter.print(obj.topEventActions.values());
+		// 	}
+				
 		// }
 		
+		// System.out.println(TestSuit.LONG_DASH);
+		// System.out.println(TestSuit.LONG_DASH);
+		// System.out.println(TestSuit.LONG_DASH);
 
-		// for (UIObject obj : allUIObjects.values()) {
-		// 	System.out.println(TestSuit.LONG_DASH);
-		// 	System.out.println(obj.typeBinding.getQualifiedName());
-		// 	if (obj.initActions != null)
-		// 	for (UIAction act : obj.getAllInitialEvents()) {
-		// 		if (act instanceof UIActionInternal) {
-		// 			UIActionInternal actInt = (UIActionInternal)act;
-		// 			if (actInt.executingPaths != null) {
-		// 				System.out.println(actInt.methodBinding.getKey());
-		// 				for (Set<UIActionInvocation> path : actInt.executingPaths) {
-		// 					System.out.print("\t ");
-		// 					for (UIActionInvocation actInv : path) {
-		// 						if (actInv instanceof UIActionInvocationStartModal) {
-		// 							UIActionInvocationStartModal actInvStart
-		// 								= (UIActionInvocationStartModal)actInv;
+		for (UIObject obj : allUIObjects.values()) {
+			System.out.println(TestSuit.LONG_DASH);
+			System.out.println(obj.typeBinding.getQualifiedName());
+			int i = 0;
+			if (obj.initActions != null)
+			for (Set<UIAction> actSet : obj.getAllPossibleInitialActionSets()) {
+				System.out.println("ACTSET " + Integer.toString(i++));
+				for (UIAction act : actSet) {
+					if (act instanceof UIActionInternal) {
+						UIActionInternal actInt = (UIActionInternal)act;
+						System.out.println(actInt.methodBinding.getKey());
+						if (actInt.executingPaths != null) {
+							for (Set<UIActionInvocation> path : actInt.executingPaths) {
+								System.out.print("\t ");
+								for (UIActionInvocation actInv : path) {
+									if (actInv instanceof UIActionInvocationStartModal) {
+										UIActionInvocationStartModal actInvStart
+											= (UIActionInvocationStartModal)actInv;
 
-		// 							if (actInvStart.targetObject != null)
-		// 								System.out.print("Target: " + 
-		// 								actInvStart.targetObject.typeBinding.getKey() + " | "); 
-									
-		// 							if (actInvStart.endTargetObject != null)
-		// 								System.out.print("EndTarget: " + 
-		// 								actInvStart.endTargetObject.typeBinding.getKey() + " | "); 
+										if (actInvStart.targetObject != null)
+											System.out.print("Target: " + 
+											actInvStart.targetObject.typeBinding.getKey() + " | "); 
+										
+										if (actInvStart.endTargetObject != null)
+											System.out.print("EndTarget: " + 
+											actInvStart.endTargetObject.typeBinding.getKey() + " | "); 
 
-		// 						}
-									
-								
-		// 						System.out.print(actInv.astSourceNode.getExpression()
-		// 							+ "." + actInv.astSourceNode.getName() + " <- ");
+									}
 
+									System.out.print(actInv.astSourceNode.getExpression()
+										+ "." + actInv.astSourceNode.getName() + " <- ");
+								}
 
-		// 					}
-
-		// 					System.out.println(".");
-		// 				}	
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// END DEBUG
+								System.out.println(".");
+							}	
+						}
+					}
+				}
+			}
+		}
+		//END DEBUG
 
 		// 9. now we are ready to build the LTS
 		/*
@@ -357,17 +378,17 @@ public class TestSuit {
 		for (UIObject obj : allUIObjects.values()) {
 			
 			// set up initial state
-			Set<UIAction> initialState = obj.getAllInitialEvents();
+			Collection<Set<UIAction>> initialStates = obj.getAllPossibleInitialActionSets();
 			
-			lts.actions.addAll(initialState);
+			lts.states.addAll(initialStates);
+			lts.initialStates.addAll(initialStates);
 
-
-			lts.states.add(initialState);
-			// id for a state
-			stateIDs.put(initialState, obj.getName());
-
-
-			lts.initialStates.add(initialState);
+			for (Set<UIAction> initialState : initialStates) {
+				lts.actions.addAll(initialState);
+				
+				// id for a state
+				stateIDs.put(initialState, obj.getName() + Integer.toString(idSGen.next()));
+			}			
 		}
 
 		/**
@@ -412,32 +433,83 @@ public class TestSuit {
 					if (actInv instanceof UIActionInternal) {
 						UIActionInternal act = (UIActionInternal)actInv;
 
-						Set<UIActionInvocation> startModals = 
-							act.getStartEndModals();
+						List<UIActionInternal.StateDelta> stateDeltas
+									 = act.getPossibleStateDelta();
 
-						if (startModals.size() == 0) {
-							Set<UIAction> nextState = new HashSet<UIAction>(currentState);
-
-							Set<UIAction> enabledEvents = 
-								act.getEnabledEvents();
-
-							Set<UIAction> disabledEvents = 
-								act.getDisabledEvents();
-
-							nextState.addAll(enabledEvents);
-							nextState.removeAll(disabledEvents);
-
+						// if no state delta can be found, then returns to the current state
+						if (stateDeltas == null || stateDeltas.isEmpty()) {
 							// add the transition
-							lts.addTransition(currentState, act, nextState);
-							transIDs.put(act, act.getName());	
+							lts.addTransition(currentState, act, currentState);
 
-							if (!lts.states.contains(nextState)) {
-							// if this is a new state, add it to the set
-								lts.states.add(nextState);
-								stateIDs.put(nextState, "s" + Integer.toString(idSGen.next()));
+							if (!transIDs.containsKey(act))
+									transIDs.put(act, act.getName());
+							continue;
+						}
 
-							// add it to the stack for transition building
-								stateStack.addFirst(nextState);	
+						// check for each possible effect by this action
+						for (UIActionInternal.StateDelta stateDel : stateDeltas) {
+							Set<UIAction> nextState;
+
+							// start/end modal dominates
+							if (stateDel.startModalEffects != null
+									&& !stateDel.startModalEffects.isEmpty()) {
+								// if multiple start/end modals appear
+								// that would create a hypergraph!
+								// 1 edge that connect one vertice to more than 1 other vertices
+
+								// for now we make it a normal graph 
+								// by selecting only 1 startObject
+								
+								for (UIActionInvocationStartModal startModal :
+										stateDel.startModalEffects) {
+									if (startModal.targetObject != null) {
+										UIObject startObject = startModal.targetObject;
+
+										Collection<Set<UIAction>> possibleInitstates
+										= startObject.getAllPossibleInitialActionSets();
+
+										// there might be multiple next states
+										// for each delta
+										// depending on the initial states of 
+										// the target object
+										for (Set<UIAction> targetInitState : 
+												possibleInitstates) {
+											// add the transition
+											lts.addTransition(currentState, act, targetInitState);
+											if (!transIDs.containsKey(act))
+												transIDs.put(act, act.getName());
+										}
+									}
+								}
+							}
+							// or not start/end modal
+							// there should be only 1 next state for each delta
+							else if ((stateDel.addedActions != null && 
+										!stateDel.addedActions.isEmpty()) 
+									|| (stateDel.removedActions != null &&
+										!stateDel.removedActions.isEmpty())) {
+								nextState = new HashSet<UIAction>(currentState);
+
+								if (stateDel.addedActions != null)
+									nextState.addAll(stateDel.addedActions);
+
+								if (stateDel.removedActions != null)
+									nextState.removeAll(stateDel.removedActions);
+
+								if (!lts.states.contains(nextState)) {
+									// if this is a new state, add it to the set
+									lts.states.add(nextState);
+									stateIDs.put(nextState, 
+										"s" + Integer.toString(idSGen.next()));
+
+									// add it to the stack for transition building
+									stateStack.addFirst(nextState);	
+								}
+
+								// add the transition
+								lts.addTransition(currentState, act, nextState);
+								if (!transIDs.containsKey(act))
+									transIDs.put(act, act.getName());
 							}
 						}
 					}
@@ -445,103 +517,106 @@ public class TestSuit {
 			}
 		}
 
-		Set<Set<UIAction>> newStates = new HashSet<Set<UIAction>>();
 
-		// {
-		// 	for (UIActionInvocation actStart : startModals) {
+		// we handle ending-modal-only actions after
+		List<Set<UIAction>> endModalStates = new ArrayList<Set<UIAction>>();
 
-		// 		if (actStart instanceof UIActionInvocationStartModal) {
-		// 			UIObject targetObject =
-		// 				((UIActionInvocationStartModal)actStart).targetObject;
-		// 			if (targetObject != null) {
-		// 				nextState = targetObject.getAllInitialEvents();
-
-		// 				// add the transition
-		// 				lts.addTransition(currentState, act, nextState);
-		// 				transIDs.put(act, act.getName());	
-		// 				break;	
-		// 			}
-		// 		}
-		// 	}
-
-		// 	// if (nextState == null) {
-		// 	// 	nextState = new HashSet<UIAction>();
-
-		// 	// 	nextState.add(new UIAction());
-
-		// 	// 	lts.terminalStates.add(nextState);
-		// 	// 	terminal = true;	
-		// 	// }	
-		// } 
-
-		for (Set<UIAction> state : lts.states) {
-			for (UIAction actInv : state) {
+		for (Set<UIAction> currentState : lts.states) {
+			for (UIAction actInv : currentState) {
+				// identify effect of act
+				// get all possible effects
 				if (actInv instanceof UIActionInternal) {
-						
 					UIActionInternal act = (UIActionInternal)actInv;
 
-					Set<UIAction> nextState = null;
-					
-					// if it is a terminal state
-					Set<UIActionInvocation> startModals = 
-						act.getStartEndModals();
+					List<UIActionInternal.StateDelta> stateDeltas
+								 = act.getPossibleStateDelta();
 
-					if (startModals.size() > 0) {
+					// check for each possible effect by this action
+					for (UIActionInternal.StateDelta stateDel : stateDeltas) {
+						Set<UIAction> nextState;
 
-						for (UIActionInvocation actStart : startModals) {
-
-							if (actStart instanceof UIActionInvocationStartModal) {
-								UIObject targetObject =
-									((UIActionInvocationStartModal)actStart).targetObject;
-								if (targetObject != null) {
-									found = true;
-									break;	
-								}
-							}
-						}
-
-						if (found == false) {
-							// if this state ends itself
-							// it will to its caller, if any
-							// if it has no caller, then it moves to a terminal state
-
-							for (LTS.Transition<Set<UIAction>, UIAction>
-									trans : lts.transitions) {
-								if (trans.toState.equals(state)){
-									nextState = 
-										trans.fromState;
-									//break;
-								}
-							}
-
-							// no caller 
-							if (nextState == null) {
-								nextState = new HashSet<UIAction>();
-
-								nextState.add(new UIAction());
-
-								lts.terminalStates.add(nextState);
-							}
-
+						// start/end modal dominates
+						if (stateDel.startModalEffects != null
+								&& !stateDel.startModalEffects.isEmpty()) {
 							
-							// add the transition
-							lts.addTransition(state, actInv, nextState);
-							transIDs.put(actInv, actInv.getName());	
+							Set<UIObject> endObjects = new HashSet<UIObject>();
+							Set<UIActionInvocationStartModal> endActions 
+								= new HashSet<UIActionInvocationStartModal>();
+							
 
-							if (!lts.states.contains(nextState)) {
-								// if this is a new state, add it to the set
-								newStates.add(nextState);
-								stateIDs.put(nextState, "s" + Integer.toString(idSGen.next()));
+							for (UIActionInvocationStartModal startModal :
+									stateDel.startModalEffects) {
+								// there is no next UI object, just stopping
+								if (startModal.endTargetObject != null) {
+									endObjects.add(startModal.endTargetObject);
+									endActions.add(startModal);
+								}
+							}
+
+							// current UI objects
+							if (!endObjects.isEmpty() && !endActions.isEmpty()) {
+								// dealing with multiple ends is not yet solved
+								// for now we just deal with ending the current windows
+								boolean endCurrentObject = false;
+								for (UIActionInvocationStartModal end : endActions) {
+									if (end.endCurrentObject == true) {
+										endCurrentObject = end.endCurrentObject;
+										break;
+									}
+								}
+
+								if (endCurrentObject == true) {
+									// we check if any state leads to the current state
+									// if so, ending current states will return to
+									// that states
+									// or else, it will simply ends
+									boolean found = false;
+
+									for (LTS.Transition<Set<UIAction>, UIAction>
+											 trans : lts.transitions) {
+										if (trans.toState.equals(currentState) &&
+											!trans.fromState.equals(currentState)) {
+											found = true;
+											nextState = trans.fromState;
+
+											// add the transition
+											lts.addTransition(currentState, act, nextState);
+											if (!transIDs.containsKey(act))
+												transIDs.put(act, act.getName());
+
+											break;
+										}
+									}
+
+									// simply ends
+									if (found == false) {
+										nextState = new HashSet<UIAction>();
+
+										nextState.add(new UIAction());
+
+										endModalStates.add(nextState);
+										
+										stateIDs.put(nextState, 
+										"s" + Integer.toString(idSGen.next()));
+
+										// add the transition
+										lts.addTransition(currentState, act, nextState);
+										if (!transIDs.containsKey(act))
+											transIDs.put(act, act.getName());	
+									}
+								}
 							}
 						}
-						// found a target object, this has been handled above
-						//	continue;
 					}
 				}
-			}
+			}		
 		}
-
-		lts.states.addAll(newStates);
+		
+		lts.states.addAll(endModalStates);
+		lts.terminalStates.addAll(endModalStates);
+			
+		Map<Set<UIAction>, Map<Set<UIAction>, List<UIAction>>> 
+					adjacencyMap = lts.makeAdjacencyMap();
 
 		try {
 			File file = new File(graphOutput);
@@ -566,44 +641,45 @@ public class TestSuit {
 				
 				bw.write(stateIDs.get(state));
 
-				for (UIAction event : state) {
-					if (event.methodBinding == null) {
-						// terminal
-						bw.write("[peripheries=2]");
-						break;
-					}
-				}
+				if (lts.terminalStates.contains(state))
+					bw.write("[peripheries=2]");
 
 				bw.write(";");
 				bw.newLine();
 			}
 
-			for (LTS.Transition<Set<UIAction>, UIAction> trans : lts.transitions) {
+			for (Entry<Set<UIAction>, Map<Set<UIAction>, List<UIAction>>> 
+						entry : adjacencyMap.entrySet()) {
+				Set<UIAction> fromState = entry.getKey();
+				Map<Set<UIAction>, List<UIAction>> map2 = entry.getValue();
 
-				bw.write(stateIDs.get(trans.fromState)
-						+ " -> " + stateIDs.get(trans.toState));
+				for (Entry<Set<UIAction>, List<UIAction>> entry2
+						: map2.entrySet()) {
 
-				bw.write("[label=\"" + transIDs.get(trans.labelledAction)
-							+ "\"");
+					Set<UIAction> toState = entry2.getKey();
 
-				boolean terminal = false;
+					List<UIAction> actions = entry2.getValue();
 
-				for (UIAction act : trans.toState)
-					if (act.methodBinding == null) {
-						terminal = true;
-						break;
+					if (actions.size() > 0) {
+						bw.write(stateIDs.get(fromState)
+									+ " -> " + stateIDs.get(toState));
+
+						bw.write("[label=\""); 
+
+						
+						int size = actions.size();
+						for (int i = 0; i < size - 1; i ++) {
+							bw.write(transIDs.get(actions.get(i)) + "\n");
+						}
+
+						bw.write(transIDs.get(actions.get(size-1)));
+
+						bw.write("\",style=dotted];");
+						
+						bw.newLine();	
 					}
-
-				if (terminal == true)
-					bw.write(",style=dotted");
-
-				bw.write("]");
-
-
-
-				bw.write(";");
-				bw.newLine();
-			} 
+				}
+			}
 
 			bw.write("}");
 
@@ -717,7 +793,7 @@ public class TestSuit {
 
 	@Test
 	@Ignore
-	public void testEventLink() {		
+	public void testEventLink() {
 		
 
 		String[] projectPaths = new String[] {
@@ -895,5 +971,33 @@ public class TestSuit {
 			}
 
 		}
+	}
+
+	@Test
+	@Ignore
+	public void testSetSelection() {
+		List<Integer> bins = new ArrayList<Integer>();
+
+		int radix = 10;
+		for (int i = 0; i < radix; i++)
+			bins.add(i);
+
+		List<List<Integer>> binNums = new ArrayList<List<Integer>>();
+
+		int numBit = 3;
+		for (int i = 0; i < numBit; i++)
+			binNums.add(bins);
+		
+
+		SetSelector selector = new SetSelector(binNums);
+
+		List<List<Integer>> selections = selector.getSelectionSet();
+
+		for (List<Integer> selection : selections) {
+			for (Integer digit : selection)
+				System.out.print(digit);
+			System.out.println();
+		}
+
 	}
 }

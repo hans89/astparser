@@ -546,12 +546,14 @@ public class ASTNodeUtils {
 								callingClass = callingClass.getDeclaringClass();
 							}
 
-							if (callingClass != null)
+							if (callingClass != null) {
 								act.endTargetObject
 									= allUIObjects.get(callingClass);
+								act.endCurrentObject = true;
+							}
 						}
 
-						// finishActivity(int requestCode)
+						// TODO: finishActivity(int requestCode)
 						// -> finish the activity that was called by
 						// 		startActivityForResult(Intent intent,
 						//								int requestCode)

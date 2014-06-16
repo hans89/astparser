@@ -24,7 +24,6 @@ public class LTS<S, A> {
 		public S fromState;
 		public A labelledAction;
 		public S toState;
-		public boolean isTransition;
 	}
 
 	public void addTransition(S fromState, A action, S toState) {
@@ -35,6 +34,38 @@ public class LTS<S, A> {
 		newTransition.labelledAction = action;
 		newTransition.toState = toState;
 		this.transitions.add(newTransition);
+	}
+
+	private Map<S, Map<S, List<A>>> adjacencyMap;
+	public Map<S, Map<S, List<A>>> makeAdjacencyMap() {
+		if (adjacencyMap != null)
+			return adjacencyMap;
+
+		adjacencyMap = new HashMap<S, Map<S, List<A>>>();
+
+		for (Transition<S,A> trans : transitions) {
+			Map<S, List<A>> internalMap;
+
+			if (!adjacencyMap.containsKey(trans.fromState)) {
+				internalMap = new HashMap<S, List<A>>();
+				adjacencyMap.put(trans.fromState, internalMap);
+			} else {
+				internalMap = adjacencyMap.get(trans.fromState);
+			}
+
+			List<A> transitionList;
+
+			if (!internalMap.containsKey(trans.toState)) {
+				transitionList = new ArrayList<A>();
+				internalMap.put(trans.toState, transitionList);
+			} else {
+				transitionList = internalMap.get(trans.toState);
+			}
+
+			transitionList.add(trans.labelledAction);
+		}
+
+		return adjacencyMap;
 	}
 }
 
