@@ -301,46 +301,46 @@ public class TestSuit {
 		// System.out.println(TestSuit.LONG_DASH);
 		// System.out.println(TestSuit.LONG_DASH);
 
-		for (UIObject obj : allUIObjects.values()) {
-			System.out.println(TestSuit.LONG_DASH);
-			System.out.println(obj.typeBinding.getQualifiedName());
-			int i = 0;
-			if (obj.initActions != null)
-			for (Set<UIAction> actSet : obj.getAllPossibleInitialActionSets()) {
-				System.out.println("ACTSET " + Integer.toString(i++));
-				for (UIAction act : actSet) {
-					if (act instanceof UIActionInternal) {
-						UIActionInternal actInt = (UIActionInternal)act;
-						System.out.println(actInt.methodBinding.getKey());
-						if (actInt.executingPaths != null) {
-							for (Set<UIActionInvocation> path : actInt.executingPaths) {
-								System.out.print("\t ");
-								for (UIActionInvocation actInv : path) {
-									if (actInv instanceof UIActionInvocationStartModal) {
-										UIActionInvocationStartModal actInvStart
-											= (UIActionInvocationStartModal)actInv;
+		// for (UIObject obj : allUIObjects.values()) {
+		// 	System.out.println(TestSuit.LONG_DASH);
+		// 	System.out.println(obj.typeBinding.getQualifiedName());
+		// 	int i = 0;
+		// 	if (obj.initActions != null)
+		// 	for (Set<UIAction> actSet : obj.getAllPossibleInitialActionSets()) {
+		// 		System.out.println("ACTSET " + Integer.toString(i++));
+		// 		for (UIAction act : actSet) {
+		// 			if (act instanceof UIActionInternal) {
+		// 				UIActionInternal actInt = (UIActionInternal)act;
+		// 				System.out.println(actInt.methodBinding.getKey());
+		// 				if (actInt.executingPaths != null) {
+		// 					for (Set<UIActionInvocation> path : actInt.executingPaths) {
+		// 						System.out.print("\t ");
+		// 						for (UIActionInvocation actInv : path) {
+		// 							if (actInv instanceof UIActionInvocationStartModal) {
+		// 								UIActionInvocationStartModal actInvStart
+		// 									= (UIActionInvocationStartModal)actInv;
 
-										if (actInvStart.targetObject != null)
-											System.out.print("Target: " + 
-											actInvStart.targetObject.typeBinding.getKey() + " | "); 
+		// 								if (actInvStart.targetObject != null)
+		// 									System.out.print("Target: " + 
+		// 									actInvStart.targetObject.typeBinding.getKey() + " | "); 
 										
-										if (actInvStart.endTargetObject != null)
-											System.out.print("EndTarget: " + 
-											actInvStart.endTargetObject.typeBinding.getKey() + " | "); 
+		// 								if (actInvStart.endTargetObject != null)
+		// 									System.out.print("EndTarget: " + 
+		// 									actInvStart.endTargetObject.typeBinding.getKey() + " | "); 
 
-									}
+		// 							}
 
-									System.out.print(actInv.astSourceNode.getExpression()
-										+ "." + actInv.astSourceNode.getName() + " <- ");
-								}
+		// 							System.out.print(actInv.astSourceNode.getExpression()
+		// 								+ "." + actInv.astSourceNode.getName() + " <- ");
+		// 						}
 
-								System.out.println(".");
-							}	
-						}
-					}
-				}
-			}
-		}
+		// 						System.out.println(".");
+		// 					}	
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
 		//END DEBUG
 
 		// 9. now we are ready to build the LTS
@@ -378,6 +378,10 @@ public class TestSuit {
 		for (UIObject obj : allUIObjects.values()) {
 			
 			// set up initial state
+			// DEBUG
+			System.out.println(TestSuit.LONG_DASH);
+			System.out.println(obj.typeBinding.getKey());
+			// END DEBUG
 			Collection<Set<UIAction>> initialStates = obj.getAllPossibleInitialActionSets();
 			
 			lts.states.addAll(initialStates);

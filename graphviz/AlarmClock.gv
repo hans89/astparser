@@ -1,38 +1,36 @@
 digraph {
 fontname="Helvetica";
 node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
-ClockPicker4;
-s7[peripheries=2];
-ClockAdapter3;
-SetAlarm1;
-SettingsActivity6;
-AlarmAlert5;
-s9[peripheries=2];
-AlarmClock0;
+AlarmAlertFullScreen4;
+ClockAdapter0;
 s8[peripheries=2];
-AlarmAlertFullScreen2;
-ClockPicker4 -> ClockPicker4[label="onNothingSelected
-onItemSelected",style=dotted];
-ClockPicker4 -> AlarmClock0[label="onItemClick
-onClick",style=dotted];
-SetAlarm1 -> SetAlarm1[label="onTimeSet
-onCreateOptionsMenu",style=dotted];
-SetAlarm1 -> AlarmClock0[label="onBackPressed
-onOptionsItemSelected
+AlarmClock6;
+AlarmAlert3;
+SettingsActivity2;
+s9[peripheries=2];
+SetAlarm1;
+s7[peripheries=2];
+ClockPicker5;
+AlarmAlertFullScreen4 -> AlarmAlertFullScreen4[label="onBackPressed",style=dotted];
+AlarmAlertFullScreen4 -> s8[label="onClick",style=dotted];
+AlarmAlertFullScreen4 -> s7[label="onClick",style=dotted];
+AlarmAlert3 -> s9[label="onBackPressed",style=dotted];
+AlarmClock6 -> SettingsActivity2[label="onOptionsItemSelected",style=dotted];
+AlarmClock6 -> AlarmClock6[label="onContextItemSelected
+onPrepareOptionsMenu
+onCreateOptionsMenu
+onCreateContextMenu",style=dotted];
+AlarmClock6 -> SetAlarm1[label="onItemClick
+onOptionsItemSelected",style=dotted];
+AlarmClock6 -> ClockPicker5[label="onClick",style=dotted];
+SetAlarm1 -> AlarmClock6[label="onClick
+onBackPressed
 onClick
-onClick",style=dotted];
-AlarmAlert5 -> s7[label="onBackPressed",style=dotted];
-AlarmClock0 -> ClockPicker4[label="onClick",style=dotted];
-AlarmClock0 -> SetAlarm1[label="onItemClick
-onOptionsItemSelected
 onOptionsItemSelected",style=dotted];
-AlarmClock0 -> SettingsActivity6[label="onOptionsItemSelected
-onOptionsItemSelected",style=dotted];
-AlarmClock0 -> AlarmClock0[label="onCreateOptionsMenu
-onContextItemSelected
-onCreateContextMenu
-onPrepareOptionsMenu",style=dotted];
-AlarmAlertFullScreen2 -> s9[label="onClick",style=dotted];
-AlarmAlertFullScreen2 -> AlarmAlertFullScreen2[label="onBackPressed",style=dotted];
-AlarmAlertFullScreen2 -> s8[label="onClick",style=dotted];
+SetAlarm1 -> SetAlarm1[label="onCreateOptionsMenu
+onTimeSet",style=dotted];
+ClockPicker5 -> AlarmClock6[label="onClick
+onItemClick",style=dotted];
+ClockPicker5 -> ClockPicker5[label="onNothingSelected
+onItemSelected",style=dotted];
 }

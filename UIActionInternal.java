@@ -2,6 +2,7 @@ package astparser.UIModel;
 
 import org.eclipse.jdt.core.dom.*;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class UIActionInternal extends UIAction {
 	
@@ -75,7 +76,26 @@ public class UIActionInternal extends UIAction {
 				possibleEffectsMap.get(newPath).add(externalInvoke);
 			}
 		}
+		
+		// DEBUG
+		// for (Entry<LinkedHashSet<UIActionInvocation>, Set<UIActionInvocation>>
+		// 		e : possibleEffectsMap.entrySet()) {
+		// 	System.out.print("-Set: ");
+
+		// 	for (UIActionInvocation act : e.getValue()) {
+		// 		System.out.print(act.astSourceNode.getName() + " | ");
+		// 	}
+
+		// 	for (UIActionInvocation act : e.getKey()) {
+		// 		System.out.print(" <- " + act.astSourceNode.getName());
+		// 	}
 			
+		// 	System.out.print(" <- " + this.methodBinding.getKey());	
+
+		// 	System.out.println();
+		// }
+		// END DEBUG
+
 		return possibleEffectsMap.values();
 	}
 
@@ -136,23 +156,23 @@ public class UIActionInternal extends UIAction {
 						if (ewActInv.disabledEvents != null)
 							removedActions.addAll(ewActInv.disabledEvents);
 					}
+				}
 
-					if (startModalEffects.size() > 0 
+				if (startModalEffects.size() > 0 
 						|| addedActions.size() > 0
 						|| removedActions.size() > 0) {
-						StateDelta delta = new StateDelta();
+					StateDelta delta = new StateDelta();
 
-						if (startModalEffects.size() > 0)
-							delta.startModalEffects = startModalEffects;
+					if (startModalEffects.size() > 0)
+						delta.startModalEffects = startModalEffects;
 
-						if (addedActions.size() > 0)
-							delta.addedActions = addedActions;
+					if (addedActions.size() > 0)
+						delta.addedActions = addedActions;
 
-						if (removedActions.size() > 0)
-							delta.removedActions = removedActions;
+					if (removedActions.size() > 0)
+						delta.removedActions = removedActions;
 
-						stateDeltas.add(delta);
-					}
+					stateDeltas.add(delta);
 				}
 			}
 		}

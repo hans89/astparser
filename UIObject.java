@@ -98,9 +98,45 @@ public class UIObject {
 
 				List<UIActionInternal.StateDelta> possibleStateDeltas
 					= intAct.getPossibleStateDelta();
-				if (possibleStateDeltas != null && !possibleStateDeltas.isEmpty())
-					stateDeltaAlphabets.add(possibleStateDeltas);	
+				if (possibleStateDeltas != null && !possibleStateDeltas.isEmpty()) {
+					stateDeltaAlphabets.add(possibleStateDeltas);
+				}
 			}
+
+			// DEBUG
+			// int i = 0;
+	
+			// System.out.println("-------ALPHABET---" + intAct.methodBinding.getKey());
+			
+			// System.out.println("--alphabet " + i++ + " size " + possibleStateDeltas.size());
+			// int j = 0;
+			// for (UIActionInternal.StateDelta character : possibleStateDeltas) {
+			// 	System.out.println("--delta " + j++);
+				// 	if (character.addedActions != null) {
+			// 		System.out.println("-Added actions");
+			// 		for (UIAction act2 : character.addedActions) {
+			// 			System.out.println(act2.getName());
+			// 		}	
+			// 	}
+
+			// 	if (character.removedActions != null) {
+			// 		System.out.println("-Removed actions");
+			// 		for (UIAction act2: character.removedActions) {
+			// 			System.out.println(act2.getName());
+			// 		}	
+			// 	}
+				
+			// 	if (character.startModalEffects != null) {
+			// 		System.out.println("-Start modals actions");
+			// 		for (UIActionInvocationStartModal act2 : character.startModalEffects) {
+			// 			System.out.println(act2.astSourceNode.getName());
+			// 		}	
+			// 	}
+			// }
+			
+
+			// END DEBUG
+
 			SetSelector<UIActionInternal.StateDelta> stateDeltaSelector 
 				= new SetSelector<UIActionInternal.StateDelta>(stateDeltaAlphabets);
 

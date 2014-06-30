@@ -7,65 +7,23 @@ Project: /Users/hans/Desktop/android/android.googlesource.com/platform/packages/
 start doc
 end doc
 ------------------------------------
-com.android.alarmclock.AlarmClock
-ACTSET 0
-Lcom/android/alarmclock/AlarmClock$8649;.onClick(Landroid/view/View;)V
-	 Target: Lcom/android/alarmclock/ClockPicker; | null.startActivity <- .
-Lcom/android/alarmclock/AlarmClock;.onCreateContextMenu(Landroid/view/ContextMenu;Landroid/view/View;Landroid/view/ContextMenu$ContextMenuInfo;)V
-Lcom/android/alarmclock/AlarmClock;.onContextItemSelected(Landroid/view/MenuItem;)Z
-Lcom/android/alarmclock/AlarmClock;.onCreateOptionsMenu(Landroid/view/Menu;)Z
-Lcom/android/alarmclock/AlarmClock;.onPrepareOptionsMenu(Landroid/view/Menu;)Z
-Lcom/android/alarmclock/AlarmClock;.onOptionsItemSelected(Landroid/view/MenuItem;)Z
-	 mClockLayout.setVisibility <- null.setClockVisibility <- .
-	 Target: Lcom/android/alarmclock/SettingsActivity; | null.startActivity <- .
-	 Target: Lcom/android/alarmclock/SetAlarm; | null.startActivity <- .
-Lcom/android/alarmclock/AlarmClock;.onItemClick(Landroid/widget/AdapterView;Landroid/view/View;IJ)V
-	 Target: Lcom/android/alarmclock/SetAlarm; | null.startActivity <- .
+Lcom/android/alarmclock/ClockPicker$ClockAdapter;
 ------------------------------------
-com.android.alarmclock.SetAlarm
-ACTSET 0
-Lcom/android/alarmclock/SetAlarm$5464;.onClick(Landroid/view/View;)V
-	 EndTarget: Lcom/android/alarmclock/SetAlarm; | null.finish <- .
-Lcom/android/alarmclock/SetAlarm;.onCreateOptionsMenu(Landroid/view/Menu;)Z
-Lcom/android/alarmclock/SetAlarm$5113;.onClick(Landroid/view/View;)V
-	 EndTarget: Lcom/android/alarmclock/SetAlarm; | null.finish <- .
-Lcom/android/alarmclock/SetAlarm;.onOptionsItemSelected(Landroid/view/MenuItem;)Z
-	 EndTarget: Lcom/android/alarmclock/SetAlarm; | null.finish <- .
-Lcom/android/alarmclock/SetAlarm;.onBackPressed()V
-	 EndTarget: Lcom/android/alarmclock/SetAlarm; | null.finish <- .
-Lcom/android/alarmclock/SetAlarm;.onTimeSet(Landroid/widget/TimePicker;II)V
+Lcom/android/alarmclock/SetAlarm;
 ------------------------------------
-com.android.alarmclock.AlarmAlertFullScreen
-ACTSET 0
-Lcom/android/alarmclock/AlarmAlertFullScreen$4753;.onClick(Landroid/view/View;)V
-	 EndTarget: Lcom/android/alarmclock/AlarmAlertFullScreen; | null.finish <- null.snooze <- .
-Lcom/android/alarmclock/AlarmAlertFullScreen;.onBackPressed()V
-Lcom/android/alarmclock/AlarmAlertFullScreen$4999;.onClick(Landroid/view/View;)V
-	 EndTarget: Lcom/android/alarmclock/AlarmAlertFullScreen; | null.finish <- null.dismiss <- .
+Lcom/android/alarmclock/SettingsActivity;
 ------------------------------------
-com.android.alarmclock.ClockPicker.ClockAdapter
-ACTSET 0
+Lcom/android/alarmclock/AlarmAlert;
 ------------------------------------
-com.android.alarmclock.ClockPicker
-ACTSET 0
-Lcom/android/alarmclock/ClockPicker$2116;.onClick(Landroid/view/View;)V
-	 EndTarget: Lcom/android/alarmclock/ClockPicker; | null.finish <- null.selectClock <- .
-Lcom/android/alarmclock/ClockPicker;.onItemClick(Landroid/widget/AdapterView;Landroid/view/View;IJ)V
-	 EndTarget: Lcom/android/alarmclock/ClockPicker; | null.finish <- null.selectClock <- .
-Lcom/android/alarmclock/ClockPicker;.onNothingSelected(Landroid/widget/AdapterView;)V
-Lcom/android/alarmclock/ClockPicker;.onItemSelected(Landroid/widget/AdapterView;Landroid/view/View;IJ)V
+Lcom/android/alarmclock/AlarmAlertFullScreen;
 ------------------------------------
-com.android.alarmclock.AlarmAlert
-ACTSET 0
-Lcom/android/alarmclock/AlarmAlert;.onBackPressed()V
-	 EndTarget: Lcom/android/alarmclock/AlarmAlert; | null.finish <- .
+Lcom/android/alarmclock/ClockPicker;
 ------------------------------------
-com.android.alarmclock.SettingsActivity
-ACTSET 0
+Lcom/android/alarmclock/AlarmClock;
 Done writing file.
 ------------------------------------
 III
-Time: 2.086
+Time: 2.023
 
 OK (1 test)
 
