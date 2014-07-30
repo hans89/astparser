@@ -62,6 +62,13 @@ public class UIActionInternal extends UIAction {
 			possibleEffectsMap 
 			= new HashMap<LinkedHashSet<UIActionInvocation>, Set<UIActionInvocation>>();
 			
+			// TODO: better refine executingPaths, to include control flow
+			// executingPaths must include branching
+			// we then merge the effects of actions that are in the same branch
+			// if-then
+			// if-then-else
+			// switch
+			// break, continue, return
 			for (LinkedHashSet<UIActionInvocation> path : executingPaths) {
 				LinkedHashSet<UIActionInvocation> newPath 
 					= new LinkedHashSet<UIActionInvocation>(path);
@@ -112,6 +119,8 @@ public class UIActionInternal extends UIAction {
 	
 	private List<StateDelta> stateDeltas;
 
+	// TODO: better refine deltas
+	// by refining possible effects: add branching
 	public List<StateDelta> getPossibleStateDelta() {
 
 		if (stateDeltas != null)

@@ -9,10 +9,10 @@ JARPATH = $(ECLIPSEJDT)
 JUNIT = lib/junit/junit-4.11.jar:lib/junit/hamcrest-core-1.3.jar
 COMMONIOS = lib/commons-io/commons-io-2.4.jar
 CLASSOUT = classes
-SRCPATH = .
+SRCPATH = astparser:astparser/ANDORTree:astparser/UIModel
 CLASSPATH = $(SRCPATH):$(JARPATH):$(JUNIT):$(CLASSOUT):$(COMMONIOS)
 
-SOURCES = *.java
+SOURCES = astparser/*.java astparser/ANDORTree/*.java astparser/UIModel/*.java
 PKGNAME = astparser
 MAINCLASS = $(PKGNAME).Main
 TESTCLASS = $(PKGNAME).TestSuit
@@ -21,7 +21,7 @@ HEAPMEM = 2048
 
 all:
 	mkdir -p $(CLASSOUT)
-	$(CC) -sourcepath $(SRCPATH) -classpath $(CLASSPATH) $(SOURCES) -d $(CLASSOUT) 
+	$(CC) -classpath $(CLASSPATH) $(SOURCES) -d $(CLASSOUT) 
 
 test: all
 		$(EC) -Xmx$(HEAPMEM)M -cp $(CLASSPATH) $(TESTRUNNER) $(TESTCLASS) 
