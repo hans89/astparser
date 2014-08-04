@@ -1,5 +1,0 @@
-digraph {
-fontname="Helvetica";
-node[style=filled, fontname="Helvetica", colorscheme=greens3, color=1];
-PhotoAppWidgetBind;
-}
