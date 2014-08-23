@@ -1,6 +1,7 @@
-Android Event-Flow Graph Extrator
+Android Event LTS Extractor
 
-Extract Android java source code to build an event-flow graph (EFG)
+Extract Android java source code to build an LTS of GUI events,
+which can be converted to an event-flow graph (EFG)
 
 =========
 formerly as "astparser"
