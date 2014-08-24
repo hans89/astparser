@@ -1,6 +1,5 @@
 package vn.edu.hcmus.dhhai.android.graphextractor.UIModel;
 
-import java.util.*;
 
 /**
  * Extension for LINKED_EVENT type action

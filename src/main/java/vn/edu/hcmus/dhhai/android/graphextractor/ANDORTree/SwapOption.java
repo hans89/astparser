@@ -32,7 +32,7 @@ public class SwapOption<T> {
 			Node<T> nextDest = parentNode.getChildAt(currentDestId + 1);
 
 			if (currentDest != null && nextDest != null)
-				nextSwapOption = new SwapOption(parentNode, currentDestId);
+				nextSwapOption = new SwapOption<T>(parentNode, currentDestId);
 			nextSwapOptionCached = true;
 		}
 

@@ -21,7 +21,7 @@ public class ORNode<T> extends ImmediateNode<T> {
 			optimalNodeChild = new ArrayList<Node<T>>(0); 
 		}
 
-		return new ORNode(this.internalData, optimalNodeChild);
+		return new ORNode<T>(this.internalData, optimalNodeChild);
 	}
 
 	private SwapOption<T> firstChildSwapOption;
@@ -31,7 +31,7 @@ public class ORNode<T> extends ImmediateNode<T> {
 		// caching
 		if (firstChildSwapOptionCached == false) {
 			if (this.children.size() >= 2) {
-				firstChildSwapOption = new SwapOption(this, 0);
+				firstChildSwapOption = new SwapOption<T>(this, 0);
 			}
 				
 			firstChildSwapOptionCached = true;

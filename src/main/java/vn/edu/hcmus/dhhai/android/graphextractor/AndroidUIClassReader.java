@@ -2,7 +2,6 @@ package vn.edu.hcmus.dhhai.android.graphextractor;
 
 import vn.edu.hcmus.dhhai.android.graphextractor.UIModel.*;
 
-import javax.xml.parsers.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
@@ -96,7 +95,6 @@ public class AndroidUIClassReader {
 
 			// resolve actions and events binding
 			for (Entry<String, UIActionClass> e : actions.entrySet()) {
-				String actKey = e.getKey();
 				UIActionClass act = e.getValue();
 
 				if (act instanceof UIActionLinkedEventClass) {

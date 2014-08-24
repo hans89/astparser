@@ -32,7 +32,7 @@ public class ASG {
 					= ASG.computeSwapListPossibleDuplicate(alternatingTree, currentSig);
 
 			if (swapList != null) {
-				for (SwapOption swapOpt : swapList) {
+				for (SwapOption<T> swapOpt : swapList) {
 					Set<SwapOption<T>> nextSolutionSig =
 						new LinkedHashSet<SwapOption<T>>(currentSig);
 

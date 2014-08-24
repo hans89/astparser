@@ -1,7 +1,5 @@
 package vn.edu.hcmus.dhhai.android.graphextractor.UIModel;
 
-import java.util.*;
-
 /**
  *	Objects of this class store metadata of Android UI-related methods
  *  including:

@@ -22,6 +22,6 @@ public class ANDNode<T> extends ImmediateNode<T> {
 			optimalNodeChild = new ArrayList<Node<T>>(0); 
 		}
 
-		return new ANDNode(this.internalData, optimalNodeChild);
+		return new ANDNode<T>(this.internalData, optimalNodeChild);
 	}
 }

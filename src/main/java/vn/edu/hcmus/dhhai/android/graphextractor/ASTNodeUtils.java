@@ -883,6 +883,8 @@ public class ASTNodeUtils {
 										HashMap<IMethodBinding, UIAction>();
 						uiO.topEventActions.put(action.methodBinding, action);
 						break;
+					default:
+						break;
 				}
 			}
 		}

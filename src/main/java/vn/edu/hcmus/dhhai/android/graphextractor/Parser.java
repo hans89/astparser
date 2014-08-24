@@ -91,7 +91,7 @@ public class Parser {
 		astParser.setBindingsRecovery(true);
 
 		// set default options, especially for Java 1.5
-		Map options = JavaCore.getOptions();
+		Map<?, ?> options = JavaCore.getOptions();
 		JavaCore.setComplianceOptions(JavaCore.VERSION_1_5, options);
 		astParser.setCompilerOptions(options);
 		

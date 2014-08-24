@@ -2,7 +2,6 @@ package vn.edu.hcmus.dhhai.android.graphextractor.UIModel;
 
 import org.eclipse.jdt.core.dom.*;
 import java.util.*;
-import java.util.Map.Entry;
 
 public class UIActionInternal extends UIAction {
 	
