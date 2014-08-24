@@ -5,17 +5,21 @@
 		<action method="onCreateContextMenu"
 			class="android.view.View.OnCreateContextMenuListener"
 			category="INSOURCE"
-			type="top-event"/>
+			type="init"/>
 		<action method="onContextItemSelected" class="android.app.Activity"
+			category="INSOURCE"
+			type="top-event"/>
+
+		<action method="dispatchKeyEvent" class="android.app.Activity"
 			category="INSOURCE"
 			type="top-event"/>
 
 		<action method="onCreateOptionsMenu"  class="android.app.Activity"
 			category="INSOURCE"
-			type="top-event"/>
+			type="init"/>
 		<action method="onPrepareOptionsMenu"  class="android.app.Activity"
 			category="INSOURCE"
-			type="top-event"/>
+			type="init"/>
 		<action method="onOptionsItemSelected"  class="android.app.Activity"
 			category="INSOURCE"
 			type="top-event"/>

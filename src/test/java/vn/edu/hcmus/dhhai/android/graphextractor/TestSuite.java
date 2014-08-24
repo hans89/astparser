@@ -145,30 +145,30 @@ public class TestSuite extends AbstractTestSuite {
 
 		// DEBUG - all the paths
 
-		// for (UIAction action : allActions.values()) {
-		// 	if (action instanceof UIActionInternal) {
-		// 		UIActionInternal internalAct 
-		// 								= (UIActionInternal)action;
+		for (UIAction action : allActions.values()) {
+			if (action instanceof UIActionInternal) {
+				UIActionInternal internalAct 
+										= (UIActionInternal)action;
 
-		// 		if (action.type == UIAction.ActionType.INTERNAL_UI)
-		// 			System.out.println("INTERNAL_UI: " + internalAct.declaration);
-		// 		else if (action.type == UIAction.ActionType.INTERNAL_APP_DEFINED)
-		// 			System.out.println("INTERNAL_APP_DEFINED: " + internalAct.declaration);
+				if (action.type == UIAction.ActionType.INTERNAL_UI)
+					System.out.println("INTERNAL_UI: " + internalAct.declaration);
+				else if (action.type == UIAction.ActionType.INTERNAL_APP_DEFINED)
+					System.out.println("INTERNAL_APP_DEFINED: " + internalAct.declaration);
 
-		// 		if (internalAct.executingPaths != null) {
-		// 			System.out.println("CHAINS:");
-		// 			for (LinkedHashSet<UIActionInvocation> path : internalAct.executingPaths) {
-		// 				for (UIActionInvocation actInv : path) {
-		// 					System.out.print(actInv.astSourceNode + " <- ");
-		// 				}
-		// 				System.out.println(".");
-		// 			}
-		// 		} else {
-		// 			System.out.println("CHAINS: null");
-		// 		}
-		// 		System.out.println(TestSuite.LONG_DASH);
-		// 	}
-		// }
+				if (internalAct.executingPaths != null) {
+					System.out.println("CHAINS:");
+					for (LinkedHashSet<UIActionInvocation> path : internalAct.executingPaths) {
+						for (UIActionInvocation actInv : path) {
+							System.out.print(actInv.astSourceNode + " <- ");
+						}
+						System.out.println(".");
+					}
+				} else {
+					System.out.println("CHAINS: null");
+				}
+				System.out.println(TestSuite.LONG_DASH);
+			}
+		}
 
 		// END DEBUG
 
@@ -798,11 +798,11 @@ public class TestSuite extends AbstractTestSuite {
 
 		String[] libs = new String[]{
 			"lib/android/android-18.jar",
-			"android-support-v4.jar",
-			"android-support-v7-appcompat.jar",
-			"android-support-v7-gridlayout.jar",
-			"android-support-v7-mediarouter.jar",
-			"android-support-v13.jar"
+			"lib/android/android-support-v4.jar",
+			"lib/android/android-support-v7-appcompat.jar",
+			"lib/android/android-support-v7-gridlayout.jar",
+			"lib/android/android-support-v7-mediarouter.jar",
+			"lib/android/android-support-v13.jar"
 		};
 
 		for (String projectPath : projectPaths) {

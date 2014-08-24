@@ -1,0 +1,32 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+AlarmAlertFullScreen6;
+t1[peripheries=2];
+AlarmAlert3;
+AlarmClock1;
+SettingsActivity5;
+SetAlarm2;
+ClockPicker4;
+AlarmAlertFullScreen6 -> AlarmAlertFullScreen6[label="onBackPressed",style=dotted];
+AlarmAlertFullScreen6 -> t1[label="onClick
+onClick
+dispatchKeyEvent
+dispatchKeyEvent",style=dotted];
+AlarmAlert3 -> t1[label="onBackPressed",style=dotted];
+AlarmClock1 -> AlarmClock1[label="onConItmSel
+onOptsItmSel",style=dotted];
+AlarmClock1 -> SettingsActivity5[label="onOptsItmSel",style=dotted];
+AlarmClock1 -> SetAlarm2[label="onItmClick
+onOptsItmSel",style=dotted];
+AlarmClock1 -> ClockPicker4[label="onClick",style=dotted];
+SetAlarm2 -> AlarmClock1[label="onClick
+onBackPressed
+onOptsItmSel
+onClick",style=dotted];
+SetAlarm2 -> SetAlarm2[label="onTimeSet",style=dotted];
+ClockPicker4 -> AlarmClock1[label="onClick
+onItmClick",style=dotted];
+ClockPicker4 -> ClockPicker4[label="onItmSel
+onNothingSel",style=dotted];
+}
