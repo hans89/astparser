@@ -1,0 +1,33 @@
+digraph {
+rankdir = TB;
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+
+dispatchKeyEvent;
+switchKeyCode[style="solid",label="switch (event.getKeyCode())"];
+ifup[style="solid", label="if(up)"];
+switchvBehavior[style="solid", label="switch (mVolumeBehavior)"];
+dismiss[label="dismiss(false)"];
+snooze[label="snooze()"];
+finish1[label="finish()",peripheries=2];
+finish2[label="finish()",peripheries=2];
+
+subgraph {
+	node[shape=point,style="solid",peripheries=2];
+	t1;
+	t2;
+	t3
+}
+
+dispatchKeyEvent -> switchKeyCode;
+switchKeyCode -> ifup [label="KEYCODE_VOLUME_UP
+\[...\]"];
+switchKeyCode -> t1[label="default"];
+ifup -> switchvBehavior[label="true"];
+ifup -> t2[label="false"];
+switchvBehavior -> dismiss[label="case 2"];
+switchvBehavior -> snooze[label="case 1"];
+switchvBehavior -> t3[label="default"];
+dismiss -> finish1;
+snooze -> finish2;
+}

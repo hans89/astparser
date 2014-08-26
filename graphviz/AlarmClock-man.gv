@@ -13,7 +13,7 @@ DelDlg;
 AlarmClock;
 TimePckDlg;
 
-t1[peripheries=2];
+t1;
 AlarmAlertFullScreen -> t1[label="snooze#onClick
 dismiss#onClick
 dispatchKeyEvent/1
@@ -22,8 +22,10 @@ AlarmAlertFullScreen -> AlarmAlertFullScreen[label="onBackPressed"];
 
 AlarmAlert -> t1[label="snooze#onClick
 dismiss#onClick
+dispatchKeyEvent/1
+dispatchKeyEvent/2
 onBackPressed",style=dotted];
-AlarmAlert -> AlarmAlertFullScreen[label="handleScreenOff/else"];
+AlarmAlert -> AlarmAlertFullScreen[label="handleScreenOff/else",style=dotted];
 
 AlarmClock -> AlarmClock[label="onConItmSel/enable_alarm
 onOptsItmSel/toggle_clock
@@ -50,5 +52,10 @@ DelDlg -> AlarmClock[label="OK\nCancel"];
 
 SetAlarm -> TimePckDlg[label="onPrefTreeClick/mTimePref"];
 TimePckDlg -> SetAlarm[label="onTimeSet"];
+
+{rank=same; AlarmAlert SettingsActivity ClockPicker}
+{rank=same; AlarmAlertFullScreen AlarmClock}
+{rank=same; t1 SetAlarm}
+{rank=same; TimePckDlg DelDlg}
 
 }

@@ -1,0 +1,22 @@
+digraph {
+rankdir = TB;
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+
+
+onOpts[label="onOptionsItemSelected"];
+switch[label="switch (item.getItemId())",style="solid"];
+start1[label="startActivity()",peripheries=2];
+start2[label="startActivity()",peripheries=2];
+setVis1[label="setClockVisibility()"];
+setVis2[label="mClockLayout.setVisibility()",peripheries=2];
+t1[shape=point,style="solid",peripheries=2];
+
+onOpts -> switch;
+switch -> start1[label="menu_add_alarm"];
+switch -> start2[label="menu_toggle_clock"];
+switch -> setVis1[label="menu_settings"];
+switch -> t1[label="default"];
+setVis1 -> setVis2;
+
+}

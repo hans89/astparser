@@ -1,0 +1,48 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+
+
+subgraph cluster_3 {
+
+	subgraph cluster_5 {
+	AlarmClock1[peripheries=2];
+	AlarmClock7[peripheries=2];
+
+	AlarmClock1 -> AlarmClock1[label="onConItmSel",style=invis];
+	AlarmClock1 -> AlarmClock7[label="onOptsItmSel"];
+	AlarmClock7 -> AlarmClock1[label="onOptsItmSel"];
+	AlarmClock7 -> AlarmClock7[label="onConItmSel",style=invis];
+
+	{rank=same; AlarmClock1 AlarmClock7}
+
+	}
+
+SettingsActivity5[peripheries=2];
+SetAlarm2;
+ClockPicker4;
+
+AlarmClock1 -> SettingsActivity5[label="onOptsItmSel"];
+AlarmClock1 -> SetAlarm2[label="onOptsItmSel"];
+AlarmClock1 -> ClockPicker4[label="onClick",style=invis];
+SetAlarm2 -> AlarmClock1[label="onOptsItmSel"];
+
+
+
+AlarmClock7 -> SettingsActivity5[label="onOptsItmSel"];
+AlarmClock7 -> SetAlarm2[label="onOptsItmSel"];
+SetAlarm2 -> AlarmClock7[label="onOptsItmSel"];
+
+ClockPicker4 -> AlarmClock1[label="onClick
+onItmClick",style=invis];
+
+SetAlarm2 -> SetAlarm2[label="onTimeSet",style=invis];
+ClockPicker4 -> ClockPicker4[label="onItmSel
+onNothingSel",style=invis];
+
+{rank=min; SettingsActivity5 ClockPicker4}
+{rank=same; AlarmClock1 AlarmClock7}
+{rank=max; SetAlarm2}
+}
+
+}

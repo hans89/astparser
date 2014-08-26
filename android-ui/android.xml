@@ -20,6 +20,8 @@
 		<action method="onPrepareOptionsMenu"  class="android.app.Activity"
 			category="INSOURCE"
 			type="init"/>
+
+
 		<action method="onOptionsItemSelected"  class="android.app.Activity"
 			category="INSOURCE"
 			type="top-event"/>
@@ -31,6 +33,10 @@
 		<action method="onListItemClick" class="android.app.ListActivity"
 			category="INSOURCE"
 			type="top-event"/>	
+
+		<action method="onPreferenceTreeClick"  class="android.preference.PreferenceActivity"
+			category="INSOURCE"
+			type="init"/>
 
 		<action method="onTimeChanged" 
 			class="android.widget.TimePicker.OnTimeChangedListener"

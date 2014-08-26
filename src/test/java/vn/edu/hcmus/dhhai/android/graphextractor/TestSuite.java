@@ -150,12 +150,14 @@ public class TestSuite extends AbstractTestSuite {
 				UIActionInternal internalAct 
 										= (UIActionInternal)action;
 
-				if (action.type == UIAction.ActionType.INTERNAL_UI)
-					System.out.println("INTERNAL_UI: " + internalAct.declaration);
-				else if (action.type == UIAction.ActionType.INTERNAL_APP_DEFINED)
-					System.out.println("INTERNAL_APP_DEFINED: " + internalAct.declaration);
+				// if (action.type == UIAction.ActionType.INTERNAL_UI)
+				// 	System.out.println("INTERNAL_UI: " + internalAct.declaration);
+				// else if (action.type == UIAction.ActionType.INTERNAL_APP_DEFINED)
+				// 	System.out.println("INTERNAL_APP_DEFINED: " + internalAct.declaration);
+
 
 				if (internalAct.executingPaths != null) {
+					System.out.println(internalAct.methodBinding.getKey());
 					System.out.println("CHAINS:");
 					for (LinkedHashSet<UIActionInvocation> path : internalAct.executingPaths) {
 						for (UIActionInvocation actInv : path) {
@@ -163,9 +165,10 @@ public class TestSuite extends AbstractTestSuite {
 						}
 						System.out.println(".");
 					}
-				} else {
-					System.out.println("CHAINS: null");
-				}
+				} 
+				// else {
+				// 	System.out.println("CHAINS: null");
+				// }
 				System.out.println(TestSuite.LONG_DASH);
 			}
 		}

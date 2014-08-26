@@ -1,0 +1,24 @@
+digraph {
+rankdir = TB;
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+
+
+onCreate;
+update[label="updateLayout()"];
+setOnItemClickListener[label="mAlarmsList.setOnItemClickListener()",peripheries=2];
+setOnClickListener[label="mClockLayout.setOnClickListener()",peripheries=2];
+
+onCreate -> update;
+update -> setOnItemClickListener;
+update -> setOnClickListener;
+
+startAct[label="startActivity()",peripheries=2];
+onClick[label="AlarmClock$8649;.onClick"];
+onClick -> startAct;
+
+
+{ rank=same; onCreate onClick }
+setOnClickListener -> onClick [label="event-bind",style=dotted];
+
+}

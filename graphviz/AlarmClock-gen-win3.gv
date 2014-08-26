@@ -1,0 +1,23 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+
+subgraph cluster_1 {
+	AlarmAlertFullScreen6;
+	AlarmAlertFullScreen6 -> AlarmAlertFullScreen6[label="onBackPressed"];
+}
+
+subgraph cluster_2 {
+	AlarmAlert3;	
+}
+
+t1;	
+
+AlarmAlertFullScreen6 -> t1[label="onClick
+onClick
+dispatchKeyEvent
+dispatchKeyEvent",style=dotted];
+AlarmAlert3 -> t1[label="onBackPressed",style=dotted];
+
+
+}

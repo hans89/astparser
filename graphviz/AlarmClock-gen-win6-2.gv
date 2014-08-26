@@ -1,0 +1,40 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+
+newrank=true;
+
+	subgraph cluster_5 {
+	
+	AlarmClock7[peripheries=2];
+
+
+	AlarmClock7 -> AlarmClock7[label="onConItmSel"];
+
+	}
+
+AlarmClock1[style=dashed];
+SettingsActivity5[style=dashed];
+SetAlarm2[style=dashed];
+ClockPicker4[style=dashed];
+
+
+AlarmClock7 -> AlarmClock1[label="onOptsItmSel",style=dotted];
+
+AlarmClock1 -> ClockPicker4[label="onClick",style=dotted];
+
+
+
+
+AlarmClock7 -> SettingsActivity5[label="onOptsItmSel",style=dotted];
+AlarmClock7 -> SetAlarm2[label="onItmClick
+onOptsItmSel",style=dotted];
+SetAlarm2 -> AlarmClock7[label="",style=invis];
+
+
+{rank=min; SettingsActivity5 ClockPicker4}
+{rank=same; AlarmClock1 AlarmClock7}
+{rank=max; SetAlarm2}
+
+
+}

@@ -1,0 +1,48 @@
+digraph {
+rankdir = TB;
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+newrank=true;
+subgraph cluster_1 {
+	dispatch1[label="dispatchKeyEvent"];
+	switchKeyCode1[style="solid",label="case KeyEvent.[...]"];
+	ifup1[style="solid", label="if(up/true)"];
+	switchvBehavior1[style="solid", label="case 1"];
+	snooze[label="snooze()"];
+	finish1[label="finish()",peripheries=2];	
+}
+
+subgraph cluster_2 {
+	dispatch2[label="dispatchKeyEvent"];
+	switchKeyCode2[style="solid",label="case KeyEvent.[...]"];
+	ifup2[style="solid", label="if(up/true)"];
+	switchvBehavior2[style="solid", label="case 2"];
+	dismiss[label="dismiss(false)"];
+	finish2[label="finish()",peripheries=2];
+	
+}
+
+dispatch1 -> switchKeyCode1;
+switchKeyCode1 -> ifup1;
+ifup1 -> switchvBehavior1;
+switchvBehavior1 -> snooze[label="case 1"];
+snooze -> finish1;
+
+dispatch2 -> switchKeyCode2;
+switchKeyCode2 -> ifup2;
+ifup2 -> switchvBehavior2;
+switchvBehavior2-> dismiss[label="case 2"];
+dismiss -> finish2;
+
+switchKeyCode1 -> switchKeyCode2[arrowhead=none,style=dashed];
+ifup1 -> ifup2[arrowhead=none,style=dashed];
+
+switchvBehavior[label="switch (mVolumeBehavior)",style=dotted];
+switchvBehavior1 -> switchvBehavior[arrowhead=none,style=dashed];
+switchvBehavior2 -> switchvBehavior[arrowhead=none,style=dashed];
+
+{rank=same; dispatch1 dispatch2}
+{rank=same; switchKeyCode1 switchKeyCode2}
+{rank=same; ifup1 ifup2}
+{rank=same; switchvBehavior1 switchvBehavior2 switchvBehavior1}
+}
