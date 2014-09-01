@@ -13,7 +13,12 @@ public abstract class Node<T> {
 
 	@Override
 	public String toString() {
-		return internalData.toString();
+		return String.valueOf(internalData);
+	}
+
+
+	public T getInternalData() {
+		return internalData;
 	}
 
 	public Node<T> buildOptimalSolution() {

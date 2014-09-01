@@ -1,0 +1,44 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+DeskClock5;
+s11[peripheries=2];
+s12[peripheries=2];
+s10[peripheries=2];
+AlarmAlertFullScreen3;
+s7[peripheries=2];
+AlarmAlert1;
+s9[peripheries=2];
+SetAlarm4;
+s13[peripheries=2];
+s8[peripheries=2];
+AlarmClock2;
+SettingsActivity0;
+DeskClock6;
+DeskClock5 -> DeskClock5[label="#onClick",style=dotted];
+DeskClock5 -> SetAlarm4[label="DeskClock#onOptionsItemSelected",style=dotted];
+DeskClock5 -> AlarmClock2[label="#onClick
+DeskClock#onOptionsItemSelected",style=dotted];
+AlarmAlertFullScreen3 -> s12[label="AlarmAlertFullScreen#dispatchKeyEvent",style=dotted];
+AlarmAlertFullScreen3 -> s10[label="AlarmAlertFullScreen#dispatchKeyEvent",style=dotted];
+AlarmAlertFullScreen3 -> AlarmAlertFullScreen3[label="AlarmAlertFullScreen#onBackPressed",style=dotted];
+AlarmAlertFullScreen3 -> s7[label="#onClick",style=dotted];
+AlarmAlertFullScreen3 -> s9[label="#onClick",style=dotted];
+AlarmAlertFullScreen3 -> s8[label="#onClick",style=dotted];
+AlarmAlertFullScreen3 -> s11[label="AlarmAlertFullScreen#dispatchKeyEvent",style=dotted];
+AlarmAlert1 -> s13[label="AlarmAlert#onBackPressed",style=dotted];
+SetAlarm4 -> SetAlarm4[label="SetAlarm#onTimeSet",style=dotted];
+SetAlarm4 -> AlarmClock2[label="SetAlarm#onBackPressed",style=dotted];
+AlarmClock2 -> DeskClock5[label="#onClick
+AlarmClock#onOptionsItemSelected",style=dotted];
+AlarmClock2 -> SetAlarm4[label="#onClick
+AlarmClock#onItemClick
+AlarmClock#onContextItemSelected
+AlarmClock#onOptionsItemSelected",style=dotted];
+AlarmClock2 -> SettingsActivity0[label="AlarmClock#onOptionsItemSelected",style=dotted];
+AlarmClock2 -> DeskClock6[label="#onClick
+AlarmClock#onOptionsItemSelected",style=dotted];
+DeskClock6 -> SetAlarm4[label="DeskClock#onOptionsItemSelected",style=dotted];
+DeskClock6 -> AlarmClock2[label="DeskClock#onOptionsItemSelected",style=dotted];
+DeskClock6 -> DeskClock6[label="#onClick",style=dotted];
+}

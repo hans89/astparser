@@ -1,0 +1,16 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+AddAdapter1;
+WallpaperChooser3;
+Launcher0;
+ImageAdapter4;
+s6[peripheries=2];
+s5[peripheries=2];
+ApplicationsAdapter2;
+WallpaperChooser3 -> WallpaperChooser3[label="onItemSelected
+onNothingSelected",style=dotted];
+WallpaperChooser3 -> s5[label="onClick",style=dotted];
+Launcher0 -> Launcher0[label="dispatchKeyEvent",style=dotted];
+Launcher0 -> s6[label="onClick",style=dotted];
+}

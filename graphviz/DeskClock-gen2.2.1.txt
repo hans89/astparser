@@ -1,0 +1,646 @@
+Starting test: testProject .............
+Project: ./tests/android.googlesource.com/DeskClock
+start doc
+end doc
+Lcom/android/deskclock/SetAlarm;.onPreferenceTreeClick(Landroid/preference/PreferenceScreen;Landroid/preference/Preference;)Z
+CHAINS:
+new TimePickerDialog(this,this,mHour,mMinutes,DateFormat.is24HourFormat(this)).show() <- showTimePicker() <- .
+------------------------------------
+Lcom/android/deskclock/SetAlarm$5780;.onClick(Landroid/view/View;)V
+CHAINS:
+revert.setEnabled(false) <- .
+------------------------------------
+Lcom/android/deskclock/DigitalClock$FormatChangeObserver;.onChange(Z)V
+CHAINS:
+mAmPm.setVisibility(show ? View.VISIBLE : View.GONE) <- mAmPm.setShowAmPm(mFormat == M12) <- setDateFormat() <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock$26312;.onClick(Landroid/view/View;)V
+CHAINS:
+startActivity(new Intent(DeskClock.this,AlarmClock.class)) <- .
+------------------------------------
+Lcom/android/deskclock/AlarmClock;.onItemClick(Landroid/widget/AdapterView;Landroid/view/View;IJ)V
+CHAINS:
+startActivity(intent) <- .
+------------------------------------
+Lcom/android/deskclock/AlarmClock$AlarmTimeAdapter;.bindView(Landroid/view/View;Landroid/content/Context;Landroid/database/Cursor;)V
+CHAINS:
+indicator.setOnClickListener(new OnClickListener(){
+  public void onClick(  View v){
+    clockOnOff.toggle();
+    updateIndicatorAndAlarm(clockOnOff.isChecked(),barOnOff,alarm);
+  }
+}
+) <- .
+labelView.setVisibility(View.GONE) <- .
+labelView.setVisibility(View.VISIBLE) <- .
+daysOfWeekView.setVisibility(View.GONE) <- .
+daysOfWeekView.setVisibility(View.VISIBLE) <- .
+------------------------------------
+Lcom/android/deskclock/AlarmAlertFullScreen$2146;.onReceive(Landroid/content/Context;Landroid/content/Intent;)V
+CHAINS:
+finish() <- dismiss(false) <- snooze() <- .
+finish() <- dismiss(true) <- .
+finish() <- dismiss(false) <- .
+finish() <- snooze() <- .
+findViewById(R.id.snooze) <- snooze() <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock$29174;.onClick(Landroid/view/View;)V
+CHAINS:
+startActivity(genieAppQuery) <- .
+------------------------------------
+Lcom/android/deskclock/AlarmAlertFullScreen;.onResume()V
+CHAINS:
+snooze.setEnabled(false) <- .
+findViewById(R.id.snooze) <- .
+------------------------------------
+Lcom/android/deskclock/SetAlarm$5472;.onClick(Landroid/view/View;)V
+CHAINS:
+finish() <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock;.onConfigurationChanged(Landroid/content/res/Configuration;)V
+CHAINS:
+findViewById(R.id.window_tint) <- initViews() <- .
+findViewById(R.id.weather) <- initViews() <- .
+findViewById(R.id.nightmode_button) <- initViews() <- .
+findViewById(R.id.home_button) <- initViews() <- .
+findViewById(R.id.music_button) <- initViews() <- .
+findViewById(R.id.gallery_button) <- initViews() <- .
+findViewById(R.id.alarm_button) <- initViews() <- .
+findViewById(R.id.nextAlarm) <- initViews() <- .
+findViewById(R.id.weather_icon) <- initViews() <- .
+findViewById(R.id.weather_location) <- initViews() <- .
+findViewById(R.id.weather_low_temperature) <- initViews() <- .
+findViewById(R.id.weather_high_temperature) <- initViews() <- .
+findViewById(R.id.weather_temperature) <- initViews() <- .
+findViewById(R.id.battery) <- initViews() <- .
+findViewById(R.id.date) <- initViews() <- .
+findViewById(R.id.time) <- initViews() <- .
+findViewById(R.id.window_tint) <- doDim(false) <- .
+findViewById(R.id.saver_view) <- moveScreenSaverTo(-1,-1) <- moveScreenSaver() <- .
+setContentView(R.layout.desk_clock) <- initViews() <- .
+weatherView.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    if (!supportsWeather())     return;
+    Intent genieAppQuery=getPackageManager().getLaunchIntentForPackage(GENIE_PACKAGE_ID).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    if (genieAppQuery != null) {
+      startActivity(genieAppQuery);
+    }
+  }
+}
+) <- initViews() <- .
+nightmodeButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    mDimmed=!mDimmed;
+    doDim(true);
+  }
+}
+) <- initViews() <- .
+homeButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    startActivity(new Intent(Intent.ACTION_MAIN).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP).addCategory(Intent.CATEGORY_HOME));
+  }
+}
+) <- initViews() <- .
+musicButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    try {
+      startActivity(new Intent(MediaStore.INTENT_ACTION_MUSIC_PLAYER).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+ catch (    android.content.ActivityNotFoundException e) {
+      Log.e(LOG_TAG,"Couldn't launch music browser",e);
+    }
+  }
+}
+) <- initViews() <- .
+galleryButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    try {
+      startActivity(new Intent(Intent.ACTION_VIEW,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI).putExtra("slideshow",true).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+ catch (    android.content.ActivityNotFoundException e) {
+      Log.e(LOG_TAG,"Couldn't launch image browser",e);
+    }
+  }
+}
+) <- initViews() <- .
+alarmButton.setOnClickListener(alarmClickListener) <- initViews() <- .
+mNextAlarm.setOnClickListener(alarmClickListener) <- initViews() <- .
+mNextAlarm.setVisibility(View.INVISIBLE) <- refreshAlarm() <- refreshAll() <- .
+mNextAlarm.setVisibility(View.VISIBLE) <- refreshAlarm() <- refreshAll() <- .
+mBatteryDisplay.setVisibility(View.INVISIBLE) <- refreshBattery() <- refreshAll() <- .
+mBatteryDisplay.setVisibility(View.VISIBLE) <- refreshBattery() <- refreshAll() <- .
+------------------------------------
+Lcom/android/deskclock/AlarmClock;.onOptionsItemSelected(Landroid/view/MenuItem;)Z
+CHAINS:
+startActivity(new Intent(this,DeskClock.class)) <- .
+startActivity(new Intent(this,SettingsActivity.class)) <- .
+startActivity(new Intent(this,SetAlarm.class)) <- addNewAlarm() <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock$6493;.onReceive(Landroid/content/Context;Landroid/content/Intent;)V
+CHAINS:
+finish() <- .
+mBatteryDisplay.setVisibility(View.INVISIBLE) <- refreshBattery() <- handleBatteryUpdate(intent.getIntExtra("status",BATTERY_STATUS_UNKNOWN),intent.getIntExtra("level",0)) <- .
+mBatteryDisplay.setVisibility(View.VISIBLE) <- refreshBattery() <- handleBatteryUpdate(intent.getIntExtra("status",BATTERY_STATUS_UNKNOWN),intent.getIntExtra("level",0)) <- .
+------------------------------------
+Lcom/android/deskclock/AlarmAlert;.onBackPressed()V
+CHAINS:
+finish() <- .
+------------------------------------
+Lcom/android/deskclock/SetAlarm;.onBackPressed()V
+CHAINS:
+finish() <- .
+------------------------------------
+Lcom/android/deskclock/SetAlarm;.onCreate(Landroid/os/Bundle;)V
+CHAINS:
+getListView() <- .
+new TimePickerDialog(this,this,mHour,mMinutes,DateFormat.is24HourFormat(this)).show() <- showTimePicker() <- .
+b.setEnabled(false) <- .
+revert.setEnabled(false) <- .
+finish() <- .
+findViewById(R.id.alarm_delete) <- .
+findViewById(R.id.alarm_revert) <- .
+findViewById(R.id.alarm_save) <- .
+setContentView(R.layout.set_alarm) <- .
+b.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    deleteAlarm();
+  }
+}
+) <- .
+revert.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    int newId=mId;
+    updatePrefs(mOriginalAlarm);
+    if (mOriginalAlarm.id == -1) {
+      Alarms.deleteAlarm(SetAlarm.this,newId);
+    }
+ else {
+      saveAlarm();
+    }
+    revert.setEnabled(false);
+  }
+}
+) <- .
+b.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    saveAlarm();
+    finish();
+  }
+}
+) <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock$28220;.onClick(Landroid/view/View;)V
+CHAINS:
+startActivity(new Intent(Intent.ACTION_MAIN).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP).addCategory(Intent.CATEGORY_HOME)) <- .
+------------------------------------
+Lcom/android/deskclock/AlarmAlertFullScreen;.onCreate(Landroid/os/Bundle;)V
+CHAINS:
+findViewById(R.id.dismiss) <- updateLayout() <- .
+findViewById(R.id.snooze) <- updateLayout() <- .
+findViewById(R.id.alertTitle) <- setTitle() <- updateLayout() <- .
+findViewById(R.id.dismiss).setOnClickListener(new Button.OnClickListener(){
+  public void onClick(  View v){
+    dismiss(false);
+  }
+}
+) <- updateLayout() <- .
+snooze.setOnClickListener(new Button.OnClickListener(){
+  public void onClick(  View v){
+    snooze();
+  }
+}
+) <- updateLayout() <- .
+setContentView(inflater.inflate(R.layout.alarm_alert,null)) <- updateLayout() <- .
+------------------------------------
+Lcom/android/deskclock/SetAlarm$10769;.onClick(Landroid/content/DialogInterface;I)V
+CHAINS:
+finish() <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock;.onUserInteraction()V
+CHAINS:
+findViewById(R.id.window_tint) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.nightmode_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.home_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.music_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.gallery_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.alarm_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.nextAlarm) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_icon) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_location) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_low_temperature) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_high_temperature) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_temperature) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.battery) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.date) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.time) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.window_tint) <- doDim(false) <- restoreScreen() <- .
+setContentView(R.layout.desk_clock) <- initViews() <- restoreScreen() <- .
+weatherView.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    if (!supportsWeather())     return;
+    Intent genieAppQuery=getPackageManager().getLaunchIntentForPackage(GENIE_PACKAGE_ID).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    if (genieAppQuery != null) {
+      startActivity(genieAppQuery);
+    }
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+nightmodeButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    mDimmed=!mDimmed;
+    doDim(true);
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+homeButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    startActivity(new Intent(Intent.ACTION_MAIN).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP).addCategory(Intent.CATEGORY_HOME));
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+musicButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    try {
+      startActivity(new Intent(MediaStore.INTENT_ACTION_MUSIC_PLAYER).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+ catch (    android.content.ActivityNotFoundException e) {
+      Log.e(LOG_TAG,"Couldn't launch music browser",e);
+    }
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+galleryButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    try {
+      startActivity(new Intent(Intent.ACTION_VIEW,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI).putExtra("slideshow",true).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+ catch (    android.content.ActivityNotFoundException e) {
+      Log.e(LOG_TAG,"Couldn't launch image browser",e);
+    }
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+alarmButton.setOnClickListener(alarmClickListener) <- initViews() <- restoreScreen() <- .
+mNextAlarm.setOnClickListener(alarmClickListener) <- initViews() <- restoreScreen() <- .
+mNextAlarm.setVisibility(View.INVISIBLE) <- refreshAlarm() <- refreshAll() <- restoreScreen() <- .
+mNextAlarm.setVisibility(View.VISIBLE) <- refreshAlarm() <- refreshAll() <- restoreScreen() <- .
+mBatteryDisplay.setVisibility(View.INVISIBLE) <- refreshBattery() <- refreshAll() <- restoreScreen() <- .
+mBatteryDisplay.setVisibility(View.VISIBLE) <- refreshBattery() <- refreshAll() <- restoreScreen() <- .
+------------------------------------
+Lcom/android/deskclock/AlarmClock$8886;.onClick(Landroid/view/View;)V
+CHAINS:
+startActivity(new Intent(AlarmClock.this,DeskClock.class)) <- .
+------------------------------------
+Lcom/android/deskclock/AlarmAlertFullScreen;.dispatchKeyEvent(Landroid/view/KeyEvent;)Z
+CHAINS:
+finish() <- dismiss(false) <- .
+finish() <- dismiss(false) <- snooze() <- .
+finish() <- snooze() <- .
+findViewById(R.id.snooze) <- snooze() <- .
+------------------------------------
+Lcom/android/deskclock/AlarmAlertFullScreen$5017;.onClick(Landroid/view/View;)V
+CHAINS:
+finish() <- dismiss(false) <- .
+------------------------------------
+Lcom/android/deskclock/AlarmAlertFullScreen;.onNewIntent(Landroid/content/Intent;)V
+CHAINS:
+findViewById(R.id.alertTitle) <- setTitle() <- .
+------------------------------------
+Lcom/android/deskclock/AlarmAlert$1585;.onReceive(Landroid/content/Context;Landroid/content/Intent;)V
+CHAINS:
+startActivity(i) <- handleScreenOff(km) <- .
+finish() <- handleScreenOff(km) <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock;.onCreate(Landroid/os/Bundle;)V
+CHAINS:
+findViewById(R.id.window_tint) <- initViews() <- .
+findViewById(R.id.weather) <- initViews() <- .
+findViewById(R.id.nightmode_button) <- initViews() <- .
+findViewById(R.id.home_button) <- initViews() <- .
+findViewById(R.id.music_button) <- initViews() <- .
+findViewById(R.id.gallery_button) <- initViews() <- .
+findViewById(R.id.alarm_button) <- initViews() <- .
+findViewById(R.id.nextAlarm) <- initViews() <- .
+findViewById(R.id.weather_icon) <- initViews() <- .
+findViewById(R.id.weather_location) <- initViews() <- .
+findViewById(R.id.weather_low_temperature) <- initViews() <- .
+findViewById(R.id.weather_high_temperature) <- initViews() <- .
+findViewById(R.id.weather_temperature) <- initViews() <- .
+findViewById(R.id.battery) <- initViews() <- .
+findViewById(R.id.date) <- initViews() <- .
+findViewById(R.id.time) <- initViews() <- .
+setContentView(R.layout.desk_clock) <- initViews() <- .
+weatherView.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    if (!supportsWeather())     return;
+    Intent genieAppQuery=getPackageManager().getLaunchIntentForPackage(GENIE_PACKAGE_ID).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    if (genieAppQuery != null) {
+      startActivity(genieAppQuery);
+    }
+  }
+}
+) <- initViews() <- .
+nightmodeButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    mDimmed=!mDimmed;
+    doDim(true);
+  }
+}
+) <- initViews() <- .
+homeButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    startActivity(new Intent(Intent.ACTION_MAIN).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP).addCategory(Intent.CATEGORY_HOME));
+  }
+}
+) <- initViews() <- .
+musicButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    try {
+      startActivity(new Intent(MediaStore.INTENT_ACTION_MUSIC_PLAYER).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+ catch (    android.content.ActivityNotFoundException e) {
+      Log.e(LOG_TAG,"Couldn't launch music browser",e);
+    }
+  }
+}
+) <- initViews() <- .
+galleryButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    try {
+      startActivity(new Intent(Intent.ACTION_VIEW,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI).putExtra("slideshow",true).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+ catch (    android.content.ActivityNotFoundException e) {
+      Log.e(LOG_TAG,"Couldn't launch image browser",e);
+    }
+  }
+}
+) <- initViews() <- .
+alarmButton.setOnClickListener(alarmClickListener) <- initViews() <- .
+mNextAlarm.setOnClickListener(alarmClickListener) <- initViews() <- .
+------------------------------------
+Lcom/android/deskclock/AlarmClock;.onContextItemSelected(Landroid/view/MenuItem;)Z
+CHAINS:
+startActivity(intent) <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock;.onResume()V
+CHAINS:
+findViewById(R.id.window_tint) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.nightmode_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.home_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.music_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.gallery_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.alarm_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.nextAlarm) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_icon) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_location) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_low_temperature) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_high_temperature) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_temperature) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.battery) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.date) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.time) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.window_tint) <- doDim(false) <- .
+findViewById(R.id.window_tint) <- doDim(false) <- restoreScreen() <- .
+setContentView(R.layout.desk_clock) <- initViews() <- restoreScreen() <- .
+weatherView.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    if (!supportsWeather())     return;
+    Intent genieAppQuery=getPackageManager().getLaunchIntentForPackage(GENIE_PACKAGE_ID).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    if (genieAppQuery != null) {
+      startActivity(genieAppQuery);
+    }
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+nightmodeButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    mDimmed=!mDimmed;
+    doDim(true);
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+homeButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    startActivity(new Intent(Intent.ACTION_MAIN).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP).addCategory(Intent.CATEGORY_HOME));
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+musicButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    try {
+      startActivity(new Intent(MediaStore.INTENT_ACTION_MUSIC_PLAYER).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+ catch (    android.content.ActivityNotFoundException e) {
+      Log.e(LOG_TAG,"Couldn't launch music browser",e);
+    }
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+galleryButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    try {
+      startActivity(new Intent(Intent.ACTION_VIEW,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI).putExtra("slideshow",true).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+ catch (    android.content.ActivityNotFoundException e) {
+      Log.e(LOG_TAG,"Couldn't launch image browser",e);
+    }
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+alarmButton.setOnClickListener(alarmClickListener) <- initViews() <- restoreScreen() <- .
+mNextAlarm.setOnClickListener(alarmClickListener) <- initViews() <- restoreScreen() <- .
+mNextAlarm.setVisibility(View.INVISIBLE) <- refreshAlarm() <- refreshAll() <- .
+mNextAlarm.setVisibility(View.INVISIBLE) <- refreshAlarm() <- refreshAll() <- restoreScreen() <- .
+mNextAlarm.setVisibility(View.VISIBLE) <- refreshAlarm() <- refreshAll() <- .
+mNextAlarm.setVisibility(View.VISIBLE) <- refreshAlarm() <- refreshAll() <- restoreScreen() <- .
+mBatteryDisplay.setVisibility(View.INVISIBLE) <- refreshBattery() <- refreshAll() <- .
+mBatteryDisplay.setVisibility(View.INVISIBLE) <- refreshBattery() <- refreshAll() <- restoreScreen() <- .
+mBatteryDisplay.setVisibility(View.VISIBLE) <- refreshBattery() <- refreshAll() <- .
+mBatteryDisplay.setVisibility(View.VISIBLE) <- refreshBattery() <- refreshAll() <- restoreScreen() <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock$7447;.handleMessage(Landroid/os/Message;)V
+CHAINS:
+findViewById(R.id.am_pm) <- saveScreen() <- .
+findViewById(R.id.timeDisplay) <- saveScreen() <- .
+findViewById(R.id.nextAlarm) <- saveScreen() <- .
+findViewById(R.id.date) <- saveScreen() <- .
+findViewById(R.id.time) <- saveScreen() <- .
+findViewById(R.id.time_date) <- saveScreen() <- .
+findViewById(R.id.saver_view) <- moveScreenSaverTo(oldLoc[0],oldLoc[1]) <- saveScreen() <- .
+findViewById(R.id.saver_view) <- moveScreenSaverTo(-1,-1) <- moveScreenSaver() <- .
+setContentView(R.layout.desk_clock_saver) <- saveScreen() <- .
+mNextAlarm.setVisibility(View.INVISIBLE) <- refreshAlarm() <- saveScreen() <- .
+mNextAlarm.setVisibility(View.VISIBLE) <- refreshAlarm() <- saveScreen() <- .
+------------------------------------
+Lcom/android/deskclock/SetAlarm$7183;.run()V
+CHAINS:
+revert.setEnabled(true) <- saveAlarmAndEnableRevert() <- .
+findViewById(R.id.alarm_revert) <- saveAlarmAndEnableRevert() <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock$27632;.onClick(Landroid/view/View;)V
+CHAINS:
+startActivity(new Intent(MediaStore.INTENT_ACTION_MUSIC_PLAYER).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP)) <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock;.onPause()V
+CHAINS:
+findViewById(R.id.window_tint) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.nightmode_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.home_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.music_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.gallery_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.alarm_button) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.nextAlarm) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_icon) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_location) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_low_temperature) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_high_temperature) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.weather_temperature) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.battery) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.date) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.time) <- initViews() <- restoreScreen() <- .
+findViewById(R.id.window_tint) <- doDim(false) <- restoreScreen() <- .
+setContentView(R.layout.desk_clock) <- initViews() <- restoreScreen() <- .
+weatherView.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    if (!supportsWeather())     return;
+    Intent genieAppQuery=getPackageManager().getLaunchIntentForPackage(GENIE_PACKAGE_ID).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    if (genieAppQuery != null) {
+      startActivity(genieAppQuery);
+    }
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+nightmodeButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    mDimmed=!mDimmed;
+    doDim(true);
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+homeButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    startActivity(new Intent(Intent.ACTION_MAIN).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP).addCategory(Intent.CATEGORY_HOME));
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+musicButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    try {
+      startActivity(new Intent(MediaStore.INTENT_ACTION_MUSIC_PLAYER).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+ catch (    android.content.ActivityNotFoundException e) {
+      Log.e(LOG_TAG,"Couldn't launch music browser",e);
+    }
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+galleryButton.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    try {
+      startActivity(new Intent(Intent.ACTION_VIEW,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI).putExtra("slideshow",true).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+ catch (    android.content.ActivityNotFoundException e) {
+      Log.e(LOG_TAG,"Couldn't launch image browser",e);
+    }
+  }
+}
+) <- initViews() <- restoreScreen() <- .
+alarmButton.setOnClickListener(alarmClickListener) <- initViews() <- restoreScreen() <- .
+mNextAlarm.setOnClickListener(alarmClickListener) <- initViews() <- restoreScreen() <- .
+mNextAlarm.setVisibility(View.INVISIBLE) <- refreshAlarm() <- refreshAll() <- restoreScreen() <- .
+mNextAlarm.setVisibility(View.VISIBLE) <- refreshAlarm() <- refreshAll() <- restoreScreen() <- .
+mBatteryDisplay.setVisibility(View.INVISIBLE) <- refreshBattery() <- refreshAll() <- restoreScreen() <- .
+mBatteryDisplay.setVisibility(View.VISIBLE) <- refreshBattery() <- refreshAll() <- restoreScreen() <- .
+------------------------------------
+Lcom/android/deskclock/AlarmAlert$1359;.handleMessage(Landroid/os/Message;)V
+CHAINS:
+startActivity(i) <- handleScreenOff((KeyguardManager)msg.obj) <- .
+finish() <- handleScreenOff((KeyguardManager)msg.obj) <- .
+------------------------------------
+Lcom/android/deskclock/AlarmClock$8327;.onClick(Landroid/view/View;)V
+CHAINS:
+startActivity(new Intent(this,SetAlarm.class)) <- addNewAlarm() <- .
+------------------------------------
+Lcom/android/deskclock/AlarmAlertFullScreen$4771;.onClick(Landroid/view/View;)V
+CHAINS:
+finish() <- dismiss(false) <- snooze() <- .
+finish() <- snooze() <- .
+findViewById(R.id.snooze) <- snooze() <- .
+------------------------------------
+Lcom/android/deskclock/AlarmClock;.onCreate(Landroid/os/Bundle;)V
+CHAINS:
+findViewById(R.id.desk_clock_button) <- updateLayout() <- .
+findViewById(R.id.add_alarm) <- updateLayout() <- .
+findViewById(R.id.alarms_list) <- updateLayout() <- .
+setContentView(R.layout.alarm_clock) <- updateLayout() <- .
+mAlarmsList.setOnItemClickListener(this) <- updateLayout() <- .
+deskClock.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    startActivity(new Intent(AlarmClock.this,DeskClock.class));
+  }
+}
+) <- updateLayout() <- .
+addAlarm.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    addNewAlarm();
+  }
+}
+) <- updateLayout() <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock$28695;.onClick(Landroid/view/View;)V
+CHAINS:
+findViewById(R.id.window_tint) <- doDim(true) <- .
+------------------------------------
+Lcom/android/deskclock/DigitalClock;.onFinishInflate()V
+CHAINS:
+mAmPm.setVisibility(show ? View.VISIBLE : View.GONE) <- mAmPm.setShowAmPm(mFormat == M12) <- setDateFormat() <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock$26888;.onClick(Landroid/view/View;)V
+CHAINS:
+startActivity(new Intent(Intent.ACTION_VIEW,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI).putExtra("slideshow",true).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP)) <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock$29749;.onTouch(Landroid/view/View;Landroid/view/MotionEvent;)Z
+CHAINS:
+findViewById(R.id.window_tint) <- doDim(true) <- .
+------------------------------------
+Lcom/android/deskclock/SetAlarm;.onTimeSet(Landroid/widget/TimePicker;II)V
+CHAINS:
+revert.setEnabled(true) <- saveAlarmAndEnableRevert() <- .
+findViewById(R.id.alarm_revert) <- saveAlarmAndEnableRevert() <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock;.onOptionsItemSelected(Landroid/view/MenuItem;)Z
+CHAINS:
+startActivity(new Intent(DOCK_SETTINGS_ACTION)) <- .
+startActivity(new Intent(this,SetAlarm.class)) <- .
+startActivity(new Intent(DeskClock.this,AlarmClock.class)) <- .
+------------------------------------
+Lcom/android/deskclock/DeskClock$28906;.onLongClick(Landroid/view/View;)Z
+CHAINS:
+findViewById(R.id.am_pm) <- saveScreen() <- .
+findViewById(R.id.timeDisplay) <- saveScreen() <- .
+findViewById(R.id.nextAlarm) <- saveScreen() <- .
+findViewById(R.id.date) <- saveScreen() <- .
+findViewById(R.id.time) <- saveScreen() <- .
+findViewById(R.id.time_date) <- saveScreen() <- .
+findViewById(R.id.saver_view) <- moveScreenSaverTo(oldLoc[0],oldLoc[1]) <- saveScreen() <- .
+setContentView(R.layout.desk_clock_saver) <- saveScreen() <- .
+mNextAlarm.setVisibility(View.INVISIBLE) <- refreshAlarm() <- saveScreen() <- .
+mNextAlarm.setVisibility(View.VISIBLE) <- refreshAlarm() <- saveScreen() <- .
+------------------------------------
+------------------------------------
+Lcom/android/deskclock/SettingsActivity;
+------------------------------------
+Lcom/android/deskclock/AlarmAlert;
+------------------------------------
+Lcom/android/deskclock/AlarmClock;
+------------------------------------
+Lcom/android/deskclock/AlarmAlertFullScreen;
+------------------------------------
+Lcom/android/deskclock/SetAlarm;
+------------------------------------
+Lcom/android/deskclock/DeskClock;
+Done writing file.
+------------------------------------

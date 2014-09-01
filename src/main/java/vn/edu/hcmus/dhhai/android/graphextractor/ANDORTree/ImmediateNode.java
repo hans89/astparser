@@ -20,4 +20,12 @@ public abstract class ImmediateNode<T> extends Node<T> {
 	public List<Node<T>> getChildren() {
 		return this.children;
 	}
+
+	public void addChild(Node<T> child) {
+		if (this.children == null)
+			this.children = new ArrayList<Node<T>>();
+
+		this.children.add(child);
+	}
+
 }

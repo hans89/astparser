@@ -1,0 +1,21 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+GalleryPicker7;
+GalleryPickerAdapter14;
+DeleteImage10;
+ViewImage4;
+PhotoAppWidgetConfigure3;
+ImageGallery5;
+13;
+ImageGallery6;
+PhotoAppWidgetBind11;
+Wallpaper1;
+MovieView12;
+MonitoredActivity2;
+GallerySettings8;
+CropImage0;
+CreateContextMenuListener9;
+ImageGallery5 -> ImageGallery5[label="#onClick",style=dotted];
+ImageGallery6 -> ImageGallery6[label="#onClick",style=dotted];
+}

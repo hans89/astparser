@@ -68,128 +68,128 @@ public class UIObject {
 
 	private Set<UIAction> initialEvents;
 
-	public Collection<Set<UIAction>> getAllPossibleInitialActionSets() {
+	// public Collection<Set<UIAction>> getAllPossibleInitialActionSets() {
 
-		if (initialStates != null)
-			return initialStates;
+	// 	if (initialStates != null)
+	// 		return initialStates;
 
-		initialStates = new ArrayList<Set<UIAction>>();
+	// 	initialStates = new ArrayList<Set<UIAction>>();
 
-		if (topEventActions != null) {
-			initialEvents = new HashSet<UIAction>();
-			initialEvents.addAll(topEventActions.values());
-		}
+	// 	if (topEventActions != null) {
+	// 		initialEvents = new HashSet<UIAction>();
+	// 		initialEvents.addAll(topEventActions.values());
+	// 	}
 
 
-		// get linked-event set up by inits
-		if (initActions != null) {
-			// if there are init actions, we should mix their effects
-			// each init action may have multiple effect sets, 
-			// so we need to mix all of them together
-			// this is a set selection problem
+	// 	// get linked-event set up by inits
+	// 	if (initActions != null) {
+	// 		// if there are init actions, we should mix their effects
+	// 		// each init action may have multiple effect sets, 
+	// 		// so we need to mix all of them together
+	// 		// this is a set selection problem
 
-			// TODO
-			List<List<UIActionInternal.StateDelta>> stateDeltaAlphabets
-				= new ArrayList<List<UIActionInternal.StateDelta>>();
+	// 		// TODO
+	// 		List<List<UIActionInternal.StateDelta>> stateDeltaAlphabets
+	// 			= new ArrayList<List<UIActionInternal.StateDelta>>();
 
-			for (UIAction act : initActions.values()) {
+	// 		for (UIAction act : initActions.values()) {
 
-				UIActionInternal intAct = (UIActionInternal)act;
+	// 			UIActionInternal intAct = (UIActionInternal)act;
 
-				List<UIActionInternal.StateDelta> possibleStateDeltas
-					= intAct.getPossibleStateDelta();
-				if (possibleStateDeltas != null && !possibleStateDeltas.isEmpty()) {
-					stateDeltaAlphabets.add(possibleStateDeltas);
-				}
-			}
+	// 			List<UIActionInternal.StateDelta> possibleStateDeltas
+	// 				= intAct.getPossibleStateDelta();
+	// 			if (possibleStateDeltas != null && !possibleStateDeltas.isEmpty()) {
+	// 				stateDeltaAlphabets.add(possibleStateDeltas);
+	// 			}
+	// 		}
 
-			// DEBUG
-			// int i = 0;
+	// 		// DEBUG
+	// 		// int i = 0;
 	
-			// System.out.println("-------ALPHABET---" + intAct.methodBinding.getKey());
+	// 		// System.out.println("-------ALPHABET---" + intAct.methodBinding.getKey());
 			
-			// System.out.println("--alphabet " + i++ + " size " + possibleStateDeltas.size());
-			// int j = 0;
-			// for (UIActionInternal.StateDelta character : possibleStateDeltas) {
-			// 	System.out.println("--delta " + j++);
-				// 	if (character.addedActions != null) {
-			// 		System.out.println("-Added actions");
-			// 		for (UIAction act2 : character.addedActions) {
-			// 			System.out.println(act2.getName());
-			// 		}	
-			// 	}
+	// 		// System.out.println("--alphabet " + i++ + " size " + possibleStateDeltas.size());
+	// 		// int j = 0;
+	// 		// for (UIActionInternal.StateDelta character : possibleStateDeltas) {
+	// 		// 	System.out.println("--delta " + j++);
+	// 			// 	if (character.addedActions != null) {
+	// 		// 		System.out.println("-Added actions");
+	// 		// 		for (UIAction act2 : character.addedActions) {
+	// 		// 			System.out.println(act2.getName());
+	// 		// 		}	
+	// 		// 	}
 
-			// 	if (character.removedActions != null) {
-			// 		System.out.println("-Removed actions");
-			// 		for (UIAction act2: character.removedActions) {
-			// 			System.out.println(act2.getName());
-			// 		}	
-			// 	}
+	// 		// 	if (character.removedActions != null) {
+	// 		// 		System.out.println("-Removed actions");
+	// 		// 		for (UIAction act2: character.removedActions) {
+	// 		// 			System.out.println(act2.getName());
+	// 		// 		}	
+	// 		// 	}
 				
-			// 	if (character.startModalEffects != null) {
-			// 		System.out.println("-Start modals actions");
-			// 		for (UIActionInvocationStartModal act2 : character.startModalEffects) {
-			// 			System.out.println(act2.astSourceNode.getName());
-			// 		}	
-			// 	}
-			// }
+	// 		// 	if (character.startModalEffects != null) {
+	// 		// 		System.out.println("-Start modals actions");
+	// 		// 		for (UIActionInvocationStartModal act2 : character.startModalEffects) {
+	// 		// 			System.out.println(act2.astSourceNode.getName());
+	// 		// 		}	
+	// 		// 	}
+	// 		// }
 			
 
-			// END DEBUG
+	// 		// END DEBUG
 
-			SetSelector<UIActionInternal.StateDelta> stateDeltaSelector 
-				= new SetSelector<UIActionInternal.StateDelta>(stateDeltaAlphabets);
+	// 		SetSelector<UIActionInternal.StateDelta> stateDeltaSelector 
+	// 			= new SetSelector<UIActionInternal.StateDelta>(stateDeltaAlphabets);
 
-			List<List<UIActionInternal.StateDelta>>
-				possibleInitialStateDeltas = stateDeltaSelector.getSelectionSet();
+	// 		List<List<UIActionInternal.StateDelta>>
+	// 			possibleInitialStateDeltas = stateDeltaSelector.getSelectionSet();
 
-			// we got all possible sets of initital states 
-			// basing on event-binding actions found in initial actions
+	// 		// we got all possible sets of initital states 
+	// 		// basing on event-binding actions found in initial actions
 
-			Set<Set<UIAction>> possibleStates = new HashSet<Set<UIAction>>();
+	// 		Set<Set<UIAction>> possibleStates = new HashSet<Set<UIAction>>();
 
-			for (List<UIActionInternal.StateDelta> select :
-					possibleInitialStateDeltas) {
-				Set<UIAction> newState = new HashSet<UIAction>();
+	// 		for (List<UIActionInternal.StateDelta> select :
+	// 				possibleInitialStateDeltas) {
+	// 			Set<UIAction> newState = new HashSet<UIAction>();
 
-				// we have to mix them with the top events
-				if (initialEvents != null)
-					newState.addAll(initialEvents);
+	// 			// we have to mix them with the top events
+	// 			if (initialEvents != null)
+	// 				newState.addAll(initialEvents);
 				
 				
-				// we assume that initial actions do not make modal transition
-				for (UIActionInternal.StateDelta delta : select) {
-					if (delta.addedActions != null)
-						newState.addAll(delta.addedActions);
+	// 			// we assume that initial actions do not make modal transition
+	// 			for (UIActionInternal.StateDelta delta : select) {
+	// 				if (delta.addedActions != null)
+	// 					newState.addAll(delta.addedActions);
 
-					if (delta.removedActions != null)
-						newState.removeAll(delta.removedActions);
-				}
+	// 				if (delta.removedActions != null)
+	// 					newState.removeAll(delta.removedActions);
+	// 			}
 
-				// we might also want to check for uniqueness, i.e.
-				// holding that each state is unique - we use a Set
-				if (!newState.isEmpty())
-					possibleStates.add(newState);
-			}
-			// add the set to the return object
-			initialStates.addAll(possibleStates);
-		} else { 
-			// no init actions, there are only top events
-			// and therefore should be only 1 initial state
-			if (initialEvents != null)
-				initialStates.add(initialEvents);
-		}
+	// 			// we might also want to check for uniqueness, i.e.
+	// 			// holding that each state is unique - we use a Set
+	// 			if (!newState.isEmpty())
+	// 				possibleStates.add(newState);
+	// 		}
+	// 		// add the set to the return object
+	// 		initialStates.addAll(possibleStates);
+	// 	} else { 
+	// 		// no init actions, there are only top events
+	// 		// and therefore should be only 1 initial state
+	// 		if (initialEvents != null)
+	// 			initialStates.add(initialEvents);
+	// 	}
 
-		// if there is no action
-		// make it as an empty ui object
-		if (initialStates.isEmpty()) {
-			Set<UIAction> emptySet = new HashSet<UIAction>();
-			emptySet.add(new UIAction());
-			initialStates.add(emptySet);
-		}
+	// 	// if there is no action
+	// 	// make it as an empty ui object
+	// 	if (initialStates.isEmpty()) {
+	// 		Set<UIAction> emptySet = new HashSet<UIAction>();
+	// 		emptySet.add(new UIAction());
+	// 		initialStates.add(emptySet);
+	// 	}
 			
-		return initialStates;
-	}
+	// 	return initialStates;
+	// }
 
 	public String getName() {
 		String name = typeBinding.getName();

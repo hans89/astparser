@@ -1,0 +1,103 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+FolderSelectorAdapter4;
+AbstractMailActivity13;
+ComposeActivity21;
+s35[peripheries=2];
+s32[peripheries=2];
+FolderSelectionActivity19;
+s33[peripheries=2];
+ShortcutNameActivity0;
+LimitedMultiSelectAdapter18;
+AutoSendActivity23;
+ComposeActivity22;
+AnimatedAdapter14;
+SeparatedFolderListAdapter5;
+s34[peripheries=2];
+ComposeActivity20;
+8;
+MergedSpinnerAdapter15;
+ConversationViewAdapter25;
+s28[peripheries=2];
+WebViewContextMenu2;
+EmailCopyContextMenu3;
+HierarchicalFolderListAdapter17;
+s36[peripheries=2];
+s27[peripheries=2];
+EmlViewerActivity12;
+ComposeModeAdapter11;
+CreateShortcutActivity9;
+FolderListAdapter16;
+s31[peripheries=2];
+s30[peripheries=2];
+MailActivity24;
+HierarchicalFolderSelectorAdapter6;
+s26;
+MailboxSelectionActivity1;
+MergedAdapter10;
+FromAddressSpinnerAdapter7;
+s29[peripheries=2];
+EmlViewerActivity12 -> s33[label="EmlViewerActivity#onOptionsItemSelected",style=dotted];
+ComposeActivity20 -> ComposeActivity20[label="FromAddressSpinner#onNothingSelected
+ComposeActivity#onBackPressed
+FromAddressSpinner#onItemSelected",style=dotted];
+ComposeActivity20 -> s31[label="ComposeActivity#onOptionsItemSelected",style=dotted];
+ComposeActivity20 -> s32[label="ComposeActivity#onOptionsItemSelected",style=dotted];
+ComposeActivity20 -> s30[label="ComposeActivity#onOptionsItemSelected",style=dotted];
+ComposeActivity20 -> ComposeActivity22[label="ComposeActivity#onOptionsItemSelected
+ComposeActivity#onClick",style=dotted];
+ComposeActivity20 -> s28[label="ComposeActivity#onOptionsItemSelected",style=dotted];
+ComposeActivity20 -> s26[label="ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected",style=dotted];
+ComposeActivity20 -> s29[label="ComposeActivity#onOptionsItemSelected",style=dotted];
+ComposeActivity20 -> s27[label="ComposeActivity#onOptionsItemSelected",style=dotted];
+MailActivity24 -> MailActivity24[label="MailActivity#onOptionsItemSelected
+MailActivity#onBackPressed",style=dotted];
+ComposeActivity21 -> ComposeActivity21[label="ComposeActivity#beforeTextChanged
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onBackPressed
+ComposeActivity#afterTextChanged
+FromAddressSpinner#onNothingSelected
+FromAddressSpinner#onItemSelected
+ComposeActivity#onTextChanged",style=dotted];
+ComposeActivity21 -> ComposeActivity22[label="ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected",style=dotted];
+ComposeActivity22 -> ComposeActivity21[label="ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected",style=dotted];
+ComposeActivity22 -> ComposeActivity22[label="FromAddressSpinner#onNothingSelected
+ComposeActivity#onBackPressed
+ComposeActivity#onOptionsItemSelected
+FromAddressSpinner#onItemSelected",style=dotted];
+s26 -> ComposeActivity20[label="ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onOptionsItemSelected",style=dotted];
+s26 -> ComposeActivity21[label="ComposeActivity#onClick
+ComposeActivity#onOptionsItemSelected",style=dotted];
+s26 -> s26[label="ComposeActivity#onOptionsItemSelected
+FromAddressSpinner#onItemSelected
+ComposeActivity#onOptionsItemSelected
+ComposeActivity#onBackPressed
+ComposeActivity#beforeTextChanged
+FromAddressSpinner#onNothingSelected
+ComposeActivity#afterTextChanged
+ComposeActivity#onTextChanged",style=dotted];
+MailboxSelectionActivity1 -> s34[label="MailboxSelectionActivity#onClick",style=dotted];
+MailboxSelectionActivity1 -> s36[label="MailboxSelectionActivity#onListItemClick",style=dotted];
+MailboxSelectionActivity1 -> s35[label="MailboxSelectionActivity#onBackPressed",style=dotted];
+}

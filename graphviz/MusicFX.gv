@@ -1,0 +1,14 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+Redirector3;
+ActivityMusic0;
+ActivityMusic1;
+ActivityMusic2;
+ActivityMusic0 -> ActivityMusic0[label="#onCheckedChanged
+#onCheckedChanged",style=dotted];
+ActivityMusic1 -> ActivityMusic1[label="#onNothingSelected
+#onItemSelected",style=dotted];
+ActivityMusic2 -> ActivityMusic2[label="#onNothingSelected
+#onItemSelected",style=dotted];
+}

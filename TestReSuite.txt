@@ -1,0 +1,4 @@
+Starting test: testProject .............
+Project: ./tests/android.googlesource.com/DeskClock
+start doc
+end doc

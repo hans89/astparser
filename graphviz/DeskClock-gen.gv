@@ -1,0 +1,60 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+GridAdapter16;
+DeskClock11;
+s19;
+CityAdapter6;
+AlarmActivity13;
+ImageLabelAdapter4;
+ScreensaverSettingsActivity18;
+AlarmItemAdapter1;
+AlarmItemAdapter2;
+CitiesActivity3;
+AlarmItemAdapter0;
+WorldClockAdapter5;
+TimerAlertFullScreen10;
+TimersListAdapter8;
+TimersListAdapter9;
+SettingsActivity17;
+TestAddAlarm14;
+ScreensaverActivity7;
+HandleApiCalls12;
+LapsListAdapter15;
+DeskClock11 -> SettingsActivity17[label="onOptionsItemSelected",style=dotted];
+DeskClock11 -> ScreensaverActivity7[label="onOptionsItemSelected",style=dotted];
+CitiesActivity3 -> DeskClock11[label="onOptionsItemSelected",style=dotted];
+CitiesActivity3 -> SettingsActivity17[label="onOptionsItemSelected",style=dotted];
+s19 -> s19[label="onClick
+onClick
+onClick
+onClick
+onClick
+onClick",style=dotted];
+AlarmItemAdapter0 -> s19[label="onClick
+onClick",style=dotted];
+AlarmItemAdapter0 -> AlarmItemAdapter0[label="onClick",style=dotted];
+TimerAlertFullScreen10 -> TimerAlertFullScreen10[label="dispatchKeyEvent
+dispatchKeyEvent
+dispatchKeyEvent
+dispatchKeyEvent
+dispatchKeyEvent",style=dotted];
+TimersListAdapter8 -> TimersListAdapter8[label="onClick
+onClick
+onClick
+onClick
+onClick
+onClick
+onClick
+onClick
+onClick
+onClick",style=dotted];
+AlarmActivity13 -> AlarmActivity13[label="onBackPressed
+dispatchKeyEvent",style=dotted];
+TimersListAdapter9 -> TimersListAdapter9[label="onClick",style=dotted];
+SettingsActivity17 -> DeskClock11[label="onOptionsItemSelected",style=dotted];
+AlarmItemAdapter2 -> AlarmItemAdapter2[label="onClick",style=dotted];
+AlarmItemAdapter1 -> AlarmItemAdapter1[label="onClick
+onClick
+onClick",style=dotted];
+}

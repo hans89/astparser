@@ -1,0 +1,35 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+
+ClockPicker4;
+
+AlarmClock2[peripheries=2];
+AlarmClock8[peripheries=2];
+SetAlarm3;
+SettingsActivity0;
+ClockPicker4 -> ClockPicker4[label="ClockPicker#onNothingSelected
+ClockPicker#onItemSelected"];
+ClockPicker4 -> AlarmClock2[label="ViewGroup#onClick
+ClockPicker#onItemClick",style=dotted];
+
+
+AlarmClock2 -> ClockPicker4[label="ViewGroup#onClick",style=dotted];
+AlarmClock2 -> AlarmClock2[label="AlarmClock#onContextItemSelected"];
+AlarmClock2 -> SettingsActivity0[label="AlarmClock#onOptionsItemSelected",style=dotted];
+AlarmClock2 -> SetAlarm3[label="AlarmClock#onOptionsItemSelected",style=dotted];
+SetAlarm3 -> AlarmClock2[label="SetAlarm#onOptionsItemSelected",style=dotted];
+SetAlarm3 -> SetAlarm3[label="SetAlarm#onTimeSet"];
+
+AlarmClock8 -> AlarmClock8[label="AlarmClock#onContextItemSelected"];
+AlarmClock8 -> SettingsActivity0[label="AlarmClock#onOptionsItemSelected",style=dotted];
+AlarmClock8 -> SetAlarm3[label="AlarmClock#onOptionsItemSelected",style=dotted];
+SetAlarm3 -> AlarmClock8[label="SetAlarm#onOptionsItemSelected",style=dotted];
+
+AlarmClock2 -> AlarmClock8[label="AlarmClock#onOptionsItemSelected"];
+AlarmClock8 -> AlarmClock2[label="AlarmClock#onOptionsItemSelected"];
+
+{rank=min; SettingsActivity0 ClockPicker4}
+{rank=same; AlarmClock2 AlarmClock8}
+{rank=max;  SetAlarm3}
+}

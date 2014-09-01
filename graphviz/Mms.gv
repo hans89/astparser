@@ -1,0 +1,87 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+AutoReplyActivity16;
+ComposeMessageActivity21;
+s40[peripheries=2];
+SearchActivity4;
+14;
+SlideshowActivity17;
+29;
+s38[peripheries=2];
+ComposeMessageActivity25;
+ManageSimMessages18;
+s41[peripheries=2];
+ConfirmRateLimitActivity27;
+RecipientListActivity10;
+DeliveryReportActivity7;
+ComposeMessageActivity22;
+DeliveryReportAdapter1;
+SlideEditorActivity31;
+0;
+s32[peripheries=2];
+ComposeMessageActivity24;
+26;
+ComposeMessageActivityNoLockScreen3;
+s35[peripheries=2];
+IconListAdapter2;
+ConversationList12;
+SlideListAdapter19;
+ClassZeroActivity30;
+s33[peripheries=2];
+WarnOfStorageLimitsActivity9;
+ConversationList13;
+s37[peripheries=2];
+RecipientListAdapter6;
+ComposeMessageActivity20;
+MiniPreferenceActivity8;
+s36[peripheries=2];
+s39[peripheries=2];
+EditSlideDurationActivity28;
+MessagingPreferenceActivity5;
+SmsSendIntentTestActivity15;
+SlideshowEditActivity11;
+ComposeMessageActivity23;
+s34[peripheries=2];
+ComposeMessageActivity21 -> ComposeMessageActivity21[label="ComposeMessageActivity#onOptionsItemSelected",style=dotted];
+ConversationList12 -> ConversationList12[label="#onClick",style=dotted];
+SearchActivity4 -> s32[label="SearchActivity#onOptionsItemSelected",style=dotted];
+ManageSimMessages18 -> s35[label="ManageSimMessages#onOptionsItemSelected",style=dotted];
+ManageSimMessages18 -> ManageSimMessages18[label="ManageSimMessages#onContextItemSelected",style=dotted];
+ComposeMessageActivity25 -> s33[label="ComposeMessageActivity#onClick",style=dotted];
+ComposeMessageActivity25 -> ComposeMessageActivity25[label="#onTextChanged
+#afterTextChanged
+#beforeTextChanged
+ComposeMessageActivity#onOptionsItemSelected",style=dotted];
+ComposeMessageActivity25 -> s34[label="ComposeMessageActivity#onClick",style=dotted];
+ConfirmRateLimitActivity27 -> s36[label="#onClick",style=dotted];
+ConfirmRateLimitActivity27 -> s37[label="#onClick",style=dotted];
+RecipientListActivity10 -> MessagingPreferenceActivity5[label="RecipientListActivity#onOptionsItemSelected",style=dotted];
+RecipientListActivity10 -> s38[label="RecipientListActivity#onOptionsItemSelected",style=dotted];
+ComposeMessageActivity20 -> ComposeMessageActivity20[label="ComposeMessageActivity#onOptionsItemSelected
+#onItemClick",style=dotted];
+EditSlideDurationActivity28 -> s39[label="#onClick",style=dotted];
+ComposeMessageActivity22 -> ComposeMessageActivity22[label="ComposeMessageActivity#onOptionsItemSelected
+MessageOnClick#onClick",style=dotted];
+MessagingPreferenceActivity5 -> RecipientListActivity10[label="MessagingPreferenceActivity#onOptionsItemSelected",style=dotted];
+SlideEditorActivity31 -> SlideEditorActivity31[label="#onClick
+#onClick
+#onClick",style=dotted];
+SlideEditorActivity31 -> SlideshowEditActivity11[label="#onClick
+#onClick",style=dotted];
+SmsSendIntentTestActivity15 -> SmsSendIntentTestActivity15[label="#onClick
+#onClick
+#onClick
+#onClick
+#onClick",style=dotted];
+ComposeMessageActivity24 -> ComposeMessageActivity24[label="#onTextChanged
+ComposeMessageActivity#onOptionsItemSelected
+#afterTextChanged
+#beforeTextChanged",style=dotted];
+SlideshowEditActivity11 -> SlideEditorActivity31[label="SlideshowEditActivity#onListItemClick
+SlideshowEditActivity#onOptionsItemSelected",style=dotted];
+SlideshowEditActivity11 -> SlideshowEditActivity11[label="SlideshowEditActivity#onContextItemSelected",style=dotted];
+ComposeMessageActivity23 -> s40[label="ComposeMessageActivity#onClick",style=dotted];
+ComposeMessageActivity23 -> ComposeMessageActivity23[label="ComposeMessageActivity#onOptionsItemSelected",style=dotted];
+ComposeMessageActivity23 -> s41[label="ComposeMessageActivity#onClick",style=dotted];
+}

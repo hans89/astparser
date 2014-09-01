@@ -1,0 +1,41 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+s15[peripheries=2];
+AccountSetupIncoming13;
+CreateShortcutActivityEmail9;
+AccountSetupNames10;
+AccountSetupOutgoing2;
+AccountSetupOptions4;
+AccountSettings12;
+CertificateRequestor1;
+MailboxSettings8;
+AccountSetupType5;
+AccountSecurity0;
+AccountSetupBasics3;
+EventViewer14;
+AccountSetupActivity6;
+FolderPickerActivity7;
+AccountSetupNames11;
+MailboxSettings8 -> MailboxSettings8[label="MailboxSettings#onOptionsItemSelected",style=dotted];
+AccountSetupIncoming13 -> AccountSetupIncoming13[label="AccountSetupIncoming#onClick",style=dotted];
+AccountSetupNames10 -> s15[label="AccountSetupNames#onBackPressed",style=dotted];
+AccountSetupNames10 -> AccountSetupBasics3[label="AccountSetupNames#onBackPressed
+AccountSetupNames#onBackPressed
+AccountSetupNames#onBackPressed",style=dotted];
+AccountSetupNames10 -> AccountSetupNames11[label="#onClick",style=dotted];
+AccountSetupOutgoing2 -> AccountSetupOutgoing2[label="AccountSetupOutgoing#onClick",style=dotted];
+AccountSetupType5 -> AccountSetupBasics3[label="AccountSetupType#onClick",style=dotted];
+AccountSettings12 -> AccountSettings12[label="AccountSettings#onBackPressed",style=dotted];
+AccountSettings12 -> AccountSetupBasics3[label="AccountSettings#onOptionsItemSelected",style=dotted];
+AccountSetupBasics3 -> AccountSetupType5[label="AccountSetupBasics#onClick
+AccountSetupBasics#onClick",style=dotted];
+AccountSetupBasics3 -> AccountSetupBasics3[label="AccountSetupBasics#afterTextChanged
+AccountSetupBasics#onTextChanged
+AccountSetupBasics#beforeTextChanged",style=dotted];
+FolderPickerActivity7 -> FolderPickerActivity7[label="#onItemClick",style=dotted];
+AccountSetupNames11 -> AccountSetupNames10[label="AccountSetupNames#onBackPressed",style=dotted];
+AccountSetupNames11 -> AccountSetupBasics3[label="AccountSetupNames#onBackPressed
+AccountSetupNames#onBackPressed
+AccountSetupNames#onBackPressed",style=dotted];
+}

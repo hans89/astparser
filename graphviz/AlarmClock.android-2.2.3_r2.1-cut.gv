@@ -1,0 +1,24 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+
+
+AlarmAlertFullScreen6;
+AlarmAlert1;
+
+t7;
+t8;
+
+
+AlarmAlert1 -> t8[label="AlarmAlert#onBackPressed",style=dotted];
+
+AlarmAlertFullScreen6 -> t7[label="Button#onClick
+Button#onClick
+AlarmAlertFullScreen#dispatchKeyEvent
+AlarmAlertFullScreen#dispatchKeyEvent",style=dotted];
+AlarmAlertFullScreen6 -> AlarmAlertFullScreen6[label="AlarmAlertFullScreen#onBackPressed"];
+
+{rank=min; AlarmAlertFullScreen6  }
+{rank=same; t7 t8  }
+{rank=max;  AlarmAlert1 }
+}

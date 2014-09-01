@@ -1,0 +1,21 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+
+
+AlarmAlert1;
+AlarmAlert6;
+t7;
+AlarmAlertFullScreen5;
+
+AlarmAlert1 -> t9[label="AlarmAlert#dispatchKeyEvent
+Button#onClick
+Button#onClick",style=dotted];
+AlarmAlert6 -> t7[label="AlarmAlert#dispatchKeyEvent
+Button#onClick",style=dotted];
+
+
+{rank=min; AlarmAlertFullScreen5 AlarmAlert1}
+{rank=same; t7 t9 }
+{rank=max;   AlarmAlert6 }
+}

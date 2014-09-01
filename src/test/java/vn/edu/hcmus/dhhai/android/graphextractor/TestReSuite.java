@@ -2,18 +2,18 @@ package vn.edu.hcmus.dhhai.android.graphextractor;
 
 /* astparser packages */
 import org.eclipse.jdt.core.dom.*;
+
 import java.util.*;
 import java.util.Map.Entry;
 import java.io.*;
 
+
 import vn.edu.hcmus.dhhai.android.graphextractor.UIModel.*;
-
-
 /* junit packages */
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -23,7 +23,7 @@ import org.junit.runners.JUnit4;
  * @author dhhai.uns@gmail.com (Hai Dang)
  */
 @RunWith(JUnit4.class)
-public class TestSuite extends AbstractTestSuite {
+public class TestReSuite extends AbstractTestSuite {
 
 	public void tryProject(String projectFullPath, String[] libs, String graphOutput) {
 
@@ -43,47 +43,24 @@ public class TestSuite extends AbstractTestSuite {
 			androidUIActions = structureReader.getUIActions();		
 
 
-
-
 		// 2. parse project
 		HashMap<String,CompilationUnit> units = parseProject(projectFullPath, libs);
-
 
 		// 3. find all actions, set up their types and invocations
 		MethodVisitor methodVisitor 
 					= new MethodVisitor(new UIActionBuilder(androidUIActions));
 
 		for (Entry<String,CompilationUnit> entry : units.entrySet()) {
-			// DEBUG
-			// System.out.println(entry.getKey());
+			
 			CompilationUnit u = entry.getValue();
 
 			// for (IProblem prob : u.getProblems())
 			// 	System.out.println(prob);
 			u.accept(methodVisitor);
 		}
-
 		
 		HashMap<IMethodBinding, UIAction> 
 				allActions = methodVisitor.getAllActions();
-
-		// DEBUG print all actions
-		
-		// for (UIAction action : allActions.values()) {
-		// 	// find action that binds events
-		// 	System.out.println("METHOD " + action.getName());
-
-		// 	if (action.metaClassInfo == null) {
-		// 		System.out.println("META: none");
-		// 	} else {
-		// 		System.out.println("META: " + action.metaClassInfo.getKey());
-		// 	}
-
-		// 	if (action.invokedList == null) {
-		// 		System.out.println("INVOKE: none");
-		// 	}
-		// }
-		// --END DEBUG
 
 		// 3a. find the event objects (as variables)
 		Set<String> eventClassKeys = new HashSet<String>();
@@ -124,48 +101,58 @@ public class TestSuite extends AbstractTestSuite {
 		// 					= (UIActionInvocationBindEvent)act;
 
 		// 				if (bindEAct.bindedEvents == null) {
-		// 					System.out.println("null binded " + act.astSourceNode);
+		// 					System.out.println(act.astSourceNode + " null binded");
+		// 				} else {
+		// 					System.out.println(act.astSourceNode + " binded " + AbstractTestSuite.SHORT_DASH);
+		// 					for (UIAction bindedAct : bindEAct.bindedEvents) {
+		// 						System.out.println("\t"+ bindedAct.methodBinding.getKey());
+		// 					}
+		// 					System.out.println(AbstractTestSuite.LONG_DASH);
 		// 				}
 		// 			}
 		// 		}
 		// 	}
 		// }
 		// -END DEBUG							
+		
+		
 
 		// 5. find all ui external actions, and trace their way up to the
 		// INTERNAL_UI methods. This completes all the UIAction info.
 		ASTNodeUtils.traceExternalUIPaths(allActions);
 
+
+		// UIActionInternal DEBUGGER
+		class InternalActionPrinter {
+			public void print(Collection<UIAction> actions) {
+				for (UIAction act : actions) {
+					if (act instanceof UIActionInternal) {
+						UIActionInternal actInt = (UIActionInternal)act;
+						System.out.println(actInt.methodBinding.getKey());
+
+						if (actInt.executingPaths != null) {
+							System.out.println(actInt.methodBinding.getKey());
+							System.out.println("CHAINS:");
+							for (LinkedHashSet<UIActionStatement> path : actInt.executingPaths) {
+								for (UIActionStatement actStm : path) {
+									System.out.print(actStm + " <- ");
+								}
+								System.out.println(".");
+							}
+							
+						} 
+						System.out.println(TestSuite.LONG_DASH);
+					}
+				}
+			}
+		}
+		// END DEBUGGER
+		
+
 		// DEBUG - all the paths
 
-		// for (UIAction action : allActions.values()) {
-		// 	if (action instanceof UIActionInternal) {
-		// 		UIActionInternal internalAct 
-		// 								= (UIActionInternal)action;
-
-		// 		// if (action.type == UIAction.ActionType.INTERNAL_UI)
-		// 		// 	System.out.println("INTERNAL_UI: " + internalAct.declaration);
-		// 		// else if (action.type == UIAction.ActionType.INTERNAL_APP_DEFINED)
-		// 		// 	System.out.println("INTERNAL_APP_DEFINED: " + internalAct.declaration);
-
-
-		// 		if (internalAct.executingPaths != null) {
-		// 			System.out.println(internalAct.methodBinding.getKey());
-		// 			System.out.println("CHAINS:");
-		// 			for (LinkedHashSet<UIActionInvocation> path : internalAct.executingPaths) {
-		// 				for (UIActionInvocation actInv : path) {
-		// 					System.out.print(actInv.astSourceNode + " <- ");
-		// 				}
-		// 				System.out.println(".");
-		// 			}
-		// 			System.out.println(TestSuite.LONG_DASH);
-		// 		} 
-		// 		// else {
-		// 		// 	System.out.println("CHAINS: null");
-		// 		// }
-				
-		// 	}
-		// }
+		// InternalActionPrinter actPrinter = new InternalActionPrinter();
+		// actPrinter.print(allActions.values());
 
 		// END DEBUG
 
@@ -175,50 +162,18 @@ public class TestSuite extends AbstractTestSuite {
 			ASTNodeUtils.findAllUIObjects(androidUIStructures, allActions);
 
 		// DEBUG
-		// for (UIAction act : allActions.values()) {
-		// 	if (act instanceof UIActionInternal) {
-		// 		UIActionInternal actInt = (UIActionInternal)act;
-		// 		if (actInt.executingPaths != null) {
-		// 			System.out.println(actInt.methodBinding.getKey());
-		// 			for (Set<UIActionInvocation> path : actInt.executingPaths) {
-		// 				System.out.print("\t ");
-		// 				for (UIActionInvocation actInv : path) {
-		// 					System.out.print(actInv.astSourceNode.getExpression()
-		// 						+ "." + actInv.astSourceNode.getName() + " -> ");
-		// 				}
-
-		// 				System.out.println(".");
-		// 			}	
-		// 		}
-		// 	}
-		// }
-
-		// System.out.println(TestSuite.LONG_DASH);
-		// DEBUG
+		// InternalActionPrinter actPrinter = new InternalActionPrinter();
 		// for (UIObject obj : allUIObjects.values()) {
+		// 	System.out.println(TestSuite.LONG_DASH);
 		// 	System.out.println(obj.typeBinding.getQualifiedName());
-		// 	if (obj.initActions != null)
-		// 	for (UIAction act : obj.initActions.values()) {
-		// 		if (act instanceof UIActionInternal) {
-		// 			UIActionInternal actInt = (UIActionInternal)act;
-		// 			if (actInt.executingPaths != null) {
-		// 				System.out.println(actInt.methodBinding.getKey());
-		// 				for (Set<UIActionInvocation> path : actInt.executingPaths) {
-		// 					System.out.print("\t ");
-		// 					for (UIActionInvocation actInv : path) {
-		// 						System.out.print(actInv.astSourceNode.getExpression()
-		// 							+ "." + actInv.astSourceNode.getName() + " -> ");
-		// 					}
-
-		// 					System.out.println(".");
-		// 				}	
-		// 			}
+		// 	if (obj.initActions != null) {
+		// 		System.out.println("INITACTION");
+		// 		actPrinter.print(obj.initActions.values());
 		// 	}
-		// 	}
-
-		// 	if (obj.topEventActions != null)
-		// 	for (UIAction event : obj.topEventActions.values()) {
-		// 		System.out.println("\t -> " + event.methodBinding.getKey());
+			
+		// 	if (obj.topEventActions != null) {
+		// 		System.out.println("TOPEVENT");
+		// 		actPrinter.print(obj.topEventActions.values());
 		// 	}
 		// }
 		// END DEBUG
@@ -226,7 +181,7 @@ public class TestSuite extends AbstractTestSuite {
 		// 7. link enable widgets with the event they affect
 		ASTNodeUtils.bindEnableWidgetWithEvents(allActions, allUIObjects);
 
-		// 8. link start modals with their target
+		// // 8. link start modals with their target
 		IntentVisitor intentVisitor = new IntentVisitor();
 
 		for (CompilationUnit u : units.values()) {
@@ -240,31 +195,7 @@ public class TestSuite extends AbstractTestSuite {
 		ASTNodeUtils.bindStartModals(allActions, allUIObjects, allIntents);
 
 		// DEBUG
-
-		// class InternalActionPrinter {
-		// 	public void print(Collection<UIAction> actions) {
-		// 		for (UIAction act : actions) {
-		// 			if (act instanceof UIActionInternal) {
-		// 				UIActionInternal actInt = (UIActionInternal)act;
-		// 				System.out.println(actInt.methodBinding.getKey());
-		// 				if (actInt.executingPaths != null) {
-		// 					for (Set<UIActionInvocation> path : actInt.executingPaths) {
-		// 						System.out.print("\t ");
-		// 						for (UIActionInvocation actInv : path) {
-		// 							System.out.print(actInv.astSourceNode.getExpression()
-		// 								+ "." + actInv.astSourceNode.getName() + " <- ");
-		// 						}
-
-		// 						System.out.println(".");
-		// 					}	
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
-
 		// InternalActionPrinter actPrinter = new InternalActionPrinter();
-
 		// for (UIObject obj : allUIObjects.values()) {
 		// 	System.out.println(TestSuite.LONG_DASH);
 		// 	System.out.println(obj.typeBinding.getQualifiedName());
@@ -272,18 +203,36 @@ public class TestSuite extends AbstractTestSuite {
 		// 		System.out.println("INITACTION");
 		// 		actPrinter.print(obj.initActions.values());
 		// 	}
-
+			
 		// 	if (obj.topEventActions != null) {
 		// 		System.out.println("TOPEVENT");
 		// 		actPrinter.print(obj.topEventActions.values());
 		// 	}
-				
 		// }
-		
-		// System.out.println(TestSuite.LONG_DASH);
-		// System.out.println(TestSuite.LONG_DASH);
-		// System.out.println(TestSuite.LONG_DASH);
+		// END DEBUG
 
+		for (UIObject obj : allUIObjects.values()) {
+			
+			if (obj.initActions != null) {
+				for (UIAction act : obj.initActions.values()) {
+					if (act instanceof UIActionInternal) {
+						UIActionInternal actInt = (UIActionInternal)act;
+						actInt.buildExecutingTree();
+					}
+				}
+			}
+			
+			if (obj.topEventActions != null) {
+				for (UIAction act : obj.topEventActions.values()) {
+					if (act instanceof UIActionInternal) {
+						UIActionInternal actInt = (UIActionInternal)act;
+						actInt.buildExecutingTree();
+					}
+				}
+			}
+		}
+
+		// DEBUG
 		// for (UIObject obj : allUIObjects.values()) {
 		// 	System.out.println(TestSuite.LONG_DASH);
 		// 	System.out.println(obj.typeBinding.getQualifiedName());
@@ -354,7 +303,6 @@ public class TestSuite extends AbstractTestSuite {
 		}
 
 		IntegerIDGenerator idSGen = new IntegerIDGenerator();
-		//IntegerIDGenerator idTGen = new IntegerIDGenerator();
 
 		// // set up initial LTS, where each node represents the initial state of 
 		// // each ui object
@@ -705,18 +653,7 @@ public class TestSuite extends AbstractTestSuite {
 			"android-support-v13.jar"
 		};
 
-		// String[] classes = new String[] {
-		// 	"android.app.Activity",
-		// 	"android.app.Dialog",
-		// 	"android.app.Fragment",
-		// 	"android.view.View"
-		// };
-
-		// Set<String> interestingClasses = new HashSet<String>(Arrays.asList(classes));
-
 		for (String projectPath : projectPaths) {
-			
-			// getProjectOverview(projectPath, interestingClasses, libs);
 			System.out.println("Project: " + projectPath);
 			tryProject(projectPath, libs, 
 				outPath + "/" + new File(projectPath).getName() + ".gv");			
@@ -724,243 +661,12 @@ public class TestSuite extends AbstractTestSuite {
 		}
 	}
 
-	// public void getProjectOverview(String folderFullPath, 
-	// 								Set<String> interestingClasses,
-	// 								String[] androidLibs) {
-
-	// 	HashMap<String,CompilationUnit> units;
-	// 	HashMap<String, Integer> counts = new HashMap<String, Integer>();
-	// 	for (String s: interestingClasses) {
-	// 		counts.put(s,0);
-	// 	}
-
-	// 	System.out.println("Project: " + folderFullPath);
-
-	// 	units = parseProject(folderFullPath, androidLibs);
-	// 	Integer countAll = 0;
-	// 	for (Entry<String, CompilationUnit> e : units.entrySet()) {
-	// 		CompilationUnit u = e.getValue();
-	// 		List<AbstractTypeDeclaration> types = u.types();
-	// 		ITypeBinding tBind;
-	// 		String typeName;
-
-	// 		for (AbstractTypeDeclaration t : types) {
-	// 			tBind = t.resolveBinding();
-	// 			if ((typeName = ASTNodeUtils.matchSuperClass(tBind, interestingClasses)) != null) {
-	// 				System.out.println("\t class: " + tBind.getQualifiedName()
-	// 					+ " > " + typeName);
-
-	// 				counts.put(typeName, counts.get(typeName)+1);
-	// 			}
-	// 			countAll++;
-	// 		}
-	// 	}
-
-	// 	// DEBUG
-	// 	System.out.println("Numbers: ");
-	// 	for (String s: counts.keySet()) {
-	// 		System.out.println("\t" + s + " : " + counts.get(s));
-	// 	}
-	// 	System.out.println("\tAll : " + countAll);
-
-	// 	units.clear();
-	// 	units = null;
-
-	// 	System.out.println(TestSuite.LONG_DASH);
-	// }
-
-	
-
 	private HashMap<String,CompilationUnit> parseProject(String path,
 														String[] androidLibs) {
-
 		return 	Parser.parse(
 				FileUtils.getFilePaths(path),
 				androidLibs,
-				/* path that contain the source files*/
-				FileUtils.getFolderPaths(path)
+				FileUtils.getFolderPaths(path) /* path containing source files*/
 			);
-	}
-
-
-	@Test
-	@Ignore
-	public void testEventLink() {
-		
-
-		String[] projectPaths = new String[] {
-							"/Users/hans/Desktop/ast/astparser/test-android/ast"
-							};
-
-
-		String[] libs = new String[]{
-			"lib/android/android-18.jar",
-			"lib/android/android-support-v4.jar",
-			"lib/android/android-support-v7-appcompat.jar",
-			"lib/android/android-support-v7-gridlayout.jar",
-			"lib/android/android-support-v7-mediarouter.jar",
-			"lib/android/android-support-v13.jar"
-		};
-
-		for (String projectPath : projectPaths) {
-			System.out.println("Project: " + projectPath);
-
-			AndroidUIClassReader structureReader = new AndroidUIClassReader();
-
-			structureReader.parseXML(
-						new String[] {
-							"android-ui/android.xml"
-						});
-
-			// 1a. interesting Android UI Object Structures
-			final HashMap<String, UIObjectClass>
-				androidUIStructures = structureReader.getUIStructures();
-			// 1b. interesting Android UI Actions
-			final HashMap<String, UIActionClass>
-				androidUIActions = structureReader.getUIActions();		
-
-			// for (Entry<String, UIActionClass> e : androidUIActions.entrySet()) {
-			// 	if (e.getValue().type == UIActionClass.UIActionType.BIND_EVENT)
-			// 		System.out.println(e.getKey());
-			// }
-
-			// 2. parse project
-			HashMap<String,CompilationUnit> units = parseProject(projectPath, libs);
-
-
-			// 3. find all actions, set up their types and invocations
-			MethodVisitor methodVisitor 
-						= new MethodVisitor(new UIActionBuilder(androidUIActions));
-
-			for (CompilationUnit u : units.values()) {
-				// DEBUG
-				// for (IProblem prob : u.getProblems())
-				// 	System.out.println(prob);
-
-				u.accept(methodVisitor);
-			}
-
-			HashMap<IMethodBinding, UIAction> 
-					allActions = methodVisitor.getAllActions();
-
-			// 3a. find the event objects (as variables)
-			Set<String> eventClassKeys = new HashSet<String>();
-
-			for (UIActionClass uAct : androidUIActions.values()) {
-				if (uAct instanceof UIActionLinkedEventClass) {
-					eventClassKeys.add(uAct.classKey);
-				}
-			}
-
-			// DEBUG
-			// for (String s : eventClassKeys) {
-			// 	System.out.println(s);
-			// }
-
-			// System.out.println(TestSuite.LONG_DASH);
-
-			EventObjectVisitor eventObjectVisitor 
-								= new EventObjectVisitor(eventClassKeys);
-
-			for (CompilationUnit u : units.values()) {
-				u.accept(eventObjectVisitor);
-			}
-
-			HashMap<IVariableBinding, UIEventObject> 
-					allEventObjects = eventObjectVisitor.getAllEventObjects();
-
-			// DEBUG
-			// for (UIEventObject uiEO : allEventObjects.values()) {
-
-			// 	System.out.println("Decl: " + uiEO.declaration);
-
-			// 	for (String s : uiEO.superTypeKeys) {
-			// 		System.out.println(s);
-			// 	}
-
-			// 	if (uiEO.references != null) {
-			// 		System.out.println("References: ");
-			// 		for (Expression ex : uiEO.references) {
-			// 			System.out.println(ex + " in " + ex.getParent());
-			// 		}
-			// 	}
-			// 	System.out.println(TestSuite.SHORT_DASH);
-			// }
-
-			// 4. link event setters with corresponding events
-			ASTNodeUtils.bindEventSetters(allActions, allEventObjects);
-
-			// System.out.println(TestSuite.LONG_DASH);
-		}
-	}
-
-	@Test
-	@Ignore
-	public void testClassExtraction() {		
-		
-
-		String[] projectPaths = new String[] {
-							"/Users/hans/Desktop/ast/astparser/test-android/ast"
-							};
-
-
-		String[] libs = new String[]{
-			"lib/android/android-18.jar",
-			"android-support-v4.jar",
-			"android-support-v7-appcompat.jar",
-			"android-support-v7-gridlayout.jar",
-			"android-support-v7-mediarouter.jar",
-			"android-support-v13.jar"
-		};
-
-		for (String projectPath : projectPaths) {
-			System.out.println("Project: " + projectPath);
-
-			
-
-			// for (Entry<String, UIActionClass> e : androidUIActions.entrySet()) {
-			// 	if (e.getValue().type == UIActionClass.UIActionType.BIND_EVENT)
-			// 		System.out.println(e.getKey());
-			// }
-
-			// 2. parse project
-			HashMap<String,CompilationUnit> units = parseProject(projectPath, libs);
-
-
-			// 3. find all actions, set up their types and invocations
-			ASTVisitor classVisitor 
-						= new ASTVisitor() {
-							@Override
-							public boolean visit(ClassInstanceCreation node) {
-								System.out.println(node.resolveTypeBinding().getQualifiedName());
-								List<Expression> exps = node.arguments();
-								for (Expression exp : exps) {
-									ITypeBinding typeBinding = exp.resolveTypeBinding();
-
-									if (typeBinding != null &&
-										typeBinding.isParameterizedType() && 
-										typeBinding.getErasure().getQualifiedName().toString().equals("java.lang.Class")) {
-
-										System.out.println(exp + " " + typeBinding.getErasure().getQualifiedName());		
-
-										for (ITypeBinding typeArg : typeBinding.getTypeArguments()){
-											System.out.println(typeArg.getQualifiedName());
-										}
-									}
-									
-								
-								}
-								return true;
-							}
-						};
-
-			for (CompilationUnit u : units.values()) {
-				// DEBUG
-				// for (IProblem prob : u.getProblems())
-				// 	System.out.println(prob);
-
-				u.accept(classVisitor);
-			}
-		}
 	}
 }

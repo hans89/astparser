@@ -90,8 +90,8 @@ class IntentVisitor extends ASTVisitor {
 	}
 
 	public void addDeclaration(IVariableBinding varBinding, VariableDeclarationFragment node) {
-		ITypeBinding typeBinding = varBinding.getType();
-		if (varBinding != null && typeBinding != null &&
+		ITypeBinding typeBinding;
+		if (varBinding != null && (typeBinding = varBinding.getType()) != null &&
 			ASTNodeUtils.subClassOf(typeBinding, IntentVisitor.IntentClassname)
 				!= null){
 			IntentInfo info;

@@ -1,0 +1,21 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+s5;
+CropActivity1;
+s6[peripheries=2];
+DetailsAdapter3;
+MoreSettingAdapter4;
+ProxyLauncher0;
+CameraActivity2;
+s5 -> s5[label="onBackPressed
+onClick
+onOptionsItemSelected",style=dotted];
+s5 -> CameraActivity2[label="onOptionsItemSelected
+onClick",style=dotted];
+CropActivity1 -> s6[label="onClick",style=dotted];
+CameraActivity2 -> s5[label="onOptionsItemSelected
+onOptionsItemSelected
+onClick",style=dotted];
+CameraActivity2 -> CameraActivity2[label="onBackPressed",style=dotted];
+}

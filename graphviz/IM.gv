@@ -1,0 +1,55 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+NewChatActivity6;
+StatusIconAdapter3;
+s21[peripheries=2];
+s17[peripheries=2];
+s18[peripheries=2];
+SigningInActivity13;
+SettingActivity7;
+s20[peripheries=2];
+LandingPage5;
+ContactsPickerActivity9;
+ImageListAdapter12;
+AddContactActivity4;
+ChooseAccountActivity0;
+SimpleInputActivity15;
+s19[peripheries=2];
+PreferenceActivity8;
+s22[peripheries=2];
+ContactListActivity10;
+ContactPresenceActivity16;
+AccountActivity14;
+SignoutActivity11;
+ImUrlActivity1;
+BlockedContactsActivity2;
+AddContactActivity4 -> AddContactActivity4[label="#afterTextChanged
+#beforeTextChanged
+#onTextChanged",style=dotted];
+NewChatActivity6 -> NewChatActivity6[label="NewChatActivity#dispatchKeyEvent",style=dotted];
+NewChatActivity6 -> s17[label="NewChatActivity#onOptionsItemSelected",style=dotted];
+SimpleInputActivity15 -> s19[label="#onClick",style=dotted];
+SimpleInputActivity15 -> s20[label="#onClick",style=dotted];
+PreferenceActivity8 -> s21[label="#onClick",style=dotted];
+ContactListActivity10 -> AddContactActivity4[label="ContactListActivity#onOptionsItemSelected",style=dotted];
+ContactListActivity10 -> s22[label="ContactListActivity#onOptionsItemSelected",style=dotted];
+ContactListActivity10 -> ContactListActivity10[label="ContactListActivity#dispatchKeyEvent",style=dotted];
+SigningInActivity13 -> LandingPage5[label="SigningInActivity#onOptionsItemSelected",style=dotted];
+AccountActivity14 -> SigningInActivity13[label="#onClick",style=dotted];
+AccountActivity14 -> AccountActivity14[label="#onTextChanged
+#afterTextChanged
+#onClick
+#onClick
+#onCheckedChanged
+#beforeTextChanged",style=dotted];
+LandingPage5 -> SigningInActivity13[label="LandingPage#onListItemClick
+LandingPage#onListItemClick
+LandingPage#onContextItemSelected",style=dotted];
+LandingPage5 -> LandingPage5[label="LandingPage#onOptionsItemSelected",style=dotted];
+BlockedContactsActivity2 -> BlockedContactsActivity2[label="BlockedContactsActivity#onListItemClick",style=dotted];
+ContactsPickerActivity9 -> s18[label="ContactsPickerActivity#onListItemClick",style=dotted];
+ContactsPickerActivity9 -> ContactsPickerActivity9[label="#beforeTextChanged
+#onTextChanged
+#afterTextChanged",style=dotted];
+}

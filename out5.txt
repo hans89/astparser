@@ -1,0 +1,223 @@
+Starting test: testProject .............
+Project: ./tests/android.googlesource.com/AlarmClock
+start doc
+end doc
+Lcom/android/alarmclock/AlarmAlertFullScreen;.onStop()V
+CHAINS:
+finish() <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmClock;.onOptionsItemSelected(Landroid/view/MenuItem;)Z
+CHAINS:
+mClockLayout.setVisibility(visible ? View.VISIBLE : View.GONE) <- setClockVisibility(!getClockVisibility()) <- .
+startActivity(new Intent(this,SettingsActivity.class)) <- .
+startActivity(intent) <- .
+------------------------------------
+Lcom/android/alarmclock/SetAlarm;.onPreferenceTreeClick(Landroid/preference/PreferenceScreen;Landroid/preference/Preference;)Z
+CHAINS:
+new TimePickerDialog(this,this,mHour,mMinutes,DateFormat.is24HourFormat(this)).show() <- .
+------------------------------------
+Lcom/android/alarmclock/DigitalClock;.onFinishInflate()V
+CHAINS:
+mAmPmLayout.setVisibility(show ? View.VISIBLE : View.GONE) <- mAmPm.setShowAmPm(mFormat == M12) <- setDateFormat() <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmClock;.onResume()V
+CHAINS:
+findViewById(R.id.pm) <- inflateClock() <- .
+findViewById(R.id.am) <- inflateClock() <- .
+findViewById(R.id.clock) <- inflateClock() <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmAlert$1586;.onReceive(Landroid/content/Context;Landroid/content/Intent;)V
+CHAINS:
+finish() <- handleScreenOff(km) <- .
+startActivity(i) <- handleScreenOff(km) <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmClock$AlarmTimeAdapter;.bindView(Landroid/view/View;Landroid/content/Context;Landroid/database/Cursor;)V
+CHAINS:
+labelView.setVisibility(View.GONE) <- .
+labelView.setVisibility(View.VISIBLE) <- .
+daysOfWeekView.setVisibility(View.GONE) <- .
+daysOfWeekView.setVisibility(View.VISIBLE) <- .
+onButton.setOnClickListener(new OnClickListener(){
+  public void onClick(  View v){
+    boolean isChecked=((CheckBox)v).isChecked();
+    Alarms.enableAlarm(AlarmClock.this,alarm.id,isChecked);
+    if (isChecked) {
+      SetAlarm.popAlarmSetToast(AlarmClock.this,alarm.hour,alarm.minutes,alarm.daysOfWeek);
+    }
+  }
+}
+) <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmAlert$1360;.handleMessage(Landroid/os/Message;)V
+CHAINS:
+finish() <- handleScreenOff((KeyguardManager)msg.obj) <- .
+startActivity(i) <- handleScreenOff((KeyguardManager)msg.obj) <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmAlertFullScreen$4753;.onClick(Landroid/view/View;)V
+CHAINS:
+finish() <- snooze() <- .
+------------------------------------
+Lcom/android/alarmclock/SetAlarm;.onOptionsItemSelected(Landroid/view/MenuItem;)Z
+CHAINS:
+finish() <- .
+------------------------------------
+Lcom/android/alarmclock/ClockPicker$2116;.onClick(Landroid/view/View;)V
+CHAINS:
+finish() <- selectClock(mPosition) <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmAlertFullScreen;.dispatchKeyEvent(Landroid/view/KeyEvent;)Z
+CHAINS:
+finish() <- dismiss(false) <- .
+finish() <- snooze() <- .
+------------------------------------
+Lcom/android/alarmclock/SetAlarm;.onBackPressed()V
+CHAINS:
+finish() <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmClock$7939;.run()V
+CHAINS:
+findViewById(R.id.pm) <- inflateClock() <- .
+findViewById(R.id.am) <- inflateClock() <- .
+findViewById(R.id.clock) <- inflateClock() <- .
+findViewById(R.id.clock_layout) <- updateLayout() <- .
+findViewById(R.id.alarms_list) <- updateLayout() <- .
+mAlarmsList.setOnItemClickListener(this) <- updateLayout() <- .
+mClockLayout.setVisibility(visible ? View.VISIBLE : View.GONE) <- setClockVisibility(mPrefs.getBoolean(PREF_SHOW_CLOCK,true)) <- .
+mClockLayout.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    final Intent intent=new Intent(AlarmClock.this,ClockPicker.class);
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(intent);
+  }
+}
+) <- updateLayout() <- .
+setContentView(R.layout.alarm_clock) <- updateLayout() <- .
+------------------------------------
+Lcom/android/alarmclock/DigitalClock$FormatChangeObserver;.onChange(Z)V
+CHAINS:
+mAmPmLayout.setVisibility(show ? View.VISIBLE : View.GONE) <- mAmPm.setShowAmPm(mFormat == M12) <- setDateFormat() <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmClock;.onCreate(Landroid/os/Bundle;)V
+CHAINS:
+findViewById(R.id.clock_layout) <- updateLayout() <- .
+findViewById(R.id.alarms_list) <- updateLayout() <- .
+mAlarmsList.setOnItemClickListener(this) <- updateLayout() <- .
+mClockLayout.setVisibility(visible ? View.VISIBLE : View.GONE) <- setClockVisibility(mPrefs.getBoolean(PREF_SHOW_CLOCK,true)) <- .
+mClockLayout.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    final Intent intent=new Intent(AlarmClock.this,ClockPicker.class);
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(intent);
+  }
+}
+) <- updateLayout() <- .
+setContentView(R.layout.alarm_clock) <- updateLayout() <- .
+------------------------------------
+Lcom/android/alarmclock/SetAlarm$5464;.onClick(Landroid/view/View;)V
+CHAINS:
+finish() <- .
+------------------------------------
+Lcom/android/alarmclock/ClockPicker;.onCreate(Landroid/os/Bundle;)V
+CHAINS:
+findViewById(R.id.clock_layout) <- .
+findViewById(R.id.gallery) <- .
+mGallery.setOnItemClickListener(this) <- .
+mGallery.setOnItemSelectedListener(this) <- .
+mClockLayout.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    selectClock(mPosition);
+  }
+}
+) <- .
+setContentView(R.layout.clockpicker) <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmAlert;.onBackPressed()V
+CHAINS:
+finish() <- .
+------------------------------------
+Lcom/android/alarmclock/SetAlarm$5113;.onClick(Landroid/view/View;)V
+CHAINS:
+finish() <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmAlertFullScreen$4999;.onClick(Landroid/view/View;)V
+CHAINS:
+finish() <- dismiss(false) <- .
+------------------------------------
+Lcom/android/alarmclock/SetAlarm;.onCreate(Landroid/os/Bundle;)V
+CHAINS:
+finish() <- .
+setContentView(ll) <- .
+getListView() <- .
+getListView() <- .
+b.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    finish();
+  }
+}
+) <- .
+b.setOnClickListener(new View.OnClickListener(){
+  public void onClick(  View v){
+    mEnabled=true;
+    saveAlarm();
+    finish();
+  }
+}
+) <- .
+------------------------------------
+Lcom/android/alarmclock/ClockPicker;.onItemClick(Landroid/widget/AdapterView;Landroid/view/View;IJ)V
+CHAINS:
+finish() <- selectClock(position) <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmAlertFullScreen;.onCreate(Landroid/os/Bundle;)V
+CHAINS:
+findViewById(R.id.dismiss) <- updateLayout() <- .
+findViewById(R.id.snooze) <- updateLayout() <- .
+findViewById(R.id.clock) <- updateLayout() <- .
+findViewById(R.id.clockView) <- updateLayout() <- .
+findViewById(R.id.alertTitle) <- setTitle() <- updateLayout() <- .
+setContentView(inflater.inflate(R.layout.alarm_alert,null)) <- updateLayout() <- .
+findViewById(R.id.dismiss).setOnClickListener(new Button.OnClickListener(){
+  public void onClick(  View v){
+    dismiss(false);
+  }
+}
+) <- updateLayout() <- .
+snooze.setOnClickListener(new Button.OnClickListener(){
+  public void onClick(  View v){
+    snooze();
+  }
+}
+) <- updateLayout() <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmAlertFullScreen;.onNewIntent(Landroid/content/Intent;)V
+CHAINS:
+findViewById(R.id.alertTitle) <- setTitle() <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmClock$8649;.onClick(Landroid/view/View;)V
+CHAINS:
+startActivity(intent) <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmAlertFullScreen$2064;.onReceive(Landroid/content/Context;Landroid/content/Intent;)V
+CHAINS:
+finish() <- dismiss(true) <- .
+------------------------------------
+Lcom/android/alarmclock/AlarmClock;.onItemClick(Landroid/widget/AdapterView;Landroid/view/View;IJ)V
+CHAINS:
+startActivity(intent) <- .
+------------------------------------
+------------------------------------
+Lcom/android/alarmclock/AlarmClock;
+------------------------------------
+Lcom/android/alarmclock/SetAlarm;
+------------------------------------
+Lcom/android/alarmclock/AlarmAlert;
+------------------------------------
+Lcom/android/alarmclock/ClockPicker;
+------------------------------------
+Lcom/android/alarmclock/ClockPicker$ClockAdapter;
+------------------------------------
+Lcom/android/alarmclock/SettingsActivity;
+------------------------------------
+Lcom/android/alarmclock/AlarmAlertFullScreen;
+Done writing file.
+------------------------------------

@@ -1,0 +1,11 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+Launcher1;
+AddAdapter2;
+WallpaperChooser3;
+ImageAdapter0;
+Launcher1 -> Launcher1[label="onOptionsItemSelected
+onBackPressed
+dispatchKeyEvent",style=dotted];
+}

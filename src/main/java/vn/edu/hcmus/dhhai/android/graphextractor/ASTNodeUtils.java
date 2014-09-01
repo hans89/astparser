@@ -700,9 +700,41 @@ public class ASTNodeUtils {
 			}
 		}
 	}
+
+	public static LinkedHashSet<UIActionStatement>
+				getBrachingStringBetweenNodes(ASTNode caller, ASTNode callee) {
+
+		LinkedHashSet<UIActionStatement> currentPath 
+				= new LinkedHashSet<UIActionStatement>();
+
+		ASTNode current, previous, last;
+		current = previous = last = callee;
+
+		while (current != null && current != caller) {
+			
+			// System.out.println("current " + current);
+			// System.out.println("previous " + previous);
+			// System.out.println(TestSuite.LONG_DASH);
+			// System.out.flush();
+			
+			if (current instanceof IfStatement && previous instanceof Statement) {
+				currentPath.add(new UIActionIfStatement(
+					(IfStatement)current, (Statement)previous));
+				last = current;
+			} else if (current instanceof SwitchStatement) {
+				currentPath.add(new UIActionSwitchStatement(
+					(SwitchStatement)current, last));
+				last = current;
+			}
+			previous = current;
+			current = current.getParent();
+		}
+
+		return currentPath;
+	}
 	/**
 	 *	This method will, for each external execution, trace its execution path
-	 *	up to the INTERAL_UI methods (INITS, TOP_EVENT, lINKED_EVENTS)
+	 *	up to the INTERAL_UI methods (INITS, TOP_EVENT, LINKED_EVENTS)
 	 *	
 	 *	Each path starts with an EXTERNAL_UI execution (UIActionInvocation)
 	 *	and ends with a final UIActionInvocation, which is contained in an
@@ -731,18 +763,18 @@ public class ASTNodeUtils {
 
 				// pathStack for tracing the path travelled so far for the action
 				// atop of stack
-				Deque<LinkedHashSet<UIActionInvocation>> pathStack 
-						= new ArrayDeque<LinkedHashSet<UIActionInvocation>>();
+				Deque<LinkedHashSet<UIActionStatement>> pathStack 
+						= new ArrayDeque<LinkedHashSet<UIActionStatement>>();
 
 				// current action examined at top of stack
 				UIActionInvocation currentAct;	
 				// corresponding current path of current action
-				LinkedHashSet<UIActionInvocation> currentPath;
+				LinkedHashSet<UIActionStatement> currentPath;
 
 
 				// init
 				for (UIActionInvocation act : action.invokedList) {
-					currentPath = new LinkedHashSet<UIActionInvocation>();
+					currentPath = new LinkedHashSet<UIActionStatement>();
 
 					currentPath.add(act);
 
@@ -763,18 +795,11 @@ public class ASTNodeUtils {
 					if (invoker.invokedList == null 
 							|| invoker.invokedList.size() == 0) {
 
-						
 						// if the invoker of the invoker is not available: 
 						// we have reach the sink node
-						ITypeBinding invokerDeclaringClass 
-							= invoker.containingType;
 
 						// if the sink node is of type INTERNAL_UI, or a hook 
 						// method check it
-						//
-						// else if the node is of type INTERNAL_APP_DEFINED,
-						// then it probably is a redundant (unused) method
-
 						// redundant check
 						if (//invoker.type == UIAction.ActionType.INTERNAL_UI && 
 							invoker instanceof UIActionInternal) {
@@ -784,21 +809,47 @@ public class ASTNodeUtils {
 
 							if (internalAct.executingPaths == null)
 								internalAct.executingPaths = new 
-									ArrayList<LinkedHashSet<UIActionInvocation>>();
+									ArrayList<LinkedHashSet<UIActionStatement>>();
 							
+							// we must complete the conditional branching
+							// betwen the currentAct and the internalAct (invoker)
+							// i.e. currentAct.astSourceNode -> internalAct.declaration
+
+							LinkedHashSet<UIActionStatement> appendedString
+								= ASTNodeUtils.getBrachingStringBetweenNodes(
+												internalAct.declaration,
+												currentAct.astSourceNode);
+
+							currentPath.addAll(appendedString);
+
 							internalAct.executingPaths.add(currentPath);
 
-						}
-
+						}//
+						// else if the node is of type INTERNAL_APP_DEFINED,
+						// then it probably is a redundant (unused) method
 					} else {
 						// this method is still called by others, keep going down
 						for (UIActionInvocation invokingAct 
 														: invoker.invokedList) {
+
+							UIActionInternal internalAct 
+										= (UIActionInternal)invoker;
+
+							LinkedHashSet<UIActionStatement> appendedString
+								= ASTNodeUtils.getBrachingStringBetweenNodes(
+												internalAct.declaration,
+												currentAct.astSourceNode);
+
 							// avoid cycles
 							if (!currentPath.contains(invokingAct)) {
-								LinkedHashSet<UIActionInvocation> nextPath = new 
-									LinkedHashSet<UIActionInvocation>(currentPath);
+								LinkedHashSet<UIActionStatement> nextPath = new 
+									LinkedHashSet<UIActionStatement>(currentPath);
 
+								// we must complete the conditional branching
+								// betwen the currentAct and the invokingAct (invoker)
+								// this can be cached as it is the same for all
+								// invokingAct
+								nextPath.addAll(appendedString);
 								nextPath.add(invokingAct);
 
 								stack.addFirst(invokingAct);

@@ -1,0 +1,50 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+s12[peripheries=2];
+SetAlarm3;
+s7[peripheries=2];
+s10[peripheries=2];
+SettingsActivity1;
+s8[peripheries=2];
+s13[peripheries=2];
+DeskClock2;
+s11[peripheries=2];
+AlarmClock0;
+SetAlarm4;
+AlarmAlertFullScreen6;
+s9[peripheries=2];
+AlarmAlert5;
+DeskClock2 -> DeskClock2[label="#onClick",style=dotted];
+DeskClock2 -> SetAlarm3[label="DeskClock#onOptionsItemSelected",style=dotted];
+DeskClock2 -> AlarmClock0[label="DeskClock#onOptionsItemSelected
+#onClick",style=dotted];
+DeskClock2 -> SetAlarm4[label="DeskClock#onOptionsItemSelected",style=dotted];
+SetAlarm3 -> SetAlarm3[label="SetAlarm#onTimeSet",style=dotted];
+SetAlarm3 -> AlarmClock0[label="SetAlarm#onBackPressed",style=dotted];
+AlarmClock0 -> DeskClock2[label="#onClick
+AlarmClock#onOptionsItemSelected",style=dotted];
+AlarmClock0 -> SetAlarm3[label="AlarmClock#onItemClick
+#onClick
+AlarmClock#onOptionsItemSelected
+AlarmClock#onContextItemSelected",style=dotted];
+AlarmClock0 -> SetAlarm4[label="AlarmClock#onItemClick
+AlarmClock#onOptionsItemSelected
+AlarmClock#onContextItemSelected
+#onClick",style=dotted];
+AlarmClock0 -> SettingsActivity1[label="AlarmClock#onOptionsItemSelected",style=dotted];
+SetAlarm4 -> DeskClock2[label="SetAlarm#onBackPressed",style=dotted];
+SetAlarm4 -> SetAlarm4[label="SetAlarm#onTimeSet
+SetAlarm#onPreferenceChange
+#onPreferenceChange
+#onPreferenceChange",style=dotted];
+AlarmAlertFullScreen6 -> s8[label="AlarmAlertFullScreen#dispatchKeyEvent",style=dotted];
+AlarmAlertFullScreen6 -> s11[label="#onClick",style=dotted];
+AlarmAlertFullScreen6 -> s12[label="#onClick",style=dotted];
+AlarmAlertFullScreen6 -> AlarmAlertFullScreen6[label="AlarmAlertFullScreen#onBackPressed",style=dotted];
+AlarmAlertFullScreen6 -> s9[label="AlarmAlertFullScreen#dispatchKeyEvent",style=dotted];
+AlarmAlertFullScreen6 -> s10[label="#onClick",style=dotted];
+AlarmAlertFullScreen6 -> s7[label="AlarmAlertFullScreen#dispatchKeyEvent",style=dotted];
+AlarmAlert5 -> s13[label="AlarmAlert#onBackPressed",style=dotted];
+SettingsActivity1 -> SettingsActivity1[label="SettingsActivity#onPreferenceChange",style=dotted];
+}

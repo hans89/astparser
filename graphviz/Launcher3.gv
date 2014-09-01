@@ -1,0 +1,26 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+Launcher1;
+WallpaperCropActivity7;
+BuiltInWallpapersAdapter0;
+ThirdPartyWallpaperPickerListAdapter9;
+MemoryDumpActivity5;
+SavedWallpaperImages8;
+AddAdapter4;
+LiveWallpaperListAdapter6;
+Launcher2;
+Launcher3;
+Launcher1 -> Launcher1[label="onClick
+dispatchKeyEvent
+onBackPressed
+onClick
+onClick",style=dotted];
+WallpaperCropActivity7 -> WallpaperCropActivity7[label="onClick",style=dotted];
+Launcher2 -> Launcher2[label="onClick
+dispatchKeyEvent
+onBackPressed",style=dotted];
+Launcher3 -> Launcher3[label="onBackPressed
+dispatchKeyEvent
+onClick",style=dotted];
+}

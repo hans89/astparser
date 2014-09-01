@@ -1,0 +1,136 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+
+AAFS1;
+t1;
+AAFS1 -> AAFS1[label="onBackPressed"];
+AAFS1 -> t1[label="dismiss#onClick
+dispatchKeyEvent/1/enable
+dispatchKeyEvent/1/disable
+dispatchKeyEvent/2",style=dotted];
+
+AAFS2;
+AAFS2 -> AAFS2[label="onBackPressed"];
+AAFS2 -> t1[label="dismiss#onClick
+snooze#onClick/enable
+snooze#onClick/disable
+dispatchKeyEvent/1/enable
+dispatchKeyEvent/1/disable
+dispatchKeyEvent/2",style=dotted];
+
+
+AA1;
+t2;
+AA1 -> t2[label="onBackPressed
+dismiss#onClick
+snooze#onClick/enable
+snooze#onClick/disable
+dispatchKeyEvent/1/enable
+dispatchKeyEvent/1/disable
+dispatchKeyEvent/2",style=dotted];
+
+AA2;
+t2;
+AA2 -> t2[label="onBackPressed
+dismiss#onClick
+dispatchKeyEvent/1/enable
+dispatchKeyEvent/1/disable
+dispatchKeyEvent/2",style=dotted];
+
+
+
+
+
+AlarmClock;
+AlarmClock -> AlarmClock[label="ContextSel/enable"];
+AlarmClock -> DelDlg[label="ContextSel/del"];
+DelDlg -> AlarmClock [label="OK
+Cancel"];
+
+AlarmClock -> TimePicker1[label="addAlarm#onClick
+OptsSel/add",style=dotted];
+AlarmClock -> SetAlarm2[label="onItemClick
+ContextSel/edit",style=dotted];
+AlarmClock -> DeskClock1[label="DeskClock1#onClick
+OptsSel/desk",style=dotted];
+AlarmClock -> SettingsActivity[label="OptsSel/setting",style=dotted];
+
+
+
+
+DeskClock1[peripheries=2];
+DeskClock1 -> t3[label="gallery#onClick
+music#onClick
+home#onClick
+weather#onClick
+OptsSel/docksetting",style=dotted];
+
+DeskClock1 -> AlarmClock[label="nextAlarm#onClick
+alarm#onClick
+OptsSel/alarm",style=dotted];
+DeskClock1 -> TimePicker1[label="OptsSel/add",style=dotted];
+DeskClock1 -> DeskClock1[label="nightmode#onClick
+tintView#onTouch"];
+DeskClock1 -> DCScreenSaver[label="nightmode#onLongClick"];
+DCScreenSaver -> DeskClock1[label="onUserInteraction"];
+
+DeskClock2[peripheries=2];
+DeskClock2 -> t3[label="gallery#onClick
+music#onClick
+home#onClick
+weather#onClick
+OptsSel/docksetting",style=dotted];
+
+DeskClock2 -> AlarmClock[label="alarm#onClick
+OptsSel/alarm",style=dotted];
+DeskClock2 -> TimePicker1[label="OptsSel/add",style=dotted];
+DeskClock2 -> DeskClock2[label="nightmode#onClick
+tintView#onTouch"];
+DeskClock2 -> DCScreenSaver[label="nightmode#onLongClick"];
+DCScreenSaver -> DeskClock2[label="onUserInteraction"];
+
+
+
+SetAlarm2 -> DelDlg2[label="alarm_del#onClick"];
+DelDlg2 -> SetAlarm2[label="cancel"];
+DelDlg2 -> AlarmClock[label="OK",style=dotted];
+
+SetAlarm2, SetAlarm4 -> SetAlarm4[label="onPreferenceChange"];
+SetAlarm2 -> TimePicker4[label="onPreferenceTreeClick"];
+TimePicker4 -> SetAlarm4[label="onTimeSet"];
+TimePicker4 -> SetAlarm2[label="cancel"];
+SetAlarm4 -> SetAlarm2[label="alarm_revert#onClick"];
+SetAlarm4 -> DelDlg3[label="alarm_del#onClick"];
+DelDlg3 -> SetAlarm4[label="cancel"];
+DelDlg3 -> AlarmClock[label="OK",style=dotted];
+SetAlarm2, SetAlarm4 -> AlarmClock[label="alarm_save#onClick
+onBackPressed",style=dotted];
+
+
+
+
+
+
+TimePicker1 -> SetAlarm1[label="onTimeSet"];
+TimePicker1 -> SetAlarm3[label="cancel"];
+SetAlarm1 -> SetAlarm3[label="alarm_revert#onClick"];
+SetAlarm3, SetAlarm1 -> SetAlarm1[label="onPreferenceChange"];
+
+SetAlarm1 -> TimePicker3[label="onPreferenceTreeClick"];
+TimePicker3 -> SetAlarm1[label="onTimeSet
+cancel"];
+SetAlarm3 -> TimePicker1[label="onPreferenceTreeClick"];
+
+SetAlarm1, SetAlarm3 -> AlarmClock[label="alarm_save#onClick
+onBackPressed",style=dotted];
+
+
+
+
+{rank=min; AAFS1 AAFS2 AA1 AA2 DelDlg SettingsActivity}
+{rank=same; TimePicker1 TimePicker3}
+{rank=same; SetAlarm4 DelDlg3}
+{rank=same; SetAlarm2 DelDlg2}
+
+}

@@ -1,0 +1,39 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+EditEventActivity15;
+GoogleCalendarUriIntentFilter12;
+SimpleWeeksAdapter14;
+EndSpinnerAdapter1;
+SelectCalendarsSimpleAdapter4;
+SearchActivity3;
+SelectVisibleCalendarsActivity8;
+TimeSetListener18;
+CalendarSettingsActivity16;
+AlertActivity19;
+CalendarViewAdapter5;
+AgendaWindowAdapter11;
+SelectSyncedCalendarsMultiAccountActivity13;
+s22[peripheries=2];
+SelectCalendarsSyncAdapter9;
+s21[peripheries=2];
+DayView0;
+EventLocationAdapter6;
+MonthByWeekAdapter7;
+EventInfoActivity20;
+AgendaByDayAdapter2;
+AllInOneActivity10;
+QuickResponseActivity17;
+EditEventActivity15 -> EditEventActivity15[label="onOptionsItemSelected",style=dotted];
+SelectCalendarsSyncAdapter9 -> SelectCalendarsSyncAdapter9[label="onClick",style=dotted];
+SelectCalendarsSimpleAdapter4 -> SelectCalendarsSimpleAdapter4[label="onClick",style=dotted];
+SearchActivity3 -> SearchActivity3[label="onOptionsItemSelected",style=dotted];
+SelectVisibleCalendarsActivity8 -> SelectVisibleCalendarsActivity8[label="onOptionsItemSelected",style=dotted];
+TimeSetListener18 -> TimeSetListener18[label="onTimeSet",style=dotted];
+CalendarSettingsActivity16 -> s21[label="onOptionsItemSelected",style=dotted];
+AlertActivity19 -> s22[label="onItemClick",style=dotted];
+SelectSyncedCalendarsMultiAccountActivity13 -> SelectSyncedCalendarsMultiAccountActivity13[label="onOptionsItemSelected",style=dotted];
+AllInOneActivity10 -> AllInOneActivity10[label="onBackPressed
+onOptionsItemSelected",style=dotted];
+QuickResponseActivity17 -> QuickResponseActivity17[label="onItemClick",style=dotted];
+}

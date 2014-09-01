@@ -1,1 +1,1 @@
-./tests/android.googlesource.com/AlarmClock
+./tests/android.googlesource.com/DeskClock

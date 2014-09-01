@@ -1,0 +1,14 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+s8;
+PhoneFavoritesTileAdapter7;
+PhoneItemAdapter0;
+CallLogActivity5;
+FillCallLogTestActivity2;
+CallDetailActivity3;
+PhoneFavoriteMergedAdapter4;
+CallDetailHistoryAdapter6;
+DialpadChooserAdapter1;
+FillCallLogTestActivity2 -> s8[label="onClick",style=dotted];
+}

@@ -1,0 +1,22 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+NfcImportVCardActivity6;
+CustomContactListFilterActivity3;
+TransactionSafeActivity0;
+AccountFilterActivity8;
+9;
+7;
+FilterListAdapter11;
+ImportVCardActivity13;
+AccountsListAdapter1;
+SelectAccountActivity2;
+ExportVCardActivity5;
+FragmentTestActivity12;
+CancelActivity4;
+ContactTileAdapter10;
+CustomContactListFilterActivity3 -> AccountFilterActivity8[label="onOptionsItemSelected",style=dotted];
+AccountFilterActivity8 -> CustomContactListFilterActivity3[label="onItemClick
+onItemClick",style=dotted];
+AccountFilterActivity8 -> AccountFilterActivity8[label="onOptionsItemSelected",style=dotted];
+}

@@ -5,7 +5,7 @@
 		<action method="onCreateContextMenu"
 			class="android.view.View.OnCreateContextMenuListener"
 			category="INSOURCE"
-			type="init"/>
+			type="top-event"/>
 		<action method="onContextItemSelected" class="android.app.Activity"
 			category="INSOURCE"
 			type="top-event"/>
@@ -16,10 +16,10 @@
 
 		<action method="onCreateOptionsMenu"  class="android.app.Activity"
 			category="INSOURCE"
-			type="init"/>
+			type="top-event"/>
 		<action method="onPrepareOptionsMenu"  class="android.app.Activity"
 			category="INSOURCE"
-			type="init"/>
+			type="top-event"/>
 
 
 		<action method="onOptionsItemSelected"  class="android.app.Activity"
@@ -36,7 +36,7 @@
 
 		<action method="onPreferenceTreeClick"  class="android.preference.PreferenceActivity"
 			category="INSOURCE"
-			type="init"/>
+			type="top-event"/>
 
 		<action method="onTimeChanged" 
 			class="android.widget.TimePicker.OnTimeChangedListener"
@@ -60,8 +60,28 @@
 			category="INSOURCE"
 			type="linked-event"/>
 
+		<action method="onPreferenceChange" class="android.preference.Preference.OnPreferenceChangeListener"
+			setter="android.preference.Preference#setOnPreferenceChangeListener"
+			category="INSOURCE"
+			type="linked-event" />
+
+		<action method="onPreferenceClick" class="android.preference.Preference.OnPreferenceClickListener"
+			setter="android.preference.Preference#setOnPreferenceClickListener"
+			category="INSOURCE"
+			type="linked-event" />
+
 		<action method="onClick" class="android.view.View.OnClickListener"
 			setter="android.view.View#setOnClickListener"
+			category="INSOURCE"
+			type="linked-event"/>
+
+		<action method="onLongClick" class="android.view.View.OnLongClickListener"
+			setter="android.view.View#setOnLongClickListener"
+			category="INSOURCE"
+			type="linked-event"/>
+
+		<action method="onTouch" class="android.view.View.OnTouchListener"
+			setter="android.view.View#setOnTouchListener"
 			category="INSOURCE"
 			type="linked-event"/>
 
@@ -118,6 +138,17 @@
 			category="OUTSOURCE"
 			type="event-binder"/>
 
+		<action method="setOnLongClickListener" 
+			class="android.view.View"
+			category="OUTSOURCE"
+			type="event-binder"/>
+
+		<action method="setOnTouchListener" 
+			class="android.view.View"
+			category="OUTSOURCE"
+			type="event-binder"/>
+
+
 		<action method="setOnCheckedChangeListener" 
 			class="android.widget.CompoundButton"
 			category="OUTSOURCE"
@@ -140,6 +171,16 @@
 
 		<action method="setOnItemSelectedListener"
 			class="android.widget.AdapterView"
+			category="OUTSOURCE"
+			type="event-binder"/>
+
+		<action method="setOnPreferenceClickListener"
+			class="android.preference.Preference"
+			category="OUTSOURCE"
+			type="event-binder"/>
+
+		<action method="setOnPreferenceChangeListener"
+			class="android.preference.Preference"
 			category="OUTSOURCE"
 			type="event-binder"/>
 

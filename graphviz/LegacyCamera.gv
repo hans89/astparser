@@ -1,0 +1,14 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+MySimpleAdapter2;
+s6[peripheries=2];
+Camera4;
+VideoCamera1;
+PanoramaActivity5;
+ActivityBase3;
+OtherSettingsAdapter0;
+Camera4 -> Camera4[label="onBackPressed",style=dotted];
+VideoCamera1 -> s6[label="onBackPressed",style=dotted];
+PanoramaActivity5 -> PanoramaActivity5[label="onBackPressed",style=dotted];
+}
