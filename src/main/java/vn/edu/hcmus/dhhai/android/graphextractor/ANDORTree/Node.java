@@ -67,7 +67,7 @@ public abstract class Node<T> {
 
 				} else if (currentNode instanceof ANDNode<?>) {
 					ANDNode<T> andNode = (ANDNode<T>)currentNode;
-
+					
 					// put all children in queue for further exploration
 					queue.addAll(andNode.getChildren());
 				}
@@ -121,7 +121,7 @@ public abstract class Node<T> {
 		return allSubSwapOptions;
 	}
 
-	public List<Node<T>> computeSolutionTerminalNodes(Set<SwapOption<T>> 
+	public List<TerminalNode<T>> computeSolutionTerminalNodes(Set<SwapOption<T>> 
 														curSolutionSignature) {
 		Set<SwapOption<T>> remainingSwapOptions
 					= new HashSet<SwapOption<T>>(curSolutionSignature);
@@ -130,14 +130,14 @@ public abstract class Node<T> {
 		// we don't need to track the visited nodes
 
 		Queue<Node<T>> queue = new ArrayDeque<Node<T>>();
-		List<Node<T>> terminalNodes = new ArrayList<Node<T>>();
+		List<TerminalNode<T>> terminalNodes = new ArrayList<TerminalNode<T>>();
 
 		queue.offer(this);
 		Node<T> currentNode;
 
 		while ((currentNode = queue.poll()) != null) {
 			if (currentNode instanceof TerminalNode<?>) {
-				terminalNodes.add(currentNode);
+				terminalNodes.add((TerminalNode<T>)currentNode);
 			}
 			else if (currentNode instanceof ANDNode<?>) {
 				ANDNode<T> andNode = (ANDNode<T>)currentNode;

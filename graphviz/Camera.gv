@@ -1,6 +1,5 @@
 digraph {
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
-ProxyLauncher1;
-MoreSettingAdapter0;
+MoreSettingAdapter1;
 }

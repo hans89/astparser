@@ -1,0 +1,59 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+ClockAdapter5;
+AlarmClock1;
+s36[peripheries=2];
+AlarmClock2;
+ClockPicker3;
+SettingsActivity7;
+SetAlarm4;
+s35[peripheries=2];
+AlarmAlert0;
+s29[peripheries=2];
+s33[peripheries=2];
+s31[peripheries=2];
+AlarmAlertFullScreen6;
+AlarmClock1 -> AlarmClock1[label="onPrepareOptionsMenu8
+onContextItemSelected11
+onCreateOptionsMenu10
+onCreateContextMenu14
+onOptionsItemSelected9",style=dotted];
+AlarmClock1 -> AlarmClock2[label="onOptionsItemSelected9",style=dotted];
+AlarmClock1 -> ClockPicker3[label="onClick13",style=dotted];
+AlarmClock1 -> SettingsActivity7[label="onOptionsItemSelected9",style=dotted];
+AlarmClock1 -> SetAlarm4[label="onOptionsItemSelected9
+onItemClick12",style=dotted];
+AlarmClock2 -> AlarmClock1[label="onOptionsItemSelected9",style=dotted];
+AlarmClock2 -> AlarmClock2[label="onCreateOptionsMenu10
+onCreateContextMenu14
+onPrepareOptionsMenu8
+onOptionsItemSelected9
+onContextItemSelected11",style=dotted];
+AlarmClock2 -> SettingsActivity7[label="onOptionsItemSelected9",style=dotted];
+AlarmClock2 -> SetAlarm4[label="onOptionsItemSelected9
+onItemClick12",style=dotted];
+ClockPicker3 -> AlarmClock1[label="onItemClick24
+onClick23",style=dotted];
+ClockPicker3 -> ClockPicker3[label="onNothingSelected15
+onItemSelected16",style=dotted];
+SettingsActivity7 -> SettingsActivity7[label="onPreferenceTreeClick18
+onPreferenceChange17",style=dotted];
+SetAlarm4 -> AlarmClock1[label="onBackPressed26
+onClick27
+onOptionsItemSelected28
+onClick25",style=dotted];
+SetAlarm4 -> AlarmClock2[label="onClick27
+onClick25
+onOptionsItemSelected28
+onBackPressed26",style=dotted];
+SetAlarm4 -> SetAlarm4[label="onPreferenceChange21
+onCreateOptionsMenu19
+onTimeSet20",style=dotted];
+AlarmAlert0 -> s29[label="onBackPressed30",style=dotted];
+AlarmAlertFullScreen6 -> s36[label="onClick37",style=dotted];
+AlarmAlertFullScreen6 -> s33[label="dispatchKeyEvent34",style=dotted];
+AlarmAlertFullScreen6 -> s31[label="onClick32",style=dotted];
+AlarmAlertFullScreen6 -> s35[label="dispatchKeyEvent34",style=dotted];
+AlarmAlertFullScreen6 -> AlarmAlertFullScreen6[label="onBackPressed22",style=dotted];
+}

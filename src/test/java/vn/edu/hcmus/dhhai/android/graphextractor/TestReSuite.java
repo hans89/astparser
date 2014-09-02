@@ -211,69 +211,27 @@ public class TestReSuite extends AbstractTestSuite {
 		// }
 		// END DEBUG
 
-		for (UIObject obj : allUIObjects.values()) {
-			
-			if (obj.initActions != null) {
-				for (UIAction act : obj.initActions.values()) {
-					if (act instanceof UIActionInternal) {
-						UIActionInternal actInt = (UIActionInternal)act;
-						actInt.buildExecutingTree();
-					}
-				}
-			}
-			
-			if (obj.topEventActions != null) {
-				for (UIAction act : obj.topEventActions.values()) {
-					if (act instanceof UIActionInternal) {
-						UIActionInternal actInt = (UIActionInternal)act;
-						actInt.buildExecutingTree();
-					}
-				}
-			}
-		}
-
-		// DEBUG
 		// for (UIObject obj : allUIObjects.values()) {
-		// 	System.out.println(TestSuite.LONG_DASH);
-		// 	System.out.println(obj.typeBinding.getQualifiedName());
-		// 	int i = 0;
-		// 	if (obj.initActions != null)
-		// 	for (Set<UIAction> actSet : obj.getAllPossibleInitialActionSets()) {
-		// 		System.out.println("ACTSET " + Integer.toString(i++));
-		// 		for (UIAction act : actSet) {
+			
+		// 	if (obj.initActions != null) {
+		// 		for (UIAction act : obj.initActions.values()) {
 		// 			if (act instanceof UIActionInternal) {
 		// 				UIActionInternal actInt = (UIActionInternal)act;
-		// 				System.out.println(actInt.methodBinding.getKey());
-		// 				if (actInt.executingPaths != null) {
-		// 					for (Set<UIActionInvocation> path : actInt.executingPaths) {
-		// 						System.out.print("\t ");
-		// 						for (UIActionInvocation actInv : path) {
-		// 							if (actInv instanceof UIActionInvocationStartModal) {
-		// 								UIActionInvocationStartModal actInvStart
-		// 									= (UIActionInvocationStartModal)actInv;
-
-		// 								if (actInvStart.targetObject != null)
-		// 									System.out.print("Target: " + 
-		// 									actInvStart.targetObject.typeBinding.getKey() + " | "); 
-										
-		// 								if (actInvStart.endTargetObject != null)
-		// 									System.out.print("EndTarget: " + 
-		// 									actInvStart.endTargetObject.typeBinding.getKey() + " | "); 
-
-		// 							}
-
-		// 							System.out.print(actInv.astSourceNode.getExpression()
-		// 								+ "." + actInv.astSourceNode.getName() + " <- ");
-		// 						}
-
-		// 						System.out.println(".");
-		// 					}	
-		// 				}
+		// 				actInt.buildExecutingTree();
+		// 			}
+		// 		}
+		// 	}
+			
+		// 	if (obj.topEventActions != null) {
+		// 		for (UIAction act : obj.topEventActions.values()) {
+		// 			if (act instanceof UIActionInternal) {
+		// 				UIActionInternal actInt = (UIActionInternal)act;
+		// 				actInt.buildExecutingTree();
 		// 			}
 		// 		}
 		// 	}
 		// }
-		//END DEBUG
+
 
 		// 9. now we are ready to build the LTS
 		/*
@@ -304,332 +262,343 @@ public class TestReSuite extends AbstractTestSuite {
 
 		IntegerIDGenerator idSGen = new IntegerIDGenerator();
 
-		// // set up initial LTS, where each node represents the initial state of 
-		// // each ui object
-		// for (UIObject obj : allUIObjects.values()) {
+		// set up initial LTS, where each node represents the initial state of 
+		// each ui object
+		for (UIObject obj : allUIObjects.values()) {
 			
-		// 	// set up initial state
-		// 	// DEBUG
-		// 	System.out.println(TestSuite.LONG_DASH);
-		// 	System.out.println(obj.typeBinding.getKey());
-		// 	// END DEBUG
+			// set up initial state
+			// DEBUG
+			// System.out.println(TestSuite.LONG_DASH);
+			// System.out.println(obj.typeBinding.getKey());
+			// END DEBUG
 
-		// 	// TODO: better refine deltas
-		// 	Collection<Set<UIAction>> initialStates = obj.getAllPossibleInitialActionSets();
+			Collection<Set<UIAction>> initialStates = obj.getAllPossibleInitialActionSets();
 			
-		// 	lts.states.addAll(initialStates);
-		// 	lts.initialStates.addAll(initialStates);
+			lts.states.addAll(initialStates);
+			lts.initialStates.addAll(initialStates);
 
-		// 	for (Set<UIAction> initialState : initialStates) {
-		// 		lts.actions.addAll(initialState);
+			for (Set<UIAction> initialState : initialStates) {
+				lts.actions.addAll(initialState);
 				
-		// 		// id for a state
-		// 		stateIDs.put(initialState, obj.getName() + Integer.toString(idSGen.next()));
-		// 	}			
-		// }
+				// id for a state
+				stateIDs.put(initialState, obj + Integer.toString(idSGen.next()));
+			}			
+		}
 
-		// /**
-		//  * After obtaining the initially available events, we can start a DFS/BFS
-		//  *	to visit and track down all of the possible states of a single window
-		//  *	Then we can try to link state between windows
-		//  * 	But first, we have to make clear the semantics of the other action
-		//  *	types, their required information, and their final effects
-		//  *	BIND_EVENT
-		//  *	START_MODAL
-		//  *	END_MODAL
-		//  *	OPEN_MENU
-		//  *	ENABLE_WIDGET
-		//  *	
-		//  *	We also have to add the effect of branching: possible and/or state
-		//  */
+		/**
+		 * After obtaining the initially available events, we can start a DFS/BFS
+		 *	to visit and track down all of the possible states of a single window
+		 *	Then we can try to link state between windows
+		 * 	But first, we have to make clear the semantics of the other action
+		 *	types, their required information, and their final effects
+		 *	BIND_EVENT
+		 *	START_MODAL
+		 *	END_MODAL
+		 *	OPEN_MENU
+		 *	ENABLE_WIDGET
+		 *	
+		 *	We also have to add the effect of branching: possible and/or state
+		 */
 
-		// // we chose to make a DFS here
+		// we chose to make a DFS here
 
-		// for (Set<UIAction> initialState : lts.initialStates) {
-		// 	Deque<Set<UIAction>> stateStack = new ArrayDeque<Set<UIAction>>();
+		for (Set<UIAction> initialState : lts.initialStates) {
+			Deque<Set<UIAction>> stateStack = new ArrayDeque<Set<UIAction>>();
 
-		// 	stateStack.addFirst(initialState);
+			stateStack.addFirst(initialState);
 
-		// 	Set<UIAction> currentState;
+			Set<UIAction> currentState;
 
-		// 	while ((currentState = stateStack.peekFirst()) != null) {
-		// 		stateStack.removeFirst();
+			while ((currentState = stateStack.peekFirst()) != null) {
+				stateStack.removeFirst();
 
-		// 	/*
-		// 	For going to the next state, we shall check each event allowed in
-		// 	the current state:
-		// 		- if the event change the current possible event set, then it
-		// 			create a transition from the current state to another state
-		// 		- if the event does not change the possible event set, then it
-		// 			create a transition from and to the current state itself
-		// 	*/
-		// 		for (UIAction actInv : currentState) {
+			/*
+			For going to the next state, we shall check each event allowed in
+			the current state:
+				- if the event change the current possible event set, then it
+					create a transition from the current state to another state
+				- if the event does not change the possible event set, then it
+					create a transition from and to the current state itself
+			*/
+				for (UIAction actInv : currentState) {
 
-		// 			// identify effect of act
-		// 			// get all possible effects
-		// 			if (actInv instanceof UIActionInternal) {
-		// 				UIActionInternal act = (UIActionInternal)actInv;
+					// identify effect of act
+					// get all possible effects
+					if (actInv instanceof UIActionInternal) {
+						UIActionInternal act = (UIActionInternal)actInv;
 
-		// 				// TODO: better refine deltas
-		// 				List<UIActionInternal.StateDelta> stateDeltas
-		// 							 = act.getPossibleStateDelta();
+						// TODO: better refine deltas
+						List<StateDelta> stateDeltas
+									 = act.getPossibleStateDeltas();
 
-		// 				// if no state delta can be found, then returns to the current state
-		// 				if (stateDeltas == null || stateDeltas.isEmpty()) {
-		// 					// add the transition
-		// 					lts.addTransition(currentState, act, currentState);
+						// if no state delta can be found, then returns to the current state
+						if (stateDeltas == null || stateDeltas.isEmpty()) {
+							// add the transition
+							lts.addTransition(currentState, act, currentState);
 
-		// 					if (!transIDs.containsKey(act))
-		// 							transIDs.put(act, act.getName());
-		// 					continue;
-		// 				}
+							if (!transIDs.containsKey(act))
+									transIDs.put(act, act 
+												 + Integer.toString(idSGen.next()));
+							continue;
+						}
 
-		// 				// check for each possible effect by this action
-		// 				for (UIActionInternal.StateDelta stateDel : stateDeltas) {
-		// 					Set<UIAction> nextState;
+						// else check for each possible effect by this action
+						for (StateDelta stateDel : stateDeltas) {
+							Set<UIAction> nextState;
 
-		// 					// start/end modal dominates
-		// 					if (stateDel.startModalEffects != null
-		// 							&& !stateDel.startModalEffects.isEmpty()) {
-		// 						// if multiple start/end modals appear
-		// 						// that would create a hypergraph!
-		// 						// 1 edge that connect one vertice to more than 1 other vertices
+							// start/end modal dominates
+							if (stateDel.startModalEffects != null
+									&& !stateDel.startModalEffects.isEmpty()) {
+								// if multiple start/end modals appear
+								// that would create a hypergraph!
+								// 1 edge that connect one vertice to more than 1 other vertices
 
-		// 						// for now we make it a normal graph 
-		// 						// by selecting only 1 startObject
+								// for now we make it a normal graph 
+								// by selecting only 1 startObject
 								
-		// 						for (UIActionInvocationStartModal startModal :
-		// 								stateDel.startModalEffects) {
-		// 							if (startModal.targetObject != null) {
-		// 								UIObject startObject = startModal.targetObject;
+								for (UIActionInvocationStartModal startModal :
+										stateDel.startModalEffects) {
+									if (startModal.targetObject != null) {
+										UIObject startObject = startModal.targetObject;
 
-		// 								Collection<Set<UIAction>> possibleInitstates
-		// 								= startObject.getAllPossibleInitialActionSets();
+										Collection<Set<UIAction>> possibleInitstates
+										= startObject.getAllPossibleInitialActionSets();
 
-		// 								// there might be multiple next states
-		// 								// for each delta
-		// 								// depending on the initial states of 
-		// 								// the target object
-		// 								for (Set<UIAction> targetInitState : 
-		// 										possibleInitstates) {
-		// 									// add the transition
-		// 									lts.addTransition(currentState, act, targetInitState);
-		// 									if (!transIDs.containsKey(act))
-		// 										transIDs.put(act, act.getName());
-		// 								}
-		// 							}
-		// 						}
-		// 					}
-		// 					// or not start/end modal
-		// 					// there should be only 1 next state for each delta
-		// 					else if ((stateDel.addedActions != null && 
-		// 								!stateDel.addedActions.isEmpty()) 
-		// 							|| (stateDel.removedActions != null &&
-		// 								!stateDel.removedActions.isEmpty())) {
-		// 						nextState = new HashSet<UIAction>(currentState);
+										// there might be multiple next states
+										// for each delta
+										// depending on the initial states of 
+										// the target object
+										for (Set<UIAction> targetInitState : 
+												possibleInitstates) {
+											// add the transition
+											lts.addTransition(currentState, act, targetInitState);
+											if (!transIDs.containsKey(act))
+												transIDs.put(act, act
+													 + Integer.toString(idSGen.next()));
+										}
+									}
+								}
+							}
+							// or not start/end modal
+							// there should be only 1 next state for each delta
+							else if ((stateDel.addedActions != null && 
+										!stateDel.addedActions.isEmpty()) 
+									|| (stateDel.removedActions != null &&
+										!stateDel.removedActions.isEmpty())) {
+								nextState = new HashSet<UIAction>(currentState);
 
-		// 						if (stateDel.addedActions != null)
-		// 							nextState.addAll(stateDel.addedActions);
+								if (stateDel.addedActions != null)
+									nextState.addAll(stateDel.addedActions);
 
-		// 						if (stateDel.removedActions != null)
-		// 							nextState.removeAll(stateDel.removedActions);
+								if (stateDel.removedActions != null)
+									nextState.removeAll(stateDel.removedActions);
 
-		// 						if (!lts.states.contains(nextState)) {
-		// 							// if this is a new state, add it to the set
-		// 							lts.states.add(nextState);
-		// 							stateIDs.put(nextState, 
-		// 								"s" + Integer.toString(idSGen.next()));
+								if (!lts.states.contains(nextState)) {
+									// if this is a new state, add it to the set
+									lts.states.add(nextState);
+									stateIDs.put(nextState, 
+										"s" + Integer.toString(idSGen.next()));
 
-		// 							// add it to the stack for transition building
-		// 							stateStack.addFirst(nextState);	
-		// 						}
+									// add it to the stack for transition building
+									stateStack.addFirst(nextState);	
+								}
 
-		// 						// add the transition
-		// 						lts.addTransition(currentState, act, nextState);
-		// 						if (!transIDs.containsKey(act))
-		// 							transIDs.put(act, act.getName());
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
+								// add the transition
+								lts.addTransition(currentState, act, nextState);
+								if (!transIDs.containsKey(act))
+									transIDs.put(act, act
+										 + Integer.toString(idSGen.next()));
+							}
+						}
+					}
+				}
+			}
+		}
 
 
-		// // we handle ending-modal-only actions after
-		// List<Set<UIAction>> endModalStates = new ArrayList<Set<UIAction>>();
+		// we handle ending-modal-only actions after
+		List<Set<UIAction>> endModalStates = new ArrayList<Set<UIAction>>();
 
-		// for (Set<UIAction> currentState : lts.states) {
-		// 	for (UIAction actInv : currentState) {
-		// 		// identify effect of act
-		// 		// get all possible effects
-		// 		if (actInv instanceof UIActionInternal) {
-		// 			UIActionInternal act = (UIActionInternal)actInv;
+		for (Set<UIAction> currentState : lts.states) {
+			for (UIAction actInv : currentState) {
+				// identify effect of act
+				// get all possible effects
+				if (actInv instanceof UIActionInternal) {
+					UIActionInternal act = (UIActionInternal)actInv;
 
-		// 			List<UIActionInternal.StateDelta> stateDeltas
-		// 						 = act.getPossibleStateDelta();
+					List<StateDelta> stateDeltas
+								 = act.getPossibleStateDeltas();
 
-		// 			// check for each possible effect by this action
-		// 			for (UIActionInternal.StateDelta stateDel : stateDeltas) {
-		// 				Set<UIAction> nextState;
+					if (stateDeltas == null)
+						continue;
+					
+					// check for each possible effect by this action
+					for (StateDelta stateDel : stateDeltas) {
+						Set<UIAction> nextState;
 
-		// 				// start/end modal dominates
-		// 				if (stateDel.startModalEffects != null
-		// 						&& !stateDel.startModalEffects.isEmpty()) {
+						// start/end modal dominates
+						if (stateDel.startModalEffects != null
+								&& !stateDel.startModalEffects.isEmpty()) {
 							
-		// 					Set<UIObject> endObjects = new HashSet<UIObject>();
-		// 					Set<UIActionInvocationStartModal> endActions 
-		// 						= new HashSet<UIActionInvocationStartModal>();
+							Set<UIObject> endObjects = new HashSet<UIObject>();
+							Set<UIActionInvocationStartModal> endActions 
+								= new HashSet<UIActionInvocationStartModal>();
 							
 
-		// 					for (UIActionInvocationStartModal startModal :
-		// 							stateDel.startModalEffects) {
-		// 						// there is no next UI object, just stopping
-		// 						if (startModal.endTargetObject != null) {
-		// 							endObjects.add(startModal.endTargetObject);
-		// 							endActions.add(startModal);
-		// 						}
-		// 					}
+							for (UIActionInvocationStartModal startModal :
+									stateDel.startModalEffects) {
+								if (startModal.endTargetObject != null) {
+									endObjects.add(startModal.endTargetObject);
+									endActions.add(startModal);
+								}
+							}
 
-		// 					// current UI objects
-		// 					if (!endObjects.isEmpty() && !endActions.isEmpty()) {
-		// 						// dealing with multiple ends is not yet solved
-		// 						// for now we just deal with ending the current windows
-		// 						boolean endCurrentObject = false;
-		// 						for (UIActionInvocationStartModal end : endActions) {
-		// 							if (end.endCurrentObject == true) {
-		// 								endCurrentObject = end.endCurrentObject;
-		// 								break;
-		// 							}
-		// 						}
+							// current UI objects
+							if (!endObjects.isEmpty() && !endActions.isEmpty()) {
+								// dealing with multiple ends is not yet solved
+								// for now we just deal with ending the current windows
+								boolean endCurrentObject = false;
+								for (UIActionInvocationStartModal end : endActions) {
+									if (end.endCurrentObject == true) {
+										endCurrentObject = end.endCurrentObject;
+										break;
+									}
+								}
 
-		// 						if (endCurrentObject == true) {
-		// 							// we check if any state leads to the current state
-		// 							// if so, ending current states will return to
-		// 							// that states
-		// 							// or else, it will simply ends
-		// 							boolean found = false;
+								if (endCurrentObject == true) {
+									// we check if any state leads to the current state
+									// if so, ending current states will return to
+									// that states
+									// or else, it will simply ends
+									Set<Set<UIAction>> nextStates
+										= new HashSet<Set<UIAction>>();
 
-		// 							for (LTS.Transition<Set<UIAction>, UIAction>
-		// 									 trans : lts.transitions) {
-		// 								if (trans.toState.equals(currentState) &&
-		// 									!trans.fromState.equals(currentState)) {
-		// 									found = true;
-		// 									nextState = trans.fromState;
+									for (LTS.Transition<Set<UIAction>, UIAction>
+											 trans : lts.transitions) {
+										if (trans.toState.equals(currentState) &&
+											!trans.fromState.equals(currentState)) {
+											
+											nextStates.add(trans.fromState);
+										}
+										// there possibly many incoming states so
+										// we keep checking all the transitions
+										// TODO: optimize this to avoid checking
+										// all the transitions
+									}
 
-		// 									// add the transition
-		// 									lts.addTransition(currentState, act, nextState);
-		// 									if (!transIDs.containsKey(act))
-		// 										transIDs.put(act, act.getName());
+									// simply ends
+									if (nextStates.size() > 0) {
+										for (Set<UIAction> nS : nextStates) {
+											// add the transition
+											lts.addTransition(currentState, act, nS);
+											if (!transIDs.containsKey(act))
+												transIDs.put(act, act
+													 + Integer.toString(idSGen.next()));	
+										}
+									} else {
+										nextState = new HashSet<UIAction>();
 
-		// 									break;
-		// 								}
-		// 							}
+										nextState.add(new UIAction());
 
-		// 							// simply ends
-		// 							if (found == false) {
-		// 								nextState = new HashSet<UIAction>();
-
-		// 								nextState.add(new UIAction());
-
-		// 								endModalStates.add(nextState);
+										endModalStates.add(nextState);
 										
-		// 								stateIDs.put(nextState, 
-		// 								"s" + Integer.toString(idSGen.next()));
+										stateIDs.put(nextState, 
+										"s" + Integer.toString(idSGen.next()));
 
-		// 								// add the transition
-		// 								lts.addTransition(currentState, act, nextState);
-		// 								if (!transIDs.containsKey(act))
-		// 									transIDs.put(act, act.getName());	
-		// 							}
-		// 						}
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 	}		
-		// }
+										// add the transition
+										lts.addTransition(currentState, act, nextState);
+										if (!transIDs.containsKey(act))
+											transIDs.put(act, act
+												 + Integer.toString(idSGen.next()));	
+									}
+								}
+							}
+						}
+					}
+				}
+			}		
+		}
 		
-		// lts.states.addAll(endModalStates);
-		// lts.terminalStates.addAll(endModalStates);
+		lts.states.addAll(endModalStates);
+		lts.terminalStates.addAll(endModalStates);
 		
 
-		// // 9bis. Output map into graphviz format (.gv)
-		// Map<Set<UIAction>, Map<Set<UIAction>, List<UIAction>>> 
-		// 			adjacencyMap = lts.makeAdjacencyMap();
+		// 9bis. Output map into graphviz format (.gv)
+		Map<Set<UIAction>, Map<Set<UIAction>, List<UIAction>>> 
+					adjacencyMap = lts.makeAdjacencyMap();
 
-		// try {
-		// 	File file = new File(graphOutput);
+		try {
+			File file = new File(graphOutput);
  
-		// 	// if file doesnt exists, then create it
-		// 	if (!file.exists()) {
-		// 		file.createNewFile();
-		// 	}
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
  
-		// 	FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		// 	BufferedWriter bw = new BufferedWriter(fw);
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
 
-		// 	bw.write("digraph {");
-		// 	bw.newLine();
+			bw.write("digraph {");
+			bw.newLine();
 
-		// 	bw.write("fontname=\"Helvetica\";");
-		// 	bw.newLine();
-		// 	bw.write("node[style=\"filled,solid\", colorscheme=greys3, fillcolor=1, color=3];");
-		// 	bw.newLine();
+			bw.write("fontname=\"Helvetica\";");
+			bw.newLine();
+			bw.write("node[style=\"filled,solid\", colorscheme=greys3, fillcolor=1, color=3];");
+			bw.newLine();
     
-		// 	for (Set<UIAction> state : lts.states) {
+			for (Set<UIAction> state : lts.states) {
 				
-		// 		bw.write(stateIDs.get(state));
+				bw.write(stateIDs.get(state));
 
-		// 		if (lts.terminalStates.contains(state))
-		// 			bw.write("[peripheries=2]");
+				if (lts.terminalStates.contains(state))
+					bw.write("[peripheries=2]");
 
-		// 		bw.write(";");
-		// 		bw.newLine();
-		// 	}
+				bw.write(";");
+				bw.newLine();
+			}
 
-		// 	for (Entry<Set<UIAction>, Map<Set<UIAction>, List<UIAction>>> 
-		// 				entry : adjacencyMap.entrySet()) {
-		// 		Set<UIAction> fromState = entry.getKey();
-		// 		Map<Set<UIAction>, List<UIAction>> map2 = entry.getValue();
+			for (Entry<Set<UIAction>, Map<Set<UIAction>, List<UIAction>>> 
+						entry : adjacencyMap.entrySet()) {
+				Set<UIAction> fromState = entry.getKey();
+				Map<Set<UIAction>, List<UIAction>> map2 = entry.getValue();
 
-		// 		for (Entry<Set<UIAction>, List<UIAction>> entry2
-		// 				: map2.entrySet()) {
+				for (Entry<Set<UIAction>, List<UIAction>> entry2
+						: map2.entrySet()) {
 
-		// 			Set<UIAction> toState = entry2.getKey();
+					Set<UIAction> toState = entry2.getKey();
 
-		// 			List<UIAction> actions = entry2.getValue();
+					List<UIAction> actions = entry2.getValue();
 
-		// 			if (actions.size() > 0) {
-		// 				bw.write(stateIDs.get(fromState)
-		// 							+ " -> " + stateIDs.get(toState));
+					if (actions.size() > 0) {
+						bw.write(stateIDs.get(fromState)
+									+ " -> " + stateIDs.get(toState));
 
-		// 				bw.write("[label=\""); 
+						bw.write("[label=\""); 
 
 						
-		// 				int size = actions.size();
-		// 				for (int i = 0; i < size - 1; i ++) {
-		// 					bw.write(transIDs.get(actions.get(i)) + "\n");
-		// 				}
+						int size = actions.size();
+						for (int i = 0; i < size - 1; i ++) {
+							bw.write(transIDs.get(actions.get(i)) + "\n");
+						}
 
-		// 				bw.write(transIDs.get(actions.get(size-1)));
+						bw.write(transIDs.get(actions.get(size-1)));
 
-		// 				bw.write("\",style=dotted];");
+						bw.write("\",style=dotted];");
 						
-		// 				bw.newLine();	
-		// 			}
-		// 		}
-		// 	}
+						bw.newLine();	
+					}
+				}
+			}
 
-		// 	bw.write("}");
+			bw.write("}");
 
-		// 	bw.close();
+			bw.close();
  
-		// 	System.out.println("Done writing file.");
+			System.out.println("Done writing file.");
  
-		// } catch (IOException e) {
-		// 	e.printStackTrace();
-		// }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 

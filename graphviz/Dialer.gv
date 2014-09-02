@@ -1,14 +1,13 @@
 digraph {
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
-s8;
-PhoneFavoritesTileAdapter7;
-PhoneItemAdapter0;
-CallLogActivity5;
-FillCallLogTestActivity2;
-CallDetailActivity3;
-PhoneFavoriteMergedAdapter4;
-CallDetailHistoryAdapter6;
-DialpadChooserAdapter1;
-FillCallLogTestActivity2 -> s8[label="onClick",style=dotted];
+PhoneItemAdapter7;
+CallLogActivity3;
+CallDetailActivity5;
+FillCallLogTestActivity1;
+CallLogActivity3 -> CallLogActivity3[label="onPrepareOptionsMenu8
+onCreateOptionsMenu9",style=dotted];
+CallDetailActivity5 -> CallDetailActivity5[label="onPrepareOptionsMenu10
+onCreateOptionsMenu11",style=dotted];
+FillCallLogTestActivity1 -> PhoneItemAdapter7[label="onClick12",style=dotted];
 }

@@ -1,21 +1,44 @@
 digraph {
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
-GalleryPicker7;
-GalleryPickerAdapter14;
-DeleteImage10;
-ViewImage4;
-PhotoAppWidgetConfigure3;
-ImageGallery5;
-13;
-ImageGallery6;
-PhotoAppWidgetBind11;
-Wallpaper1;
-MovieView12;
-MonitoredActivity2;
-GallerySettings8;
-CropImage0;
-CreateContextMenuListener9;
-ImageGallery5 -> ImageGallery5[label="#onClick",style=dotted];
-ImageGallery6 -> ImageGallery6[label="#onClick",style=dotted];
+MovieView14;
+CreateContextMenuListener12;
+ImageGallery11;
+s19;
+GalleryPicker10;
+ViewImage1;
+ViewImage2;
+0;
+CreateContextMenuListener12 -> CreateContextMenuListener12[label="onCreateContextMenu15",style=dotted];
+ImageGallery11 -> ImageGallery11[label="onPrepareOptionsMenu18
+onCreateOptionsMenu17
+onClick16",style=dotted];
+ImageGallery11 -> s19[label="onClick20",style=dotted];
+s19 -> s19[label="onCreateOptionsMenu17
+onPrepareOptionsMenu18
+onClick20",style=dotted];
+GalleryPicker10 -> GalleryPicker10[label="onCreateOptionsMenu21",style=dotted];
+ViewImage1 -> ViewImage1[label="onTouch24
+onPrepareOptionsMenu22
+onCreateOptionsMenu23
+onPrepareOptionsMenu22
+onPrepareOptionsMenu22",style=dotted];
+ViewImage1 -> ViewImage2[label="onPrepareOptionsMenu22",style=dotted];
+ViewImage2 -> ViewImage1[label="onClick26
+onPrepareOptionsMenu22
+onPrepareOptionsMenu22
+onClick26
+onClick26
+onClick26
+onClick26
+onClick26
+onClick26
+onPrepareOptionsMenu22
+onClick26",style=dotted];
+ViewImage2 -> ViewImage2[label="onTouch24
+onPrepareOptionsMenu22
+onClick26
+onTouch25
+onCreateOptionsMenu23",style=dotted];
+0 -> 0[label="onCreateContextMenu27",style=dotted];
 }

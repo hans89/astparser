@@ -1,13 +1,5 @@
 digraph {
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
-PhotoAppWidgetBind8;
-ActiveWallpaper0;
-PhotoAppWidgetConfigure2;
-CropImage6;
-MovieView5;
-Gallery1;
-Wallpaper4;
-Photographs3;
-MonitoredActivity7;
+ActiveWallpaper8;
 }

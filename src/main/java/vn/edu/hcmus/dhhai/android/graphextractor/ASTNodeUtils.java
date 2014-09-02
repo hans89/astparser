@@ -465,8 +465,6 @@ public class ASTNodeUtils {
 							UIActionClass.UIActionType.START_MODAL) {
 
 						List<Expression> args = act.astSourceNode.arguments();
-						ITypeBinding argTypeBinding;
-						
 						
 						for (Expression exp : args) {
 							// exp is an intent 
@@ -831,29 +829,31 @@ public class ASTNodeUtils {
 						// this method is still called by others, keep going down
 						for (UIActionInvocation invokingAct 
 														: invoker.invokedList) {
-
-							UIActionInternal internalAct 
-										= (UIActionInternal)invoker;
-
-							LinkedHashSet<UIActionStatement> appendedString
-								= ASTNodeUtils.getBrachingStringBetweenNodes(
-												internalAct.declaration,
-												currentAct.astSourceNode);
-
-							// avoid cycles
-							if (!currentPath.contains(invokingAct)) {
-								LinkedHashSet<UIActionStatement> nextPath = new 
-									LinkedHashSet<UIActionStatement>(currentPath);
-
-								// we must complete the conditional branching
-								// betwen the currentAct and the invokingAct (invoker)
-								// this can be cached as it is the same for all
-								// invokingAct
-								nextPath.addAll(appendedString);
-								nextPath.add(invokingAct);
-
-								stack.addFirst(invokingAct);
-								pathStack.addFirst(nextPath);
+							
+							if (invoker instanceof UIActionInternal) {
+								UIActionInternal internalAct 
+											= (UIActionInternal)invoker;
+	
+								LinkedHashSet<UIActionStatement> appendedString
+									= ASTNodeUtils.getBrachingStringBetweenNodes(
+													internalAct.declaration,
+													currentAct.astSourceNode);
+	
+								// avoid cycles
+								if (!currentPath.contains(invokingAct)) {
+									LinkedHashSet<UIActionStatement> nextPath = new 
+										LinkedHashSet<UIActionStatement>(currentPath);
+	
+									// we must complete the conditional branching
+									// betwen the currentAct and the invokingAct (invoker)
+									// this can be cached as it is the same for all
+									// invokingAct
+									nextPath.addAll(appendedString);
+									nextPath.add(invokingAct);
+	
+									stack.addFirst(invokingAct);
+									pathStack.addFirst(nextPath);
+								}
 							}
 						}
 					}

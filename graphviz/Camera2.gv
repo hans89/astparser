@@ -1,21 +1,17 @@
 digraph {
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
-MoreSettingAdapter3;
-ProxyLauncher1;
-s6[peripheries=2];
-DetailsAdapter2;
-s5;
-CameraActivity4;
+DetailsAdapter4;
+s9[peripheries=2];
+CameraActivity2;
+s12[peripheries=2];
 CropActivity0;
-s5 -> s5[label="#onClick
-CameraActivity#onOptionsItemSelected
-CameraActivity#onBackPressed",style=dotted];
-s5 -> CameraActivity4[label="#onClick
-CameraActivity#onOptionsItemSelected",style=dotted];
-CameraActivity4 -> s5[label="#onClick
-CameraActivity#onOptionsItemSelected
-CameraActivity#onOptionsItemSelected",style=dotted];
-CameraActivity4 -> CameraActivity4[label="CameraActivity#onBackPressed",style=dotted];
-CropActivity0 -> s6[label="#onClick",style=dotted];
+s7[peripheries=2];
+s11[peripheries=2];
+CameraActivity2 -> s9[label="onOptionsItemSelected10",style=dotted];
+CameraActivity2 -> CameraActivity2[label="onBackPressed6
+onCreateOptionsMenu5",style=dotted];
+CameraActivity2 -> s7[label="onClick8",style=dotted];
+CameraActivity2 -> s11[label="onOptionsItemSelected10",style=dotted];
+CropActivity0 -> s12[label="onClick13",style=dotted];
 }

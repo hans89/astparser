@@ -1,78 +1,97 @@
 digraph {
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
-s25[peripheries=2];
-s21[peripheries=2];
-VideoBrowserActivity7;
-MusicBrowserActivity13;
-TrackBrowserActivity0;
-s29[peripheries=2];
-s22[peripheries=2];
-s26[peripheries=2];
-MusicPicker17;
-QueryBrowserActivity16;
-ArtistAlbumBrowserActivity15;
-CreatePlaylist5;
-MediaPickerActivity11;
+ScanningProgress7;
+s73[peripheries=2];
+CreatePlaylist13;
+s62[peripheries=2];
+VideoBrowserActivity12;
+TrackBrowserActivity1;
+WeekSelector0;
+DeleteItems5;
+MediaPlaybackActivity14;
+RenamePlaylist8;
 s20;
+AlbumBrowserActivity15;
+MediaPickerActivity10;
+s71[peripheries=2];
+s56[peripheries=2];
 PlaylistBrowserActivity3;
-AudioPreview2;
-s30[peripheries=2];
-ScanningProgress1;
-MediaPlaybackActivity12;
-DeleteItems8;
-s19;
-AlbumBrowserActivity9;
-s23[peripheries=2];
-s27[peripheries=2];
-ArtistAlbumBrowserActivity14;
-WeekSelector18;
-PlaylistBrowserActivity4;
-AlbumBrowserActivity10;
-RenamePlaylist6;
-s28[peripheries=2];
-s24[peripheries=2];
-s20 -> s20[label="#beforeTextChanged
-#afterTextChanged
-#onTextChanged",style=dotted];
-s20 -> RenamePlaylist6[label="#onClick",style=dotted];
-PlaylistBrowserActivity3 -> s21[label="PlaylistBrowserActivity#onListItemClick",style=dotted];
-PlaylistBrowserActivity3 -> PlaylistBrowserActivity3[label="PlaylistBrowserActivity#onOptionsItemSelected",style=dotted];
-TrackBrowserActivity0 -> s22[label="TrackBrowserActivity#dispatchKeyEvent",style=dotted];
-TrackBrowserActivity0 -> TrackBrowserActivity0[label="TrackBrowserActivity#onListItemClick",style=dotted];
-MediaPlaybackActivity12 -> s23[label="MediaPlaybackActivity#onOptionsItemSelected",style=dotted];
-MediaPlaybackActivity12 -> MediaPlaybackActivity12[label="#onClick
-#onClick
-#onClick
-#onClick
-#onClick",style=dotted];
-s19 -> s19[label="#beforeTextChanged
-#afterTextChanged
-#onTextChanged",style=dotted];
-s19 -> CreatePlaylist5[label="#onClick",style=dotted];
-DeleteItems8 -> s25[label="#onClick",style=dotted];
-DeleteItems8 -> s24[label="#onClick",style=dotted];
-AlbumBrowserActivity9 -> AlbumBrowserActivity9[label="AlbumBrowserActivity#onOptionsItemSelected",style=dotted];
-MusicPicker17 -> MusicPicker17[label="MusicPicker#onOptionsItemSelected
-MusicPicker#onListItemClick",style=dotted];
-MusicPicker17 -> s26[label="MusicPicker#onClick",style=dotted];
-ArtistAlbumBrowserActivity14 -> ArtistAlbumBrowserActivity14[label="ArtistAlbumBrowserActivity#onOptionsItemSelected",style=dotted];
-QueryBrowserActivity16 -> QueryBrowserActivity16[label="QueryBrowserActivity#onOptionsItemSelected",style=dotted];
-WeekSelector18 -> s27[label="#onClick",style=dotted];
-WeekSelector18 -> s28[label="#onClick",style=dotted];
-PlaylistBrowserActivity4 -> s29[label="PlaylistBrowserActivity#onListItemClick",style=dotted];
-PlaylistBrowserActivity4 -> PlaylistBrowserActivity4[label="PlaylistBrowserActivity#onOptionsItemSelected",style=dotted];
-AlbumBrowserActivity10 -> AlbumBrowserActivity10[label="AlbumBrowserActivity#onOptionsItemSelected",style=dotted];
-ArtistAlbumBrowserActivity15 -> ArtistAlbumBrowserActivity15[label="ArtistAlbumBrowserActivity#onOptionsItemSelected",style=dotted];
-CreatePlaylist5 -> s19[label="#onClick
-#onClick
-#onTextChanged",style=dotted];
-CreatePlaylist5 -> CreatePlaylist5[label="#afterTextChanged
-#beforeTextChanged",style=dotted];
-RenamePlaylist6 -> s20[label="#onClick
-#onClick
-#onTextChanged",style=dotted];
-RenamePlaylist6 -> RenamePlaylist6[label="#afterTextChanged
-#beforeTextChanged",style=dotted];
-MediaPickerActivity11 -> s30[label="MediaPickerActivity#onListItemClick",style=dotted];
+s58[peripheries=2];
+s69[peripheries=2];
+RenamePlaylist9;
+s74[peripheries=2];
+QueryBrowserActivity4;
+s76[peripheries=2];
+s60[peripheries=2];
+s66[peripheries=2];
+s78[peripheries=2];
+AudioPreview11;
+s64[peripheries=2];
+ArtistAlbumBrowserActivity16;
+MusicPicker6;
+QueryBrowserActivity4 -> QueryBrowserActivity4[label="onOptionsItemSelected17",style=dotted];
+CreatePlaylist13 -> s20[label="onClick55
+onClick54
+onTextChanged21",style=dotted];
+CreatePlaylist13 -> CreatePlaylist13[label="afterTextChanged19
+beforeTextChanged18
+onTextChanged21",style=dotted];
+TrackBrowserActivity1 -> s56[label="dispatchKeyEvent57",style=dotted];
+TrackBrowserActivity1 -> TrackBrowserActivity1[label="onCreateOptionsMenu23
+onPrepareOptionsMenu22
+onCreateContextMenu24
+onListItemClick25",style=dotted];
+WeekSelector0 -> s60[label="onClick61",style=dotted];
+WeekSelector0 -> s58[label="onClick59",style=dotted];
+DeleteItems5 -> s64[label="onClick65",style=dotted];
+DeleteItems5 -> s62[label="onClick63",style=dotted];
+MediaPlaybackActivity14 -> s66[label="onOptionsItemSelected67",style=dotted];
+MediaPlaybackActivity14 -> MediaPlaybackActivity14[label="onClick33
+onClick31
+onClick30
+onClick28
+onCreateOptionsMenu27
+onTouch32
+onPrepareOptionsMenu29
+onClick26",style=dotted];
+AudioPreview11 -> AudioPreview11[label="onPrepareOptionsMenu34
+onCreateOptionsMenu35",style=dotted];
+RenamePlaylist8 -> RenamePlaylist8[label="beforeTextChanged38
+afterTextChanged37
+onTextChanged36",style=dotted];
+RenamePlaylist8 -> RenamePlaylist9[label="onTextChanged36
+onClick68",style=dotted];
+s20 -> s20[label="afterTextChanged19
+onTextChanged21
+beforeTextChanged18",style=dotted];
+s20 -> CreatePlaylist13[label="onTextChanged21
+onClick55",style=dotted];
+AlbumBrowserActivity15 -> AlbumBrowserActivity15[label="onCreateContextMenu40
+onCreateOptionsMenu39
+onOptionsItemSelected41
+onPrepareOptionsMenu42",style=dotted];
+MediaPickerActivity10 -> s69[label="onListItemClick70",style=dotted];
+PlaylistBrowserActivity3 -> s74[label="onListItemClick72",style=dotted];
+PlaylistBrowserActivity3 -> s73[label="onListItemClick72",style=dotted];
+PlaylistBrowserActivity3 -> s71[label="onListItemClick72",style=dotted];
+PlaylistBrowserActivity3 -> PlaylistBrowserActivity3[label="onOptionsItemSelected43
+onCreateOptionsMenu46
+onCreateContextMenu45
+onPrepareOptionsMenu44",style=dotted];
+ArtistAlbumBrowserActivity16 -> ArtistAlbumBrowserActivity16[label="onPrepareOptionsMenu47
+onCreateOptionsMenu49
+onOptionsItemSelected50
+onCreateContextMenu48",style=dotted];
+RenamePlaylist9 -> RenamePlaylist8[label="onClick68
+onTextChanged36
+onClick75",style=dotted];
+RenamePlaylist9 -> RenamePlaylist9[label="onTextChanged36
+beforeTextChanged38
+afterTextChanged37",style=dotted];
+MusicPicker6 -> s76[label="onClick77",style=dotted];
+MusicPicker6 -> s78[label="onClick77",style=dotted];
+MusicPicker6 -> MusicPicker6[label="onOptionsItemSelected52
+onListItemClick53
+onCreateOptionsMenu51",style=dotted];
 }

@@ -204,8 +204,66 @@ public class UIActionInternal extends UIAction {
 		return executingTreeRoot;	
 	}
 
-	private	HashMap<LinkedHashSet<UIActionInvocation>, Set<UIActionInvocation>> 
-		possibleEffectsMap; 
+
+	/**
+	 * Each effective set is a set of invocations, which is a solution of the
+	 * UIObject executing tree.
+	 */
+	private Set<Set<UIActionStatement>> possibleEffects;
+
+	/**
+	 * Each state deltas corresponds to an effective set.
+	 */
+	private List<StateDelta> possibleStateDeltas;
+
+	public List<StateDelta> getPossibleStateDeltas() {
+		// caching
+		if (possibleStateDeltas != null)
+			return possibleStateDeltas;
+
+		// caching
+		if (executingTreeRoot == null)
+			this.buildExecutingTree();
+
+		// caching
+		if (possibleEffects == null && executingTreeRoot != null) {
+
+			Set<Set<SwapOption<UIActionStatement>>> solutionSignatures 
+					= ASG.runASG(executingTreeRoot);
+
+			possibleEffects 
+				= new HashSet<Set<UIActionStatement>>();
+
+			for (Set<SwapOption<UIActionStatement>> solSig
+												: solutionSignatures) {
+
+				List<TerminalNode<UIActionStatement>> terminalNodes
+					= executingTreeRoot.computeSolutionTerminalNodes(solSig);
+
+				Set<UIActionStatement> nodeSet 
+					= new HashSet<UIActionStatement>(terminalNodes.size());
+
+				for (TerminalNode<UIActionStatement> node : terminalNodes) {
+					UIActionStatement st = node.getInternalData();
+					if (st != null)
+						nodeSet.add(st);
+				}
+				if (nodeSet.size() > 0)
+					possibleEffects.add(nodeSet);
+			}
+		}
+
+		if (possibleEffects != null && possibleEffects.size() > 0) {
+			possibleStateDeltas 
+				= StateDelta.getPossibleStateDelta(possibleEffects);
+		}
+
+		return possibleStateDeltas;
+
+	}
+
+	// private	HashMap<LinkedHashSet<UIActionInvocation>, Set<UIActionInvocation>> 
+	// 	possibleEffectsMap; 
 	/**
 	 *	Calculate the effect of an INTERNAL_UI action
 	 *	Version 0.1: no branching information
@@ -270,178 +328,5 @@ public class UIActionInternal extends UIAction {
 	// 	return possibleEffectsMap.values();
 	// }
 
-	// public static class StateDelta {
-	// 	// if this is a delta that adds/removes actions then
-	// 	// at least one of addedActions and removedActions is not empty
-	// 	public Set<UIAction> addedActions;
-	// 	public Set<UIAction> removedActions;
-
-	// 	// if this is a delta that has start/end modal effect then
-	// 	// startModelEffect should not be empty
-	// 	public Set<UIActionInvocationStartModal> startModalEffects;
-	// }
 	
-	// private List<StateDelta> stateDeltas;
-
-	// // TODO: better refine deltas
-	// // by refining possible effects: add branching
-	// public List<StateDelta> getPossibleStateDelta() {
-
-	// 	if (stateDeltas != null)
-	// 		return stateDeltas;
-		
-	// 	stateDeltas = new ArrayList<StateDelta>();
-
-	// 	Collection<Set<UIActionInvocation>> effectSets = this.getPossibleEffects();
-
-
-	// 	if (effectSets != null) {
-	// 		// with each effective set
-	// 		for (Set<UIActionInvocation> effectSet : effectSets) {
-	// 			// first check if there is a start modal
-	// 			Set<UIAction> addedActions = new HashSet<UIAction>();
-	// 			Set<UIAction> removedActions = new HashSet<UIAction>();
-	// 			Set<UIActionInvocationStartModal> startModalEffects
-	// 				= new HashSet<UIActionInvocationStartModal>();		
-
-	// 			for (UIActionInvocation act : effectSet) {
-	// 				// is a modal action
-	// 				if (act instanceof UIActionInvocationStartModal) {
-	// 					startModalEffects.add((UIActionInvocationStartModal)act);
-	// 				}
-	// 				// or an event-enabling action
-	// 				else if (act instanceof UIActionInvocationBindEvent) {
-	// 				// either by binding an event
-	// 					UIActionInvocationBindEvent ebActInv = 
-	// 						(UIActionInvocationBindEvent)act;
-
-	// 					if (ebActInv.bindedEvents != null) {
-	// 						addedActions.addAll(ebActInv.bindedEvents);
-	// 					}
-	// 				} else if (act instanceof UIActionInvocationEnableWidget) {
-	// 				// or by enabling a widget with some already binded events
-	// 					UIActionInvocationEnableWidget ewActInv = 
-	// 						(UIActionInvocationEnableWidget)act;
-
-	// 					if (ewActInv.enabledEvents != null)
-	// 						addedActions.addAll(ewActInv.enabledEvents);
-
-	// 					if (ewActInv.disabledEvents != null)
-	// 						removedActions.addAll(ewActInv.disabledEvents);
-	// 				}
-	// 			}
-
-	// 			if (startModalEffects.size() > 0 
-	// 					|| addedActions.size() > 0
-	// 					|| removedActions.size() > 0) {
-	// 				StateDelta delta = new StateDelta();
-
-	// 				if (startModalEffects.size() > 0)
-	// 					delta.startModalEffects = startModalEffects;
-
-	// 				if (addedActions.size() > 0)
-	// 					delta.addedActions = addedActions;
-
-	// 				if (removedActions.size() > 0)
-	// 					delta.removedActions = removedActions;
-
-	// 				stateDeltas.add(delta);
-	// 			}
-	// 		}
-	// 	}
-
-	// 	return stateDeltas;
-	// }
-
-	// TODO: remove all the codes below and their dependencies
-
-	// private	Set<UIActionInvocation> allPossibleEffects; 
-
-	// public Set<UIActionInvocation> getAllPossibleEffects() {
-	// 	if (executingPaths == null)
-	// 		return null;
-
-	// 	if (allPossibleEffects == null) {
-	// 		allPossibleEffects = new HashSet<UIActionInvocation>();
-
-	// 		for (LinkedHashSet<UIActionInvocation> path : executingPaths) {
-	// 			allPossibleEffects.add(path.iterator().next());
-	// 		}	
-	// 	}
-		
-
-	// 	return allPossibleEffects;
-	// }
-
-	// // BIND_EVENT & ENABLE_WIDGET
-	// public Set<UIAction> getEnabledEvents() {
-	// 	Set<UIActionInvocation> effects = getAllPossibleEffects();
-
-	// 	Set<UIAction> enabledEvents = new HashSet<UIAction>();
-		
-	// 	if (effects != null) {
-			
-
-	// 		for (UIActionInvocation effect : effects) {
-				
-	// 			if (effect instanceof UIActionInvocationBindEvent) {
-	// 			// either by binding an event
-	// 				UIActionInvocationBindEvent ebActInv = 
-	// 					(UIActionInvocationBindEvent)effect;
-
-	// 				if (ebActInv.bindedEvents != null) {
-	// 					enabledEvents.addAll(ebActInv.bindedEvents);
-	// 				}
-	// 			} else if (effect instanceof UIActionInvocationEnableWidget) {
-	// 			// or by enabling a widget with some already binded events
-	// 				UIActionInvocationEnableWidget ewActInv = 
-	// 					(UIActionInvocationEnableWidget)effect;
-
-	// 				if (ewActInv.enabledEvents != null)
-	// 					enabledEvents.addAll(ewActInv.enabledEvents);
-	// 			}
-	// 		}
-	// 	}
-	// 	return enabledEvents;
-	// }
-
-	// // ENABLE_WIDGET
-	// public Set<UIAction> getDisabledEvents() {
-
-	// 	Set<UIActionInvocation> effects = getAllPossibleEffects();
-
-	// 	Set<UIAction> disabledEvents = new HashSet<UIAction>();
-		
-	// 	if (effects != null) {
-	// 		for (UIActionInvocation effect : effects) {
-	// 			if (effect instanceof UIActionInvocationEnableWidget) {
-	// 				UIActionInvocationEnableWidget ewActInv = 
-	// 					(UIActionInvocationEnableWidget)effect;
-
-	// 				if (ewActInv.disabledEvents != null)
-	// 					disabledEvents.addAll(ewActInv.disabledEvents);
-	// 			}
-	// 		}
-	// 	}
-	// 	return disabledEvents;
-	// }
-
-	// public Set<UIActionInvocation> getStartEndModals() {
-	// 	Set<UIActionInvocation> effects = getAllPossibleEffects();
-
-	// 	Set<UIActionInvocation> startModals = new HashSet<UIActionInvocation>();
-		
-	// 	if (effects != null) {
-	// 		for (UIActionInvocation effect : effects) {
-	// 			if (effect instanceof UIActionInvocationStartModal) {
-	// 				UIActionInvocationStartModal smActInv = 
-	// 					(UIActionInvocationStartModal)effect;
-
-	// 				startModals.add(smActInv);
-	// 			}
-	// 		}
-	// 	}
-	// 	return startModals;
-
-	// }
 }

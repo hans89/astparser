@@ -48,7 +48,7 @@ AlarmClock -> DelDlg[label="ContextSel/del"];
 DelDlg -> AlarmClock [label="OK
 Cancel"];
 
-AlarmClock -> TimePicker1[label="addAlarm#onClick
+AlarmClock -> TimePicker6[label="addAlarm#onClick
 OptsSel/add",style=dotted];
 AlarmClock -> SetAlarm2[label="onItemClick
 ContextSel/edit",style=dotted];
@@ -122,9 +122,27 @@ TimePicker3 -> SetAlarm1[label="onTimeSet
 cancel"];
 SetAlarm3 -> TimePicker1[label="onPreferenceTreeClick"];
 
-SetAlarm1, SetAlarm3 -> AlarmClock[label="alarm_save#onClick
+SetAlarm1, SetAlarm3 -> DeskClock1[label="alarm_save#onClick
 onBackPressed",style=dotted];
 
+SetAlarm1, SetAlarm3 -> DeskClock2[label="alarm_save#onClick
+onBackPressed",style=dotted];
+
+
+
+
+TimePicker5 -> SetAlarm5[label="onTimeSet"];
+TimePicker5 -> SetAlarm6[label="cancel"];
+SetAlarm5 -> SetAlarm6[label="alarm_revert#onClick"];
+SetAlarm6, SetAlarm5 -> SetAlarm5[label="onPreferenceChange"];
+
+SetAlarm5 -> TimePicker6[label="onPreferenceTreeClick"];
+TimePicker6 -> SetAlarm5[label="onTimeSet
+cancel"];
+SetAlarm6 -> TimePicker5[label="onPreferenceTreeClick"];
+
+SetAlarm5, SetAlarm6 -> AlarmClock[label="alarm_save#onClick
+onBackPressed",style=dotted];
 
 
 

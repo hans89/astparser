@@ -1,55 +1,59 @@
 digraph {
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
-NewChatActivity6;
-StatusIconAdapter3;
-s21[peripheries=2];
-s17[peripheries=2];
-s18[peripheries=2];
-SigningInActivity13;
-SettingActivity7;
-s20[peripheries=2];
-LandingPage5;
-ContactsPickerActivity9;
-ImageListAdapter12;
-AddContactActivity4;
-ChooseAccountActivity0;
-SimpleInputActivity15;
-s19[peripheries=2];
-PreferenceActivity8;
-s22[peripheries=2];
-ContactListActivity10;
-ContactPresenceActivity16;
-AccountActivity14;
-SignoutActivity11;
-ImUrlActivity1;
-BlockedContactsActivity2;
-AddContactActivity4 -> AddContactActivity4[label="#afterTextChanged
-#beforeTextChanged
-#onTextChanged",style=dotted];
-NewChatActivity6 -> NewChatActivity6[label="NewChatActivity#dispatchKeyEvent",style=dotted];
-NewChatActivity6 -> s17[label="NewChatActivity#onOptionsItemSelected",style=dotted];
-SimpleInputActivity15 -> s19[label="#onClick",style=dotted];
-SimpleInputActivity15 -> s20[label="#onClick",style=dotted];
-PreferenceActivity8 -> s21[label="#onClick",style=dotted];
-ContactListActivity10 -> AddContactActivity4[label="ContactListActivity#onOptionsItemSelected",style=dotted];
-ContactListActivity10 -> s22[label="ContactListActivity#onOptionsItemSelected",style=dotted];
-ContactListActivity10 -> ContactListActivity10[label="ContactListActivity#dispatchKeyEvent",style=dotted];
-SigningInActivity13 -> LandingPage5[label="SigningInActivity#onOptionsItemSelected",style=dotted];
-AccountActivity14 -> SigningInActivity13[label="#onClick",style=dotted];
-AccountActivity14 -> AccountActivity14[label="#onTextChanged
-#afterTextChanged
-#onClick
-#onClick
-#onCheckedChanged
-#beforeTextChanged",style=dotted];
-LandingPage5 -> SigningInActivity13[label="LandingPage#onListItemClick
-LandingPage#onListItemClick
-LandingPage#onContextItemSelected",style=dotted];
-LandingPage5 -> LandingPage5[label="LandingPage#onOptionsItemSelected",style=dotted];
-BlockedContactsActivity2 -> BlockedContactsActivity2[label="BlockedContactsActivity#onListItemClick",style=dotted];
-ContactsPickerActivity9 -> s18[label="ContactsPickerActivity#onListItemClick",style=dotted];
-ContactsPickerActivity9 -> ContactsPickerActivity9[label="#beforeTextChanged
-#onTextChanged
-#afterTextChanged",style=dotted];
+StatusIconAdapter16;
+s54[peripheries=2];
+s51[peripheries=2];
+SigningInActivity2;
+SettingActivity11;
+ContactsPickerActivity12;
+s48[peripheries=2];
+s46[peripheries=2];
+SimpleInputActivity0;
+AddContactActivity9;
+LandingPage7;
+AccountActivity8;
+PreferenceActivity14;
+s56[peripheries=2];
+ContactListActivity6;
+s49[peripheries=2];
+NewChatActivity13;
+BlockedContactsActivity4;
+PreferenceActivity14 -> s46[label="onClick47",style=dotted];
+AccountActivity8 -> AccountActivity8[label="afterTextChanged22
+onCheckedChanged20
+onClick17
+onTextChanged21
+beforeTextChanged18
+onClick19",style=dotted];
+AccountActivity8 -> SigningInActivity2[label="onClick23",style=dotted];
+ContactListActivity6 -> ContactListActivity6[label="onCreateContextMenu24
+dispatchKeyEvent26
+onCreateOptionsMenu27",style=dotted];
+ContactListActivity6 -> s48[label="onOptionsItemSelected25",style=dotted];
+ContactListActivity6 -> AddContactActivity9[label="onOptionsItemSelected25",style=dotted];
+SettingActivity11 -> SettingActivity11[label="onPreferenceTreeClick34",style=dotted];
+SigningInActivity2 -> AccountActivity8[label="onOptionsItemSelected53",style=dotted];
+SigningInActivity2 -> SigningInActivity2[label="onCreateOptionsMenu35",style=dotted];
+SigningInActivity2 -> LandingPage7[label="onOptionsItemSelected53",style=dotted];
+NewChatActivity13 -> s49[label="onOptionsItemSelected50",style=dotted];
+NewChatActivity13 -> NewChatActivity13[label="onPrepareOptionsMenu28
+onCreateOptionsMenu29
+dispatchKeyEvent30",style=dotted];
+ContactsPickerActivity12 -> s51[label="onListItemClick52",style=dotted];
+ContactsPickerActivity12 -> ContactsPickerActivity12[label="onTextChanged32
+afterTextChanged31
+beforeTextChanged33",style=dotted];
+BlockedContactsActivity4 -> BlockedContactsActivity4[label="onListItemClick36",style=dotted];
+SimpleInputActivity0 -> s54[label="onClick55",style=dotted];
+SimpleInputActivity0 -> s56[label="onClick57",style=dotted];
+AddContactActivity9 -> AddContactActivity9[label="afterTextChanged38
+beforeTextChanged39
+onTextChanged37",style=dotted];
+LandingPage7 -> SigningInActivity2[label="onListItemClick43
+onContextItemSelected45",style=dotted];
+LandingPage7 -> LandingPage7[label="onCreateContextMenu44
+onOptionsItemSelected42
+onCreateOptionsMenu41
+onPrepareOptionsMenu40",style=dotted];
 }

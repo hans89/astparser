@@ -1,7 +1,10 @@
 package vn.edu.hcmus.dhhai.android.graphextractor.UIModel;
 
 import java.util.*;
+
 import org.eclipse.jdt.core.dom.*;
+
+import vn.edu.hcmus.dhhai.android.graphextractor.ANDORTree.*;
 
 /**
  *	Objects of this class represent UI windows or widgets which are defined in
@@ -44,160 +47,158 @@ public class UIObject {
 	 */
 	public HashMap<IMethodBinding, UIAction> topEventActions;
 
-	// public Set<UIAction> getAllInitialEvents() {
-	// 	Set<UIAction> initialEvents = new HashSet<UIAction>();
-
-	// 	if (topEventActions != null)
-	// 		initialEvents.addAll(topEventActions.values());
-
-	// 	// get linked-event set up by inits
-	// 	if (initActions != null)
-	// 		for (UIAction act : initActions.values()) {
-	// 			Set<UIAction> enabledEvents =
-	// 					((UIActionInternal)act).getEnabledEvents();
-
-	// 			initialEvents.addAll(enabledEvents);				
-	// 		}
-
-	// 	return initialEvents;
-	// }
-
 	public List<Set<UIAction>> topEventSets;
 
 	private List<Set<UIAction>> initialStates;
 
-	private Set<UIAction> initialEvents;
+	/**
+	 * While each internal action has an executing tree, rooted at the action
+	 * itself, UIObject has an executing tree rooted at an ANDNode, whose 
+	 * children are the trees of the initial internal actions.
+	 */
+	private ANDNode<UIActionStatement> uiOBJExecutingTreeRoot;
 
-	// public Collection<Set<UIAction>> getAllPossibleInitialActionSets() {
+	/**
+	 * Each effective set is a set of invocations, which is a solution of the
+	 * UIObject executing tree.
+	 */
+	private Set<Set<UIActionStatement>> initialEffectiveSets;
 
-	// 	if (initialStates != null)
-	// 		return initialStates;
+	/**
+	 * Each state deltas corresponds to an effective set.
+	 */
+	private List<StateDelta> possibleInitialStateDeltas;
 
-	// 	initialStates = new ArrayList<Set<UIAction>>();
+	public Collection<Set<UIAction>> getAllPossibleInitialActionSets() {
+		// caching
+		if (initialStates != null)
+			return initialStates;
 
-	// 	if (topEventActions != null) {
-	// 		initialEvents = new HashSet<UIAction>();
-	// 		initialEvents.addAll(topEventActions.values());
-	// 	}
+		initialStates = new ArrayList<Set<UIAction>>();
 
+		List<UIAction> initialEvents = null;
 
-	// 	// get linked-event set up by inits
-	// 	if (initActions != null) {
-	// 		// if there are init actions, we should mix their effects
-	// 		// each init action may have multiple effect sets, 
-	// 		// so we need to mix all of them together
-	// 		// this is a set selection problem
-
-	// 		// TODO
-	// 		List<List<UIActionInternal.StateDelta>> stateDeltaAlphabets
-	// 			= new ArrayList<List<UIActionInternal.StateDelta>>();
-
-	// 		for (UIAction act : initActions.values()) {
-
-	// 			UIActionInternal intAct = (UIActionInternal)act;
-
-	// 			List<UIActionInternal.StateDelta> possibleStateDeltas
-	// 				= intAct.getPossibleStateDelta();
-	// 			if (possibleStateDeltas != null && !possibleStateDeltas.isEmpty()) {
-	// 				stateDeltaAlphabets.add(possibleStateDeltas);
-	// 			}
-	// 		}
-
-	// 		// DEBUG
-	// 		// int i = 0;
-	
-	// 		// System.out.println("-------ALPHABET---" + intAct.methodBinding.getKey());
-			
-	// 		// System.out.println("--alphabet " + i++ + " size " + possibleStateDeltas.size());
-	// 		// int j = 0;
-	// 		// for (UIActionInternal.StateDelta character : possibleStateDeltas) {
-	// 		// 	System.out.println("--delta " + j++);
-	// 			// 	if (character.addedActions != null) {
-	// 		// 		System.out.println("-Added actions");
-	// 		// 		for (UIAction act2 : character.addedActions) {
-	// 		// 			System.out.println(act2.getName());
-	// 		// 		}	
-	// 		// 	}
-
-	// 		// 	if (character.removedActions != null) {
-	// 		// 		System.out.println("-Removed actions");
-	// 		// 		for (UIAction act2: character.removedActions) {
-	// 		// 			System.out.println(act2.getName());
-	// 		// 		}	
-	// 		// 	}
-				
-	// 		// 	if (character.startModalEffects != null) {
-	// 		// 		System.out.println("-Start modals actions");
-	// 		// 		for (UIActionInvocationStartModal act2 : character.startModalEffects) {
-	// 		// 			System.out.println(act2.astSourceNode.getName());
-	// 		// 		}	
-	// 		// 	}
-	// 		// }
-			
-
-	// 		// END DEBUG
-
-	// 		SetSelector<UIActionInternal.StateDelta> stateDeltaSelector 
-	// 			= new SetSelector<UIActionInternal.StateDelta>(stateDeltaAlphabets);
-
-	// 		List<List<UIActionInternal.StateDelta>>
-	// 			possibleInitialStateDeltas = stateDeltaSelector.getSelectionSet();
-
-	// 		// we got all possible sets of initital states 
-	// 		// basing on event-binding actions found in initial actions
-
-	// 		Set<Set<UIAction>> possibleStates = new HashSet<Set<UIAction>>();
-
-	// 		for (List<UIActionInternal.StateDelta> select :
-	// 				possibleInitialStateDeltas) {
-	// 			Set<UIAction> newState = new HashSet<UIAction>();
-
-	// 			// we have to mix them with the top events
-	// 			if (initialEvents != null)
-	// 				newState.addAll(initialEvents);
-				
-				
-	// 			// we assume that initial actions do not make modal transition
-	// 			for (UIActionInternal.StateDelta delta : select) {
-	// 				if (delta.addedActions != null)
-	// 					newState.addAll(delta.addedActions);
-
-	// 				if (delta.removedActions != null)
-	// 					newState.removeAll(delta.removedActions);
-	// 			}
-
-	// 			// we might also want to check for uniqueness, i.e.
-	// 			// holding that each state is unique - we use a Set
-	// 			if (!newState.isEmpty())
-	// 				possibleStates.add(newState);
-	// 		}
-	// 		// add the set to the return object
-	// 		initialStates.addAll(possibleStates);
-	// 	} else { 
-	// 		// no init actions, there are only top events
-	// 		// and therefore should be only 1 initial state
-	// 		if (initialEvents != null)
-	// 			initialStates.add(initialEvents);
-	// 	}
-
-	// 	// if there is no action
-	// 	// make it as an empty ui object
-	// 	if (initialStates.isEmpty()) {
-	// 		Set<UIAction> emptySet = new HashSet<UIAction>();
-	// 		emptySet.add(new UIAction());
-	// 		initialStates.add(emptySet);
-	// 	}
-			
-	// 	return initialStates;
-	// }
-
-	public String getName() {
-		String name = typeBinding.getName();
-		if (name.equals("")) {
-
+		if (topEventActions != null) {
+			initialEvents = new ArrayList<UIAction>();
+			initialEvents.addAll(topEventActions.values());
 		}
 
-		return name;
+
+		// get linked-event set up by inits
+		if (initActions != null) {
+			// caching
+			if (uiOBJExecutingTreeRoot == null) {
+				// set up the executing tree of this UIObject
+
+				List<Node<UIActionStatement>> childTrees = 
+					new ArrayList<Node<UIActionStatement>>(initActions.size());
+
+				for (UIAction act : initActions.values()) {
+
+					UIActionInternal intAct = (UIActionInternal)act;
+
+					Node<UIActionStatement> childTree = intAct.buildExecutingTree();
+					if (childTree != null)
+						childTrees.add(childTree);
+				}
+
+				uiOBJExecutingTreeRoot 
+					= new ANDNode<UIActionStatement>(null, childTrees);
+							// empty internal data
+			}
+
+			// caching
+			if (initialEffectiveSets == null) {
+				// set up possible effects of initial actions, in form of
+				// action invocations
+
+				Set<Set<SwapOption<UIActionStatement>>> solutionSignatures 
+					= ASG.runASG(uiOBJExecutingTreeRoot);
+
+				initialEffectiveSets 
+					= new HashSet<Set<UIActionStatement>>();
+
+				for (Set<SwapOption<UIActionStatement>> solSig
+													: solutionSignatures) {
+
+					List<TerminalNode<UIActionStatement>> terminalNodes
+						= uiOBJExecutingTreeRoot.computeSolutionTerminalNodes(solSig);
+
+					Set<UIActionStatement> nodeSet 
+						= new HashSet<UIActionStatement>(terminalNodes.size());
+
+					for (TerminalNode<UIActionStatement> node : terminalNodes) {
+						UIActionStatement st = node.getInternalData();
+						if (st != null)
+							nodeSet.add(st);
+					}
+					if (nodeSet.size() > 0)
+						initialEffectiveSets.add(nodeSet);
+				}
+			}
+
+			// caching
+			if (possibleInitialStateDeltas == null) {
+				// calculate possible state deltas from the possible initial
+				// effective sets
+
+				possibleInitialStateDeltas 
+					= StateDelta.getPossibleStateDelta(initialEffectiveSets);
+			}
+			
+
+			// we get all possible sets of initital states 
+			// basing on event-binding actions found in initial actions
+
+			Set<Set<UIAction>> possibleStates = new HashSet<Set<UIAction>>();
+
+			for (StateDelta delta : possibleInitialStateDeltas) {
+				Set<UIAction> newState = new HashSet<UIAction>();
+
+				// we have to mix them with the top events
+				if (initialEvents != null)
+					newState.addAll(initialEvents);
+				
+				// we assume that initial actions do not make modal transition
+				if (delta.addedActions != null)
+						newState.addAll(delta.addedActions);
+
+				if (delta.removedActions != null)
+					newState.removeAll(delta.removedActions);
+
+				// we might also want to check for uniqueness, i.e.
+				// holding that each state is unique - we use a Set
+				if (!newState.isEmpty())
+					possibleStates.add(newState);
+			}
+			// add the set to the return object
+			initialStates.addAll(possibleStates);
+		} 
+
+
+		// no init actions, there are only top events
+		// and therefore should be only 1 initial state
+		if (initialStates.isEmpty()) {
+			if (initialEvents != null) {
+				initialStates.add(new HashSet<UIAction>(initialEvents));
+			}
+			else {
+				// if there is no action
+				// make it as an empty ui object
+				initialStates.add(new HashSet<UIAction>(0));
+			}	
+		}
+			
+		return initialStates;
+	}
+
+	public String getName() {
+		return typeBinding.getName();
+	}
+
+	@Override
+	public String toString() {
+		return typeBinding.getName();
 	}
 }
 

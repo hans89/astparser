@@ -1,41 +1,36 @@
 digraph {
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
-s15[peripheries=2];
-AccountSetupIncoming13;
-CreateShortcutActivityEmail9;
-AccountSetupNames10;
-AccountSetupOutgoing2;
-AccountSetupOptions4;
-AccountSettings12;
-CertificateRequestor1;
+AccountSecurity12;
+AccountSettings1;
 MailboxSettings8;
-AccountSetupType5;
-AccountSecurity0;
-AccountSetupBasics3;
-EventViewer14;
-AccountSetupActivity6;
-FolderPickerActivity7;
+AccountSetupOutgoing7;
 AccountSetupNames11;
-MailboxSettings8 -> MailboxSettings8[label="MailboxSettings#onOptionsItemSelected",style=dotted];
-AccountSetupIncoming13 -> AccountSetupIncoming13[label="AccountSetupIncoming#onClick",style=dotted];
-AccountSetupNames10 -> s15[label="AccountSetupNames#onBackPressed",style=dotted];
-AccountSetupNames10 -> AccountSetupBasics3[label="AccountSetupNames#onBackPressed
-AccountSetupNames#onBackPressed
-AccountSetupNames#onBackPressed",style=dotted];
-AccountSetupNames10 -> AccountSetupNames11[label="#onClick",style=dotted];
-AccountSetupOutgoing2 -> AccountSetupOutgoing2[label="AccountSetupOutgoing#onClick",style=dotted];
-AccountSetupType5 -> AccountSetupBasics3[label="AccountSetupType#onClick",style=dotted];
-AccountSettings12 -> AccountSettings12[label="AccountSettings#onBackPressed",style=dotted];
-AccountSettings12 -> AccountSetupBasics3[label="AccountSettings#onOptionsItemSelected",style=dotted];
-AccountSetupBasics3 -> AccountSetupType5[label="AccountSetupBasics#onClick
-AccountSetupBasics#onClick",style=dotted];
-AccountSetupBasics3 -> AccountSetupBasics3[label="AccountSetupBasics#afterTextChanged
-AccountSetupBasics#onTextChanged
-AccountSetupBasics#beforeTextChanged",style=dotted];
-FolderPickerActivity7 -> FolderPickerActivity7[label="#onItemClick",style=dotted];
-AccountSetupNames11 -> AccountSetupNames10[label="AccountSetupNames#onBackPressed",style=dotted];
-AccountSetupNames11 -> AccountSetupBasics3[label="AccountSetupNames#onBackPressed
-AccountSetupNames#onBackPressed
-AccountSetupNames#onBackPressed",style=dotted];
+FolderPickerActivity13;
+AccountSetupBasics6;
+s29[peripheries=2];
+s28[peripheries=2];
+AccountSetupIncoming9;
+s30[peripheries=2];
+AccountSetupType0;
+AccountSettings1 -> AccountSettings1[label="onPrepareOptionsMenu16
+onBackPressed14
+onCreateOptionsMenu15",style=dotted];
+AccountSettings1 -> AccountSetupBasics6[label="onOptionsItemSelected17",style=dotted];
+MailboxSettings8 -> MailboxSettings8[label="onPreferenceChange18
+onOptionsItemSelected19",style=dotted];
+AccountSetupOutgoing7 -> AccountSetupOutgoing7[label="onClick20",style=dotted];
+AccountSetupNames11 -> AccountSetupBasics6[label="onBackPressed21
+onBackPressed21
+onBackPressed21",style=dotted];
+AccountSetupNames11 -> s28[label="onBackPressed21",style=dotted];
+AccountSetupNames11 -> s29[label="onBackPressed21",style=dotted];
+AccountSetupNames11 -> s30[label="onBackPressed21",style=dotted];
+FolderPickerActivity13 -> FolderPickerActivity13[label="onItemClick22",style=dotted];
+AccountSetupBasics6 -> AccountSetupBasics6[label="beforeTextChanged23
+afterTextChanged25
+onTextChanged26",style=dotted];
+AccountSetupBasics6 -> AccountSetupType0[label="onClick24",style=dotted];
+AccountSetupIncoming9 -> AccountSetupIncoming9[label="onClick27",style=dotted];
+AccountSetupType0 -> AccountSetupBasics6[label="onClick31",style=dotted];
 }

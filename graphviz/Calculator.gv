@@ -1,13 +1,10 @@
 digraph {
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
-HistoryAdapter3;
-Calculator0;
+HistoryAdapter0;
 Calculator1;
-Calculator2;
-Calculator0 -> Calculator0[label="Calculator#onOptionsItemSelected",style=dotted];
-Calculator1 -> Calculator1[label="Calculator#onClick
-Calculator#onOptionsItemSelected",style=dotted];
-Calculator2 -> Calculator2[label="Calculator#onOptionsItemSelected
-EventListener#onClick",style=dotted];
+Calculator1 -> Calculator1[label="onCreateOptionsMenu3
+onOptionsItemSelected4
+onClick2
+onPrepareOptionsMenu5",style=dotted];
 }

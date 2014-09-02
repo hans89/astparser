@@ -3,10 +3,12 @@ package vn.edu.hcmus.dhhai.android.graphextractor;
 /* junit packages */
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
 
 /* ANDOR tree */
 import vn.edu.hcmus.dhhai.android.graphextractor.ANDORTree.*;
@@ -259,7 +261,7 @@ public class ANDORTreeTestSuite extends AbstractTestSuite {
 
 		for (Set<SwapOption<T>> solSig : solutionSignatures) {
 
-			List<Node<T>> terminalNodes
+			List<TerminalNode<T>> terminalNodes
 					= tree.computeSolutionTerminalNodes(solSig);
 
 			Set<Node<T>> nodeSet = new HashSet<Node<T>>(terminalNodes);

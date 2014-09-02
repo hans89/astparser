@@ -88,7 +88,13 @@ public class UIAction {
 	public List<UIActionInvocation> invokedList;
 
 	public String getName() {
-		return containingType.getName() + "#" + methodBinding.getName();
+		//return containingType.getName() + "#" + methodBinding.getName();
+		return methodBinding.getName();
+	}
+
+	@Override
+	public String toString() {
+		return methodBinding.getName();
 	}
 
 	public final static UIAction NullAction = new UIAction();

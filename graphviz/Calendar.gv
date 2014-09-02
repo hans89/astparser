@@ -1,39 +1,41 @@
 digraph {
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
-EditEventActivity15;
-GoogleCalendarUriIntentFilter12;
-SimpleWeeksAdapter14;
-EndSpinnerAdapter1;
-SelectCalendarsSimpleAdapter4;
-SearchActivity3;
-SelectVisibleCalendarsActivity8;
-TimeSetListener18;
-CalendarSettingsActivity16;
-AlertActivity19;
-CalendarViewAdapter5;
-AgendaWindowAdapter11;
-SelectSyncedCalendarsMultiAccountActivity13;
-s22[peripheries=2];
-SelectCalendarsSyncAdapter9;
-s21[peripheries=2];
-DayView0;
-EventLocationAdapter6;
-MonthByWeekAdapter7;
-EventInfoActivity20;
-AgendaByDayAdapter2;
-AllInOneActivity10;
+AgendaWindowAdapter20;
+SimpleWeeksAdapter8;
+AllInOneActivity0;
+EditEventActivity4;
 QuickResponseActivity17;
-EditEventActivity15 -> EditEventActivity15[label="onOptionsItemSelected",style=dotted];
-SelectCalendarsSyncAdapter9 -> SelectCalendarsSyncAdapter9[label="onClick",style=dotted];
-SelectCalendarsSimpleAdapter4 -> SelectCalendarsSimpleAdapter4[label="onClick",style=dotted];
-SearchActivity3 -> SearchActivity3[label="onOptionsItemSelected",style=dotted];
-SelectVisibleCalendarsActivity8 -> SelectVisibleCalendarsActivity8[label="onOptionsItemSelected",style=dotted];
-TimeSetListener18 -> TimeSetListener18[label="onTimeSet",style=dotted];
-CalendarSettingsActivity16 -> s21[label="onOptionsItemSelected",style=dotted];
-AlertActivity19 -> s22[label="onItemClick",style=dotted];
-SelectSyncedCalendarsMultiAccountActivity13 -> SelectSyncedCalendarsMultiAccountActivity13[label="onOptionsItemSelected",style=dotted];
-AllInOneActivity10 -> AllInOneActivity10[label="onBackPressed
-onOptionsItemSelected",style=dotted];
-QuickResponseActivity17 -> QuickResponseActivity17[label="onItemClick",style=dotted];
+SearchActivity6;
+SelectSyncedCalendarsMultiAccountActivity11;
+SelectCalendarsSimpleAdapter15;
+s39[peripheries=2];
+SelectVisibleCalendarsActivity18;
+TimeSetListener5;
+s41[peripheries=2];
+CalendarSettingsActivity14;
+AlertActivity2;
+SelectCalendarsSyncAdapter10;
+MonthByWeekAdapter12;
+DayView1;
+SimpleWeeksAdapter8 -> SimpleWeeksAdapter8[label="onTouch21",style=dotted];
+AllInOneActivity0 -> AllInOneActivity0[label="onBackPressed22
+onCreateOptionsMenu24
+onOptionsItemSelected23",style=dotted];
+EditEventActivity4 -> EditEventActivity4[label="onOptionsItemSelected25",style=dotted];
+SearchActivity6 -> SearchActivity6[label="onCreateOptionsMenu28
+onOptionsItemSelected27",style=dotted];
+QuickResponseActivity17 -> QuickResponseActivity17[label="onItemClick26",style=dotted];
+SelectSyncedCalendarsMultiAccountActivity11 -> SelectSyncedCalendarsMultiAccountActivity11[label="onCreateOptionsMenu30
+onOptionsItemSelected29",style=dotted];
+SelectCalendarsSimpleAdapter15 -> SelectCalendarsSimpleAdapter15[label="onClick31",style=dotted];
+SelectVisibleCalendarsActivity18 -> SelectVisibleCalendarsActivity18[label="onOptionsItemSelected33
+onCreateOptionsMenu32",style=dotted];
+TimeSetListener5 -> TimeSetListener5[label="onTimeSet34",style=dotted];
+CalendarSettingsActivity14 -> s39[label="onOptionsItemSelected40",style=dotted];
+CalendarSettingsActivity14 -> CalendarSettingsActivity14[label="onCreateOptionsMenu35",style=dotted];
+AlertActivity2 -> s41[label="onItemClick42",style=dotted];
+SelectCalendarsSyncAdapter10 -> SelectCalendarsSyncAdapter10[label="onClick36",style=dotted];
+MonthByWeekAdapter12 -> MonthByWeekAdapter12[label="onTouch37",style=dotted];
+DayView1 -> DayView1[label="onCreateContextMenu38",style=dotted];
 }
