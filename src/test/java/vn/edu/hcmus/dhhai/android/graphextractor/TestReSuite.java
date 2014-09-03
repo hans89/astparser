@@ -376,6 +376,32 @@ public class TestReSuite extends AbstractTestSuite {
 												transIDs.put(act, act
 													 + Integer.toString(idSGen.next()));
 										}
+									// targetObject cannot be detected,
+									// but if it is a START_MODAL
+									} else {
+										IMethodBinding invokedBinding
+											= startModal.invokedMethod;
+
+										UIAction invokedAction = allActions.get(invokedBinding);
+
+										if (invokedAction != null 
+											&& invokedAction.metaClassInfo != null
+											&& invokedAction.metaClassInfo.type
+											 == UIActionClass.UIActionType.START_MODAL) {
+
+											nextState = new HashSet<UIAction>();
+
+											nextState.add(UIAction.NullAction);
+											
+											stateIDs.put(nextState, 
+											"s" + Integer.toString(idSGen.next()));
+
+											// add the transition
+											lts.addTransition(currentState, act, nextState);
+											if (!transIDs.containsKey(act))
+												transIDs.put(act, act
+													 + Integer.toString(idSGen.next()));	
+										}
 									}
 								}
 							}
@@ -498,7 +524,7 @@ public class TestReSuite extends AbstractTestSuite {
 									} else {
 										nextState = new HashSet<UIAction>();
 
-										nextState.add(new UIAction());
+										nextState.add(UIAction.NullAction);
 
 										endModalStates.add(nextState);
 										

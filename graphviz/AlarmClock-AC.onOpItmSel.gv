@@ -12,10 +12,17 @@ setVis1[label="setClockVisibility()"];
 setVis2[label="mClockLayout.setVisibility()",peripheries=2];
 t1[shape=point,style="solid",peripheries=2];
 
+case1[label="menu_add_alarm"];
+case2[label="menu_toggle_clock"];
+case3[label="menu_settings"];
+
 onOpts -> switch;
-switch -> start1[label="menu_add_alarm"];
-switch -> start2[label="menu_toggle_clock"];
-switch -> setVis1[label="menu_settings"];
+switch -> case1;
+case1 -> start1;
+switch -> case2;
+case2 -> start2;
+switch -> case3;
+case3 -> setVis1;
 switch -> t1[label="default"];
 setVis1 -> setVis2;
 

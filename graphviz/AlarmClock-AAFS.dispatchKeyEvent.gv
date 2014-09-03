@@ -12,6 +12,13 @@ snooze[label="snooze()"];
 finish1[label="finish()",peripheries=2];
 finish2[label="finish()",peripheries=2];
 
+branch1SwitchKey[label="KEYCODE_VOLUME_UP
+\[...\]"];
+
+ifupThen[label="true"];
+
+switchCase2Beh[label="case 2"];
+switchCase1Beh[label="case 1"];
 subgraph {
 	node[shape=point,style="solid",peripheries=2];
 	t1;
@@ -20,13 +27,16 @@ subgraph {
 }
 
 dispatchKeyEvent -> switchKeyCode;
-switchKeyCode -> ifup [label="KEYCODE_VOLUME_UP
-\[...\]"];
+switchKeyCode -> branch1SwitchKey;
+branch1SwitchKey -> ifup;
 switchKeyCode -> t1[label="default"];
-ifup -> switchvBehavior[label="true"];
+ifup -> ifupThen;
+ifupThen -> switchvBehavior[];
 ifup -> t2[label="false"];
-switchvBehavior -> dismiss[label="case 2"];
-switchvBehavior -> snooze[label="case 1"];
+switchvBehavior -> switchCase2Beh;
+switchCase2Beh -> dismiss;
+switchvBehavior -> switchCase1Beh;
+switchCase1Beh -> snooze;
 switchvBehavior -> t3[label="default"];
 dismiss -> finish1;
 snooze -> finish2;

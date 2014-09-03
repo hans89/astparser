@@ -69,4 +69,15 @@ onClick26",style=dotted];
 AlarmClock3 -> SettingsActivity0[label="onOptionsItemSelected25",style=dotted];
 AlarmClock3 -> AlarmClock3[label="onCreateContextMenu27
 onCreateOptionsMenu24"];
+
+t36;
+DeskClock6, DeskClock7 -> t36[label="onClick37
+onClick38
+onClick39
+onClick40
+onOptionsItemSelected41",style=dotted];
+
+
+{rank=min; AlarmAlert5}
+
 }

@@ -1,75 +1,83 @@
 digraph {
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+AlarmAlertFullScreen0;
+DeskClock4;
+DeskClock5;
 SettingsActivity1;
-DeskClock6;
-s34[peripheries=2];
-DeskClock7;
-SetAlarm3;
-s29[peripheries=2];
-s33[peripheries=2];
-AlarmAlertFullScreen4;
+AlarmClock7;
+s55[peripheries=2];
 SetAlarm2;
-s31[peripheries=2];
-s38[peripheries=2];
-AlarmClock5;
-AlarmAlert0;
-AlarmAlertFullScreen4 -> s33[label="dispatchKeyEvent32",style=dotted];
-AlarmAlertFullScreen4 -> AlarmAlertFullScreen4[label="onBackPressed8",style=dotted];
-AlarmAlertFullScreen4 -> s34[label="onClick35",style=dotted];
-AlarmAlertFullScreen4 -> s31[label="dispatchKeyEvent32",style=dotted];
-AlarmAlertFullScreen4 -> s29[label="onClick30",style=dotted];
-SettingsActivity1 -> SettingsActivity1[label="onPreferenceTreeClick15
-onPreferenceChange14",style=dotted];
-DeskClock6 -> DeskClock6[label="onCreateOptionsMenu10
-onClick9
-onLongClick12
-onTouch13",style=dotted];
-DeskClock6 -> SetAlarm2[label="onOptionsItemSelected11",style=dotted];
-DeskClock6 -> DeskClock7[label="onLongClick12",style=dotted];
-DeskClock6 -> SetAlarm3[label="onOptionsItemSelected11",style=dotted];
-DeskClock6 -> AlarmClock5[label="onOptionsItemSelected11",style=dotted];
-SetAlarm2 -> DeskClock6[label="onBackPressed36",style=dotted];
-SetAlarm2 -> SetAlarm2[label="onPreferenceChange17
-onPreferenceChange19
-onPreferenceChange16
-onTimeSet18",style=dotted];
-SetAlarm2 -> DeskClock7[label="onBackPressed36",style=dotted];
-SetAlarm2 -> AlarmClock5[label="onBackPressed36",style=dotted];
-DeskClock7 -> DeskClock6[label="onLongClick12",style=dotted];
-DeskClock7 -> SetAlarm2[label="onOptionsItemSelected11",style=dotted];
-DeskClock7 -> DeskClock7[label="onLongClick12
-onCreateOptionsMenu10
-onClick9
-onTouch13",style=dotted];
-DeskClock7 -> SetAlarm3[label="onOptionsItemSelected11",style=dotted];
-DeskClock7 -> AlarmClock5[label="onOptionsItemSelected11
-onClick20",style=dotted];
-SetAlarm3 -> DeskClock6[label="onClick37
-onBackPressed36",style=dotted];
-SetAlarm3 -> DeskClock7[label="onClick37
-onBackPressed36",style=dotted];
-SetAlarm3 -> AlarmClock5[label="onClick37
-onBackPressed36",style=dotted];
-SetAlarm3 -> SetAlarm3[label="onClick28
-onPreferenceChange19
-onPreferenceChange17
-onTimeSet18
-onPreferenceChange16",style=dotted];
-AlarmClock5 -> SettingsActivity1[label="onOptionsItemSelected23",style=dotted];
-AlarmClock5 -> DeskClock6[label="onOptionsItemSelected23
-onClick22",style=dotted];
-AlarmClock5 -> SetAlarm2[label="onClick27
-onItemClick25
-onOptionsItemSelected23
-onContextItemSelected26",style=dotted];
-AlarmClock5 -> DeskClock7[label="onClick22
-onOptionsItemSelected23",style=dotted];
-AlarmClock5 -> AlarmClock5[label="onCreateOptionsMenu24
-onCreateContextMenu21",style=dotted];
-AlarmClock5 -> SetAlarm3[label="onItemClick25
-onContextItemSelected26
-onOptionsItemSelected23
-onClick27",style=dotted];
-AlarmAlert0 -> s38[label="onBackPressed39",style=dotted];
+SetAlarm3;
+AlarmAlert6;
+AlarmAlertFullScreen0 -> AlarmAlertFullScreen0[label="onBackPressed8",style=dotted];
+AlarmAlertFullScreen0 -> s55[label="onClick47
+onClick52
+dispatchKeyEvent49
+dispatchKeyEvent49",style=dotted];
+DeskClock4 -> DeskClock4[label="onCreateOptionsMenu18
+onLongClick15
+onClick19
+onTouch20",style=dotted];
+DeskClock4 -> DeskClock5[label="onLongClick15",style=dotted];
+DeskClock4 -> AlarmClock7[label="onClick21
+onOptionsItemSelected13",style=dotted];
+DeskClock4 -> s55[label="onClick10
+onClick12
+onClick23
+onClick17
+onOptionsItemSelected13",style=dotted];
+DeskClock4 -> SetAlarm2[label="onOptionsItemSelected13",style=dotted];
+DeskClock4 -> SetAlarm3[label="onOptionsItemSelected13",style=dotted];
+SettingsActivity1 -> SettingsActivity1[label="onPreferenceChange29
+onPreferenceTreeClick30",style=dotted];
+DeskClock5 -> DeskClock4[label="onLongClick15",style=dotted];
+DeskClock5 -> DeskClock5[label="onClick19
+onCreateOptionsMenu18
+onLongClick15
+onTouch20",style=dotted];
+DeskClock5 -> AlarmClock7[label="onOptionsItemSelected13",style=dotted];
+DeskClock5 -> s55[label="onClick10
+onClick23
+onClick17
+onClick12
+onOptionsItemSelected13",style=dotted];
+DeskClock5 -> SetAlarm2[label="onOptionsItemSelected13",style=dotted];
+DeskClock5 -> SetAlarm3[label="onOptionsItemSelected13",style=dotted];
+AlarmClock7 -> DeskClock4[label="onClick37
+onOptionsItemSelected36",style=dotted];
+AlarmClock7 -> SettingsActivity1[label="onOptionsItemSelected36",style=dotted];
+AlarmClock7 -> DeskClock5[label="onOptionsItemSelected36
+onClick37",style=dotted];
+AlarmClock7 -> AlarmClock7[label="onCreateOptionsMenu31
+onCreateContextMenu34",style=dotted];
+AlarmClock7 -> SetAlarm2[label="onClick32
+onItemClick35
+onOptionsItemSelected36
+onContextItemSelected33",style=dotted];
+AlarmClock7 -> SetAlarm3[label="onClick32
+onItemClick35
+onOptionsItemSelected36
+onContextItemSelected33",style=dotted];
+SetAlarm2 -> DeskClock4[label="onClick53
+onBackPressed54",style=dotted];
+SetAlarm2 -> DeskClock5[label="onClick53
+onBackPressed54",style=dotted];
+SetAlarm2 -> AlarmClock7[label="onClick53
+onBackPressed54",style=dotted];
+SetAlarm2 -> s55[label="onPreferenceTreeClick43",style=dotted];
+SetAlarm2 -> SetAlarm2[label="onTimeSet39
+onClick44
+onPreferenceChange38
+onPreferenceChange40
+onPreferenceChange41",style=dotted];
+SetAlarm3 -> DeskClock4[label="onBackPressed54",style=dotted];
+SetAlarm3 -> DeskClock5[label="onBackPressed54",style=dotted];
+SetAlarm3 -> AlarmClock7[label="onBackPressed54",style=dotted];
+SetAlarm3 -> s55[label="onPreferenceTreeClick43",style=dotted];
+SetAlarm3 -> SetAlarm3[label="onPreferenceChange41
+onPreferenceChange38
+onTimeSet39
+onPreferenceChange40",style=dotted];
+AlarmAlert6 -> s55[label="onBackPressed56",style=dotted];
 }
