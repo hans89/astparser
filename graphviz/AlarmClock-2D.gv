@@ -1,0 +1,30 @@
+digraph {
+fontname="Helvetica";
+node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
+AlarmClock1;
+AlarmClock2;
+SettingsActivity7;
+SetAlarm4;
+AlarmClock1 -> AlarmClock1[label="onContextItemSelected11",style=dotted];
+AlarmClock1 -> AlarmClock2[label="onOptionsItemSelected9",style=dotted];
+AlarmClock1 -> SettingsActivity7[label="onOptionsItemSelected9",style=dotted];
+AlarmClock1 -> SetAlarm4[label="onOptionsItemSelected9
+onItemClick12",style=dotted];
+AlarmClock2 -> AlarmClock1[label="onOptionsItemSelected9",style=dotted];
+AlarmClock2 -> AlarmClock2[label="onContextItemSelected11",style=dotted];
+AlarmClock2 -> SettingsActivity7[label="onOptionsItemSelected9",style=dotted];
+AlarmClock2 -> SetAlarm4[label="onOptionsItemSelected9
+onItemClick12",style=dotted];
+SettingsActivity7 -> SettingsActivity7[label="onPreferenceTreeClick18
+onPreferenceChange17",style=dotted];
+SetAlarm4 -> AlarmClock1[label="onBackPressed26
+onClick27
+onOptionsItemSelected28
+onClick25",style=dotted];
+SetAlarm4 -> AlarmClock2[label="onClick27
+onClick25
+onOptionsItemSelected28
+onBackPressed26",style=dotted];
+SetAlarm4 -> SetAlarm4[label="onPreferenceChange21
+onTimeSet20",style=dotted];
+}

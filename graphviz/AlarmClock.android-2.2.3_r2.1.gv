@@ -12,7 +12,7 @@ SettingsActivity2;
 
 SetAlarm0 -> SetAlarm0[label="SetAlarm#onTimeSet"];
 
-SetAlarm0 -> AlarmClock3[label="Button#onClick
+SetAlarm0 -> AlarmClock3, AlarmClock4[label="Button#onClick
 SetAlarm#onBackPressed
 SetAlarm#onOptionsItemSelected
 Button#onClick",style=dotted];

@@ -1,0 +1,12 @@
+digraph {
+	node [shape=circle];
+	if[label="if"];
+	then[label=""];
+	else[label=""];
+	exit[label=""];
+
+	if -> then[label="then"];
+	if -> else[label="else"];
+	then -> exit[label="finally"];
+	else -> exit[label="finally"];
+}

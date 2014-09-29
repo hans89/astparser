@@ -3,47 +3,37 @@ rankdir = TB;
 fontname="Helvetica";
 node[style="filled,solid", colorscheme=greys3, fillcolor=1, color=3];
 
-AlarmAlert;
-AlarmAlertFullScreen;
-
 ClockPicker;
 SetAlarm;
 SettingsActivity;
 DelDlg;
 AlarmClock;
+AlarmClock2;
 TimePckDlg;
 
-t1;
-AlarmAlertFullScreen -> t1[label="snooze#onClick
-dismiss#onClick
-dispatchKeyEvent/1
-dispatchKeyEvent/2",style=dotted];
-AlarmAlertFullScreen -> AlarmAlertFullScreen[label="onBackPressed"];
-
-AlarmAlert -> t1[label="snooze#onClick
-dismiss#onClick
-dispatchKeyEvent/1
-dispatchKeyEvent/2
-onBackPressed",style=dotted];
-AlarmAlert -> AlarmAlertFullScreen[label="handleScreenOff/else",style=dotted];
-
 AlarmClock -> AlarmClock[label="onConItmSel/enable_alarm
+onButton#onClick"];
+
+AlarmClock2 -> AlarmClock2[label="onConItmSel/enable_alarm
 onOptsItmSel/toggle_clock
 onButton#onClick"];
 
-AlarmClock -> SetAlarm[label="onItmClick
+AlarmClock -> AlarmClock2[label="onOptsItmSel/toggle_clock"];
+AlarmClock2 -> AlarmClock[label="onOptsItmSel/toggle_clock"];
+
+AlarmClock, AlarmClock2 -> SetAlarm[label="onItmClick
 onOptsItmSel/add_alarm",style=dotted];
 
 AlarmClock -> ClockPicker[label="mClockLayout#onClick",style=dotted];
 
-AlarmClock -> SettingsActivity[label="onOptsItmSel/settings",style=dotted];
+AlarmClock, AlarmClock2 -> SettingsActivity[label="onOptsItmSel/settings",style=dotted];
 
 ClockPicker -> ClockPicker[label="onItmSel
 onNothingSel"];
 ClockPicker -> AlarmClock[label="onItmClick
 mClockLayout#onClick",style=dotted];
 
-SetAlarm -> AlarmClock[label="onBackPressed
+SetAlarm -> AlarmClock, AlarmClock2[label="onBackPressed
 alarm_save#onClick
 alarm_cancel#onClick
 onOptsItmSel/mDelAlarmItm",style=dotted];
@@ -53,13 +43,15 @@ AlarmClock -> DelDlg[label="onConItmSel/del_alarm"];
 DelDlg -> AlarmClock[label="OK
 Cancel"];
 
+AlarmClock2 -> DelDlg2[label="onConItmSel/del_alarm"];
+DelDlg2 -> AlarmClock2[label="OK
+Cancel"];
+
+
 SetAlarm -> TimePckDlg[label="onPrefTreeClick/mTimePref"];
 TimePckDlg -> SetAlarm[label="onTimeSet
 Cancel"];
 
-{rank=same; AlarmAlert SettingsActivity ClockPicker}
-{rank=same; AlarmAlertFullScreen AlarmClock}
-{rank=same; t1 SetAlarm}
-{rank=same; TimePckDlg DelDlg}
-
+{rank=min; ClockPicker SettingsActivity}
+{rank=same; AlarmClock AlarmClock2}
 }

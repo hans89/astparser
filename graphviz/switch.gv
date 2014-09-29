@@ -1,0 +1,15 @@
+digraph {
+	node [shape=circle];
+	switch[label="switch"];
+	case1[label=""];
+	case2[label=""];
+	case3[label=""];
+	case4[label="...",penwidth="0"];
+	exit[label=""];
+
+	switch -> case1[label="1"];
+	switch -> case2[label="2"];
+	switch -> case3[label="3"];
+	switch -> case4[label="4"];
+	case1, case2, case3, case4 -> exit;
+}
